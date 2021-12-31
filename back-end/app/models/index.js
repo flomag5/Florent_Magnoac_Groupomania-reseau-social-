@@ -27,7 +27,7 @@ db.comment = require("./comment.model.js")(sequelize, Sequelize);
 
 db.posts.hasMany(db.comment, { as: "comment" });
 db.comment.belongsTo(db.posts, {
-    foreignKey: "postId",
+    foreignKey: "post_id",
     as: "post",
 });
 
