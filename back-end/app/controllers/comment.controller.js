@@ -2,6 +2,8 @@
 
 const db = require("../models");
 const Comment = db.comment;
+const Post = db.posts;
+const User = db.user;
 const Op = db.Sequelize.Op;
 const { comment } = require("../models");
 
@@ -11,7 +13,7 @@ exports.createComment = (req, res, next) => {
     Comment.create({
         content: req.body.content,
         userId: req.body.userId,
-        post_id: req.body.post_id
+        postId: req.body.postId
     })
         .then(() => res.status(201).json({ message: 'Commentaire ajouté !' }))
         .catch(error => res.status(400).json({ error }));
@@ -19,18 +21,38 @@ exports.createComment = (req, res, next) => {
 
 // Lecture de tous les commentaires
 exports.getAllComments = (req, res, next) => {
-    Comment.findAll({ order: [["id", "ASC"]] })
 
-        .then(comment => res.status(200).json(comment))
-        .catch(error => res.status(400).json({ error }))
-};
+    Comment.findAll({
+        include: [
+            {
+                model: User,
+            },
+        ],
+        order: [["date", "ASC"]],
+    })
+        .then(response => res.status(200).json(response))
+        .catch(error => res.status(400).json(error))
+}
+
 
 // Lecture d'un commentaire
 exports.getOneComment = (req, res, nest) => {
-    Comment.findOne({ where: { id: req.params.id } })
+
+    Comment.findOne({
+        where: { id: req.params.id },
+        include: [
+            {
+                model: User,
+            },
+            {
+                model: Post,
+            },
+        ],
+    })
         .then(comment => res.status(200).json(comment))
         .catch(error => res.status(400).json({ error }))
 }
+
 
 // Modification d'un commentaire
 exports.modifyComment = (req, res, next) => {
@@ -47,3 +69,16 @@ exports.deleteComment = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
         .catch(error => res.status(400).json({ error }));
 };
+
+
+//User.hasMany(Comment)
+//Comment.belongsTo(User)
+//Comment.belongsTo(Post)
+
+User.hasMany(Comment, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+Comment.belongsTo(User, { foreignKey: 'userId' });
+Comment.belongsTo(Post, { foreignKey: 'postId' });

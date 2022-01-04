@@ -2,6 +2,7 @@
 
 const db = require("../models");
 const User = db.user;
+const Post = db.posts;
 const Op = db.Sequelize.Op;
 const { users } = require("../models");
 // Import de bcrypt pour hachage password
@@ -20,7 +21,6 @@ const fs = require('fs');
 
 // Import/chargement package pour gérer et manipuler les variables d'environnement
 require('dotenv').config();
-
 
 
 // Enregistrement d'un nouvel utilisateur
@@ -87,10 +87,20 @@ exports.login = (req, res, next) => {
 
 // Recherche d'un seul utilisateur
 exports.getOneUser = (req, res, next) => {
-    User.findOne({ where: { id: req.params.id } })
+    User.findOne({
+        where: {
+            id: req.params.id
+        },
+        include: [
+            {
+                model: Post,
+            }
+        ],
+    })
         .then(user => res.status(200).json(user))
         .catch(error => res.status(400).json({ error }));
 };
+
 
 // Recherche de l'ensemble des utilisateurs
 exports.getAllUsers = (req, res, next) => {
@@ -123,3 +133,29 @@ exports.delete = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
         .catch(error => res.status(400).json({ error }));
 }
+
+User.hasMany(Post, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+Post.belongsTo(User, { foreignKey: 'userId' });
+
+
+
+//Modification de l'avatar du profil
+exports.changeAvatar = (req, res, next) => {
+    const userObject = req.file ?
+        {
+            ...req.body.userId,
+            avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+        } : { ...req.body }
+    User.update({
+        ...userObject, userId: req.params.userId
+    },
+        { where: { userId: req.params.userId } }
+    )
+        .then(() => res.status(200).json({ ...userObject }))
+        .catch(error => res.status(400).json({ error }))
+}
+

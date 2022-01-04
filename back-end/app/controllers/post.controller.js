@@ -4,9 +4,10 @@
 const db = require("../models");
 const Post = db.posts;
 const Comment = db.comment;
+const User = db.user;
 const Op = db.Sequelize.Op;
 const fs = require("fs");
-const { posts } = require("../models");
+
 
 // Routes CRUD pour les posts
 
@@ -33,20 +34,48 @@ exports.createPost = (req, res, next) => {
 };
 
 
-// Voir tous les posts
-exports.getAllPosts = (req, res, next) => {
-    Post.findAll({ include: ["comment"] })
-        .then(posts => res.status(200).json(posts))
-        .catch(error => res.status(400).json({ error }));
-};
+
+// Lecture de l'ensemble des posts
+exports.findAll = (req, res, next) => {
+
+    Post.findAll({
+        include: [
+            {
+                model: User,
+            },
+            {
+                model: Comment,
+
+            }
+        ],
+
+        order: [["id", "DESC"]],
+    })
+        .then(response => res.status(200).json(response))
+        .catch(err => console.log(err))
+}
 
 
 // Trouver un seul post
-exports.getOnePost = (req, res, next) => {
-    Post.findOne({ where: { id: req.params.id } })
-        .then(post => res.status(200).json(post))
-        .catch(error => res.status(400).json({ error }))
-};
+exports.findPostById = (req, res, next) => {
+
+    Post.findOne({
+        where: {
+            id: req.params.id,
+        },
+        include: [
+            {
+                model: User,
+            },
+            {
+                model: Comment,
+
+            }
+        ],
+    })
+        .then(response => res.status(200).json(response))
+        .catch(err => console.log(err))
+}
 
 
 // Modifier un post par l'Id de la requête
@@ -73,7 +102,6 @@ exports.modifyPost = (req, res, next) => {
         })
         .catch((error) => res.status(500).json({ error }));
 };
-
 
 
 // Supprimer un post 
@@ -110,3 +138,26 @@ exports.deletePost = (req, res, next) => {
             error
         }));
 };
+
+
+//User.hasMany(Post)
+//Post.belongsTo(User)
+
+//Post.hasMany(Comment)
+//Comment.belongsTo(Post)
+
+Post.hasMany(Comment, {
+    foreignKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+Comment.belongsTo(Post, { foreignKey: 'postId' });
+
+User.hasMany(Post, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+});
+Post.belongsTo(User, { foreignKey: 'userId' });
+
+

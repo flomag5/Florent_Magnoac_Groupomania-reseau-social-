@@ -14,9 +14,9 @@ module.exports = app => {
 
   router.post("/", multer, posts.createPost);
 
-  router.get("/", posts.getAllPosts);
+  router.get("/", posts.findAll);
 
-  router.get("/:id", posts.getOnePost);
+  router.get("/:id", posts.findPostById);
 
   router.put("/:id", multer, posts.modifyPost);
 

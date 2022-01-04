@@ -21,6 +21,7 @@ module.exports = app => {
 
   // Modification d'un compte utilisateur
   router.put("/:id", multer, userCtrl.updateUser);
+  router.put("/:id", multer, userCtrl.changeAvatar);
 
   // Suppression d'un compte utilisateur
   router.delete("/:id", userCtrl.delete);

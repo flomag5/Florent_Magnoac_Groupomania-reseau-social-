@@ -1,22 +1,23 @@
 //--- Définition du modèle de ressource "comment" ---//
 
-module.exports = (sequelize, Sequelize) => {
+
+module.exports = (sequelize, DataTypes) => {
     const Comment = sequelize.define("comment", {
         date: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         },
         content: {
-            type: Sequelize.TEXT,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         userId: {
-            type: Sequelize.SMALLINT,
+            type: DataTypes.SMALLINT,
             allowNull: true
         },
-        post_id: {
-            type: Sequelize.SMALLINT,
+        postId: {
+            type: DataTypes.SMALLINT,
             allowNull: false
         },
     });

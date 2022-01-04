@@ -1,26 +1,26 @@
 //--- Définition du modèle de ressource "post" ---//
 
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     const Post = sequelize.define("post", {
         title: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         image: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: true
         },
         date: {
-            type: Sequelize.DATE,
-            defaultValue: Sequelize.NOW,
+            type: DataTypes.DATE,
+            defaultValue: DataTypes.NOW,
             allowNull: false
         },
         content: {
-            type: Sequelize.TEXT,
+            type: DataTypes.TEXT,
             allowNull: false
         },
         userId: {
-            type: Sequelize.SMALLINT,
+            type: DataTypes.SMALLINT,
             allowNull: true
         },
     });
@@ -28,8 +28,3 @@ module.exports = (sequelize, Sequelize) => {
     return Post;
 };
 
-/*Post.hasMany(comment, { as: "comment" });
-Comment.belongsto(Post, {
-    foreignKey: "postId",
-    as: "post",
-});*/

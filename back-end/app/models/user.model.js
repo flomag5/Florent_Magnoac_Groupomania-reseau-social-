@@ -1,31 +1,31 @@
 //--- Définition du modèle de ressource "user" ---//
 
-module.exports = (sequelize, Sequelize) => {
+module.exports = (sequelize, DataTypes) => {
     const User = sequelize.define("user", {
         lastName: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         firstName: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         email: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             unique: true,
             allowNull: false
         },
         password: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: false
         },
         avatar: {
-            type: Sequelize.STRING,
+            type: DataTypes.STRING,
             allowNull: true,
             defaultValue: 'default_user_profile.png'
         },
         isAdmin: {
-            type: Sequelize.BOOLEAN,
+            type: DataTypes.BOOLEAN,
             defaultValue: false
         },
     });

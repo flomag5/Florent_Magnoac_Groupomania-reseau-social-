@@ -27,7 +27,10 @@ app.use(express.json());
 // idem - appli/url encoded
 app.use(express.urlencoded({ extended: true }));
 
+// Import de l'objet base de données
 const db = require("./app/models");
+
+
 db.sequelize.sync().then(() => {
     console.log("Re-sync db.");
 });
