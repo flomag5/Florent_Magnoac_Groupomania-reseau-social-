@@ -49,7 +49,7 @@ exports.findAll = (req, res, next) => {
             }
         ],
 
-        order: [["id", "DESC"]],
+        order: [["date", "DESC"]],
     })
         .then(response => res.status(200).json(response))
         .catch(err => console.log(err))
@@ -160,4 +160,34 @@ User.hasMany(Post, {
 });
 Post.belongsTo(User, { foreignKey: 'userId' });
 
-
+/*
+exports.modifyPost = (req, res, next) => {
+    const id = req.params.id;
+    // Si nouveau fichier image dans la requête
+    if (req.file) {
+        // Recherche de la sauce avec le même id
+        Post.findOne({ where: { id: id } })
+            .then(post => {
+                // Extraction du nom de fichier à supprimer
+                const filename = post.image.split('/images/')[1];
+                // Suppresion de l'ancien fichier image du dossier 'images'
+                fs.unlink(`images/${filename}`, (error) => {
+                    if (error)
+                        throw error
+                });
+            })
+            .catch(error => res.status(400).json({ error }));
+    }
+    // Si il y a un fichier image dans la requête
+    const postObject = req.file ?
+        {
+            //...JSON.parse(req.body.post),
+            // Construction de l'URL du fichier enregistré
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : { ...req.body };
+    // Modification de celui dont id est le même que id des paramètres de la requête
+    Post.update({ where: { ...postObject, id: id } })
+        .then(() => res.status(200).json({ message: "La sauce a été modifiée" }))
+        .catch(error => res.status(400).json({ error }));
+};
+*/

@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         userId: {
             type: DataTypes.SMALLINT,
-            allowNull: true
+            allowNull: false
         },
         postId: {
             type: DataTypes.SMALLINT,

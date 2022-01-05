@@ -1,11 +1,15 @@
 //--- Définition de la logique de routing pour la ressource "comment" ---//
 
+
 module.exports = app => {
     const commentCtrl = require("../controllers/comment.controller.js");
 
     const router = require("express").Router();
 
+    // Import du middleware d'authorisation pour vérification des tokens
+    const auth = require('../middleware/auth');
 
+    // Routes CRUD pour "comment" avec middleware d'authentification
     router.post("/", commentCtrl.createComment);
 
     router.get("/", commentCtrl.getAllComments);

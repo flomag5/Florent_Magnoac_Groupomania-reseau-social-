@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 // Module de stockage de la configuration dans l'environnement
 const dotenv = require('dotenv');
 
+
 // Exportation fonction du middleware
 module.exports = (req, res, next) => {
     try {

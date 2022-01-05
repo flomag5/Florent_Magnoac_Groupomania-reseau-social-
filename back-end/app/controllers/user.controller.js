@@ -24,9 +24,13 @@ const fs = require('fs');
 require('dotenv').config();
 
 
-// Enregistrement d'un nouvel utilisateur
+// Enregistrement d'un nouvel utilisateur -- SIGNUP --
 exports.signup = (req, res, next) => {
     console.log(req.body);
+    if (!emailValidator.validate(req.body.email)) {
+        return res.status(401).json({ message: 'Veuillez entrer une adresse email valide' });
+    }
+
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
     console.log(emailCryptoJs, "EMAIL USER CRYPT");
 
@@ -47,7 +51,7 @@ exports.signup = (req, res, next) => {
 }
 
 
-// Connexion d'un utilisateur déjà enregistré
+// Connexion d'un utilisateur déjà enregistré -- LOGIN --
 exports.login = (req, res, next) => {
     // Crypter l'email de la requête
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
@@ -113,7 +117,6 @@ exports.getAllUsers = (req, res, next) => {
 };
 
 // Modification d'un compte utilisateur
-
 exports.updateUser = (req, res, next) => {
     // Crypter l'email de la requête
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
@@ -121,6 +124,7 @@ exports.updateUser = (req, res, next) => {
         lastName: req.body.lastName,
         firstName: req.body.firstName,
         email: emailCryptoJs,
+        avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
     };
     User.update(updateUser, {
         where: { id: req.params.id }
@@ -143,22 +147,3 @@ User.hasMany(Post, {
     onUpdate: 'CASCADE'
 });
 Post.belongsTo(User, { foreignKey: 'userId' });
-
-
-
-//Modification de l'avatar du profil
-exports.changeAvatar = (req, res, next) => {
-    const userObject = req.file ?
-        {
-            ...req.body.userId,
-            avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-        } : { ...req.body }
-    User.update({
-        ...userObject, userId: req.params.userId
-    },
-        { where: { userId: req.params.userId } }
-    )
-        .then(() => res.status(200).json({ ...userObject }))
-        .catch(error => res.status(400).json({ error }))
-}
-

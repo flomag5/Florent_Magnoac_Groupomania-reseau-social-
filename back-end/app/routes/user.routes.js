@@ -5,9 +5,9 @@ module.exports = app => {
   const multer = require('../middleware/multer-config');
   const userCtrl = require("../controllers/user.controller.js");
 
-
   // Importation middleware du password
   const password = require("../middleware/password.js");
+
 
   // Enregistrement d'un nouvel utilisateur
   router.post("/signup", password, userCtrl.signup);
@@ -21,7 +21,6 @@ module.exports = app => {
 
   // Modification d'un compte utilisateur
   router.put("/:id", multer, userCtrl.updateUser);
-  router.put("/:id", multer, userCtrl.changeAvatar);
 
   // Suppression d'un compte utilisateur
   router.delete("/:id", userCtrl.delete);
