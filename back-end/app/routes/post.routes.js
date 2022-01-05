@@ -4,7 +4,7 @@
 
 module.exports = app => {
   const posts = require("../controllers/post.controller.js");
-
+  const likesCtrl = require('../controllers/like.controller.js');
   const router = require("express").Router();
 
   // Import du middleware d'authorisation pour vérification des tokens
@@ -21,6 +21,12 @@ module.exports = app => {
   router.put("/:id", multer, posts.modifyPost);
 
   router.delete("/:id", auth, posts.deletePost);
+
+  // Route de like/dislike
+  router.post('/:id/like', likesCtrl.likePost);
+  router.delete('/:id/unlike', likesCtrl.unlikePost);
+
+
 
 
   app.use('/api/posts', router);

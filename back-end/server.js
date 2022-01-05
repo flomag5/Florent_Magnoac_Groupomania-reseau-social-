@@ -15,7 +15,8 @@ require("dotenv").config()
 const app = express();
 
 var corsOptions = {
-    origin: process.env.ORIGIN
+    origin: process.env.ORIGIN,
+    methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"]
 };
 
 app.use(cors(corsOptions));
@@ -45,6 +46,7 @@ app.use("/images", express.static(path.join(__dirname, 'images')));
 require("./app/routes/user.routes")(app);
 require("./app/routes/post.routes")(app);
 require("./app/routes/comment.routes")(app);
+
 
 // Port découte des requêtes
 const PORT = process.env.PORT || 3000;
