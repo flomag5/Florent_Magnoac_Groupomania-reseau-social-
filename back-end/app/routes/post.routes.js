@@ -24,7 +24,7 @@ module.exports = app => {
 
   // Route de like/dislike
   router.post('/:id/like', likesCtrl.likePost);
-  router.delete('/:id/unlike', likesCtrl.unlikePost);
+  router.delete('/:postId/unlike', likesCtrl.unlikePost);
 
 
 

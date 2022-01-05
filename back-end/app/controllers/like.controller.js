@@ -27,7 +27,7 @@ exports.likePost = (req, res) => {
 exports.unlikePost = (req, res) => {
     console.log(req.body)
     try {
-        Like.destroy({ where: { postId: req.params.id, userId: req.body.userId } })
+        Like.destroy({ where: { postId: req.params.postId, userId: req.body.userId } })
             .then(like => {
                 console.log(like, "Unlike post");
                 res.status(200);

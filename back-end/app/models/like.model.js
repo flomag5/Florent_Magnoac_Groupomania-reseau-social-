@@ -4,14 +4,15 @@ module.exports = (sequelize, DataTypes) => {
     const Like = sequelize.define("like", {
         like: {
             type: DataTypes.BOOLEAN,
+            allowNull: false
         },
         userId: {
             type: DataTypes.SMALLINT,
-            allowNull: true
+            allowNull: false
         },
         userId: {
             type: DataTypes.SMALLINT,
-            allowNull: true
+            allowNull: false
         },
     });
 

@@ -3,6 +3,7 @@
 const db = require("../models");
 const User = db.user;
 const Post = db.posts;
+const Like = db.like;
 const Op = db.Sequelize.Op;
 const { users } = require("../models");
 // Import de bcrypt pour hachage password
@@ -94,6 +95,8 @@ exports.getOneUser = (req, res, next) => {
         include: [
             {
                 model: Post,
+            }, {
+                model: Like,
             }
         ],
     })
