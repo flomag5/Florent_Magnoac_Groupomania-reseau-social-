@@ -74,11 +74,11 @@ exports.deleteComment = (req, res, next) => {
 //User.hasMany(Comment)
 //Comment.belongsTo(User)
 //Comment.belongsTo(Post)
-
+/*
 User.hasMany(Comment, {
     foreignKey: 'userId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 });
 Comment.belongsTo(User, { foreignKey: 'userId' });
-Comment.belongsTo(Post, { foreignKey: 'postId' });
+Comment.belongsTo(Post, { foreignKey: 'postId' });*/

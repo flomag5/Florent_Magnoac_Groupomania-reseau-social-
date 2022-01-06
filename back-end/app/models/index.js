@@ -26,5 +26,31 @@ db.posts = require("./post.model.js")(sequelize, Sequelize);
 db.comment = require("./comment.model.js")(sequelize, Sequelize);
 db.like = require("./like.model.js")(sequelize, Sequelize);
 
+// post
+db.posts.hasMany(db.comment, {
+    foreignKey: 'postId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    as: "comment"
+});
+db.comment.belongsTo(db.posts, { foreignKey: 'postId' });
+
+db.user.hasMany(db.posts, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    as: "post"
+});
+db.posts.belongsTo(db.user, { foreignKey: 'userId', as: "user" });
+
+//comment
+db.user.hasMany(db.comment, {
+    foreignKey: 'userId',
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    as: "comment"
+});
+db.comment.belongsTo(db.user, { foreignKey: 'userId' });
+db.comment.belongsTo(db.posts, { foreignKey: 'postId' });
 
 module.exports = db;

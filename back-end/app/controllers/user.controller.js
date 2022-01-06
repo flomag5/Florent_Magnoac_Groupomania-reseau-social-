@@ -97,11 +97,12 @@ exports.getOneUser = (req, res, next) => {
             id: req.params.id
         },
         include: [
-            {
-                model: Post,
-            }, {
-                model: Like,
-            }
+            /*  {
+                   model: Post,
+               }, {
+                   model: Like,
+               }*/
+            "post", "comment"
         ],
     })
         .then(user => res.status(200).json(user))
@@ -140,10 +141,10 @@ exports.delete = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
         .catch(error => res.status(400).json({ error }));
 }
-
+/*
 User.hasMany(Post, {
     foreignKey: 'userId',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE'
 });
-Post.belongsTo(User, { foreignKey: 'userId' });
+Post.belongsTo(User, { foreignKey: 'userId' });*/

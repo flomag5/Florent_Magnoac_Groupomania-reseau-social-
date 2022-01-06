@@ -30,7 +30,7 @@ exports.unlikePost = (req, res) => {
         Like.destroy({ where: { postId: req.params.postId, userId: req.body.userId } })
             .then(like => {
                 console.log(like, "Unlike post");
-                res.status(200);
+                res.status(200).end();
             })
             .catch(error => res.status(400).json(error))
         console.log(res.status, "WTF");
