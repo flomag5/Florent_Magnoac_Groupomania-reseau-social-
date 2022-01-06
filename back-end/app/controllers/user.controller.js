@@ -41,7 +41,8 @@ exports.signup = (req, res, next) => {
                 firstName: req.body.firstName,
                 email: emailCryptoJs,
                 password: hash,
-                image: req.body.image
+                image: req.body.image,
+                isAdmin: req.body.isAdmin
             })
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
