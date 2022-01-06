@@ -2,8 +2,6 @@
 
 const db = require("../models");
 const Comment = db.comment;
-const Post = db.posts;
-const User = db.user;
 const Op = db.Sequelize.Op;
 const { comment } = require("../models");
 
@@ -24,9 +22,9 @@ exports.getAllComments = (req, res, next) => {
 
     Comment.findAll({
         include: [
-            {
-                model: User,
-            },
+
+            "user", "post"
+
         ],
         order: [["date", "ASC"]],
     })
@@ -41,12 +39,9 @@ exports.getOneComment = (req, res, nest) => {
     Comment.findOne({
         where: { id: req.params.id },
         include: [
-            {
-                model: User,
-            },
-            {
-                model: Post,
-            },
+
+            "user", "post"
+
         ],
     })
         .then(comment => res.status(200).json(comment))
@@ -62,6 +57,7 @@ exports.modifyComment = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
+
 // Suppression d'un commentaire
 exports.deleteComment = (req, res, next) => {
     Comment.destroy({ where: { id: req.params.id } })
@@ -70,15 +66,3 @@ exports.deleteComment = (req, res, next) => {
         .catch(error => res.status(400).json({ error }));
 };
 
-
-//User.hasMany(Comment)
-//Comment.belongsTo(User)
-//Comment.belongsTo(Post)
-/*
-User.hasMany(Comment, {
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-Comment.belongsTo(User, { foreignKey: 'userId' });
-Comment.belongsTo(Post, { foreignKey: 'postId' });*/

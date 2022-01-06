@@ -3,8 +3,6 @@
 // Importation 
 const db = require("../models");
 const Post = db.posts;
-const Comment = db.comment;
-const User = db.user;
 const Op = db.Sequelize.Op;
 const fs = require("fs");
 
@@ -40,7 +38,7 @@ exports.findAll = (req, res, next) => {
 
     Post.findAll({
         include: [
-            "comment", "user"
+            "comment", "user", "like"
         ],
 
         order: [["date", "DESC"]],
@@ -58,13 +56,9 @@ exports.findPostById = (req, res, next) => {
             id: req.params.id,
         },
         include: [
-            {
-                model: User,
-            },
-            {
-                model: Comment,
 
-            }
+            "user", "comment", "like"
+
         ],
     })
         .then(response => res.status(200).json(response))
@@ -136,24 +130,3 @@ exports.deletePost = (req, res, next) => {
         }));
 };
 
-/*
-//User.hasMany(Post)
-//Post.belongsTo(User)
-
-//Post.hasMany(Comment)
-//Comment.belongsTo(Post)
-
-Post.hasMany(Comment, {
-    foreignKey: 'postId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-Comment.belongsTo(Post, { foreignKey: 'postId' });
-
-User.hasMany(Post, {
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-Post.belongsTo(User, { foreignKey: 'userId' });
-*/

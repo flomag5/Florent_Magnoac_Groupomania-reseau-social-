@@ -2,10 +2,9 @@
 
 const db = require("../models");
 const User = db.user;
-const Post = db.posts;
-const Like = db.like;
 const Op = db.Sequelize.Op;
 const { users } = require("../models");
+
 // Import de bcrypt pour hachage password
 const bcrypt = require('bcrypt');
 // Import de crypto-js pour chiffrer adresse mail
@@ -97,12 +96,9 @@ exports.getOneUser = (req, res, next) => {
             id: req.params.id
         },
         include: [
-            /*  {
-                   model: Post,
-               }, {
-                   model: Like,
-               }*/
-            "post", "comment"
+
+            "post", "comment", "like"
+
         ],
     })
         .then(user => res.status(200).json(user))
@@ -117,7 +113,37 @@ exports.getAllUsers = (req, res, next) => {
         .catch((error) => res.status(400).json(error))
 };
 
+
 // Modification d'un compte utilisateur
+exports.updateUser = (req, res, next) => {
+    // Crypter l'email de la requête
+    const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
+    User.findOne({
+        where: { id: req.params.id }
+    })
+        .then(user => {
+            const updateUser = {
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
+                email: emailCryptoJs,
+                //avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+            };
+            if (req.file) {
+                updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                const filename = user.avatar.split('/images/')[1];
+                fs.unlinkSync(`images/${filename}`)
+                console.log(user.avatar);
+            }
+            User.update(updateUser, {
+                where: { id: req.params.id }
+            })
+                .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
+                .catch((error) => res.status(400).json({ error }));
+
+        });
+};
+
+/*
 exports.updateUser = (req, res, next) => {
     // Crypter l'email de la requête
     const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
@@ -134,6 +160,7 @@ exports.updateUser = (req, res, next) => {
         .catch((error) => res.status(400).json({ error }));
 };
 
+*/
 // Suppression d'un utilisateur
 exports.delete = (req, res, next) => {
     User.destroy({ where: { id: req.params.id } })
@@ -141,10 +168,4 @@ exports.delete = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
         .catch(error => res.status(400).json({ error }));
 }
-/*
-User.hasMany(Post, {
-    foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE'
-});
-Post.belongsTo(User, { foreignKey: 'userId' });*/
+

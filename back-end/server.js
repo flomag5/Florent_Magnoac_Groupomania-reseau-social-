@@ -4,6 +4,9 @@
 // Import package http comme outils pour créer server
 const http = require('http');
 
+// Import de l'application express
+const app = require('./app');
+/*
 // Import express pour construire API Rest
 const express = require("express");
 

@@ -2,9 +2,7 @@
 
 // Importation 
 const db = require("../models");
-const Post = db.posts;
 const Like = db.like;
-const User = db.user;
 const Op = db.Sequelize.Op;
 
 // Logique de LIKE d'un post
@@ -33,20 +31,7 @@ exports.unlikePost = (req, res) => {
                 res.status(200).end();
             })
             .catch(error => res.status(400).json(error))
-        console.log(res.status, "WTF");
     } catch {
         error => res.status(500).json(error);
     }
 };
-
-Like.belongsTo(User, {
-    onDelete: 'cascade',
-    foreignKey: 'userId',
-});
-User.hasMany(Like, { foreignKey: 'userId' });
-
-Like.belongsTo(Post, {
-    onDelete: 'cascade',
-    foreignKey: 'postId',
-});
-Post.hasMany(Like, { foreignKey: 'postId' });
