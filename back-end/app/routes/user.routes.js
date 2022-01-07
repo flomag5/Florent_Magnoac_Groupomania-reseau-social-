@@ -1,14 +1,21 @@
-//--- Définition de la logique de routing pour la ressource user ---//
+//--- Définition de la logique de routing pour la ressource "USER" ---//
 
 module.exports = app => {
   const router = require("express").Router();
+
+  // Import middleware de gestion des fichiers téléchargés
   const multer = require('../middleware/multer-config');
+
+  //Import controllers "user"
   const userCtrl = require("../controllers/user.controller.js");
 
   // Importation middleware du password
   const password = require("../middleware/password.js");
 
+  // Import du middleware d'authorisation pour vérification des tokens
+  const auth = require('../middleware/auth');
 
+  // Routes CRUD pour "post" avec middleware d'authentification
   // Enregistrement d'un nouvel utilisateur
   router.post("/signup", password, userCtrl.signup);
 
@@ -23,7 +30,7 @@ module.exports = app => {
   router.put("/:id", multer, userCtrl.updateUser);
 
   // Suppression d'un compte utilisateur
-  router.delete("/:id", userCtrl.delete);
+  router.delete("/:id", auth, userCtrl.delete);
 
 
   app.use("/api/user", router);

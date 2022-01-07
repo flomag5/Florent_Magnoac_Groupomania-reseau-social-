@@ -1,14 +1,17 @@
-//--- Définition de la logique de routing pour la ressource "posts" ---//
+//--- Définition de la logique de routing pour la ressource "POST" ---//
 
 
 module.exports = app => {
+  // Import controllers "post" et "like"
   const posts = require("../controllers/post.controller.js");
   const likesCtrl = require('../controllers/like.controller.js');
+
+  // Création du routeur
   const router = require("express").Router();
 
   // Import du middleware d'authorisation pour vérification des tokens
   const auth = require('../middleware/auth');
-  // Import de gestion des fichiers téléchargés
+  // Import du middleware de gestion des fichiers téléchargés
   const multer = require('../middleware/multer-config');
 
 
@@ -23,7 +26,7 @@ module.exports = app => {
 
   router.delete("/:id", auth, posts.deletePost);
 
-  // Route de like/dislike
+  // Route de like/unlike
   router.post('/:id/like', likesCtrl.likePost);
   router.delete('/:postId/unlike', likesCtrl.unlikePost);
 

@@ -144,24 +144,7 @@ exports.updateUser = (req, res, next) => {
         });
 };
 
-/*
-exports.updateUser = (req, res, next) => {
-    // Crypter l'email de la requête
-    const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
-    const updateUser = {
-        lastName: req.body.lastName,
-        firstName: req.body.firstName,
-        email: emailCryptoJs,
-        avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
-    };
-    User.update(updateUser, {
-        where: { id: req.params.id }
-    })
-        .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
-        .catch((error) => res.status(400).json({ error }));
-};
 
-*/
 // Suppression d'un utilisateur
 exports.delete = (req, res, next) => {
     User.destroy({ where: { id: req.params.id } })
@@ -169,4 +152,3 @@ exports.delete = (req, res, next) => {
         .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
         .catch(error => res.status(400).json({ error }));
 }
-

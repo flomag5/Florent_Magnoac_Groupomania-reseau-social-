@@ -2,6 +2,7 @@
 
 
 module.exports = app => {
+    // Import controllers "comment"
     const commentCtrl = require("../controllers/comment.controller.js");
 
     const router = require("express").Router();

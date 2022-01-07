@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
             defaultValue: 'default_user_profile.png'
         },
         isAdmin: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
             defaultValue: 0
         },
