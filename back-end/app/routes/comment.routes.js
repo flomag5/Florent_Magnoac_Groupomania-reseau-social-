@@ -10,8 +10,8 @@ module.exports = app => {
     // Import du middleware d'authorisation pour vérification des tokens
     const auth = require('../middleware/auth');
 
+
     // Routes CRUD pour "comment" avec middleware d'authentification
-    router.post("/", commentCtrl.createComment);
 
     router.get("/", commentCtrl.getAllComments);
 

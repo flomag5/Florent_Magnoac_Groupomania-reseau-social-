@@ -4,6 +4,7 @@
 module.exports = app => {
   // Import controllers "post" et "like"
   const posts = require("../controllers/post.controller.js");
+  const commentCtrl = require("../controllers/comment.controller.js");
   const likesCtrl = require('../controllers/like.controller.js');
 
   // Création du routeur
@@ -25,6 +26,8 @@ module.exports = app => {
   router.put("/:id", multer, posts.modifyPost);
 
   router.delete("/:id", auth, posts.deletePost);
+  // Route commentaire de post
+  router.post('/:id/comment', commentCtrl.createComment);
 
   // Route de like/unlike
   router.post('/:id/like', likesCtrl.likePost);

@@ -71,7 +71,7 @@ exports.modifyPost = (req, res, next) => {
     const id = req.params.id;
     Post.findOne({ where: { id: id } })
         .then(post => {
-            if (req.userId == post.UserId) {
+            if (req.userId == post.userId) {
                 const updatePost = {
                     title: req.body.title,
                     content: req.body.content
@@ -104,7 +104,7 @@ exports.deletePost = (req, res, next) => {
         }
     })
         .then(post => {
-            if (req.userId == post.UserId) {
+            if (req.userId == post.userId || req.isAdmin === 1) {
 
                 const filename = post.image.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {

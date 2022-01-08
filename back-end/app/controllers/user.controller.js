@@ -127,7 +127,6 @@ exports.updateUser = (req, res, next) => {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
                 email: emailCryptoJs,
-                //avatar: `${req.protocol}://${req.get("host")}/images/${req.file.filename}`
             };
             if (req.file) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -147,8 +146,25 @@ exports.updateUser = (req, res, next) => {
 
 // Suppression d'un utilisateur
 exports.delete = (req, res, next) => {
-    User.destroy({ where: { id: req.params.id } })
 
-        .then(() => res.status(201).json({ message: 'Utilisateur supprimé !' }))
-        .catch(error => res.status(400).json({ error }));
-}
+    User.findOne({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then((user) => {
+            if (req.body.userId == req.params.id || req.body.isAdmin === 1) {
+                user.destroy()
+                    .then(() => res.status(200).json({
+                        message: 'Utilisateur supprimé'
+                    }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+            } else {
+                res.status(403).json({
+                    'error': 'UnAuthorize'
+                })
+            }
+        })
+};

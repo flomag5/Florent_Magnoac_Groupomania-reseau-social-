@@ -2,20 +2,23 @@
 
 const db = require("../models");
 const Comment = db.comment;
+const User = db.user;
 const Op = db.Sequelize.Op;
 const { comment } = require("../models");
 
 
 // Création d'un commentaire
 exports.createComment = (req, res, next) => {
+    const PostId = req.params.id;
     Comment.create({
         content: req.body.content,
         userId: req.body.userId,
-        postId: req.body.postId
+        postId: PostId
     })
         .then(() => res.status(201).json({ message: 'Commentaire ajouté !' }))
         .catch(error => res.status(400).json({ error }));
 };
+
 
 // Lecture de tous les commentaires
 exports.getAllComments = (req, res, next) => {
@@ -56,51 +59,20 @@ exports.modifyComment = (req, res, next) => {
         .then(() => res.status(200).json({ message: 'Commentaire modifié !' }))
         .catch(error => res.status(400).json({ error }));
 };
-/*
-exports.modifyComment = (req, res, next) => {
 
-    const commentObject = req.body.comment;
 
-    Comment.findOne({
-        where: {
-            id: req.params.id
-        }
-    }).then((comment) => {
-        if (userId == comment.userId || req.isAdmin === true) {
-            comment.content = commentObject.content;
-        }
-        comment.update()
-            .then(() => {
-                res.status(200).json({
-                    message: 'Commentaire modifié !'
-                })
-            })
-            .catch(error => res.status(400).json({
-                error
-            }));
-    });
-}*/
-/*
 // Suppression d'un commentaire
-exports.deleteComment = (req, res, next) => {
-    Comment.destroy({ where: { id: req.params.id } })
-
-        .then(() => res.status(200).json({ message: 'Commentaire supprimé !' }))
-        .catch(error => res.status(400).json({ error }));
-};
-*/
-
 exports.deleteComment = (req, res, next) => {
 
     Comment.findOne({ where: { id: req.params.id } })
-        .then((Comment) => {
+        .then((comment) => {
 
-            if (Comment.userId == req.body.userId || req.body.isAdmin === 1) {
+            if (comment.userId == req.body.userId || req.body.isAdmin === 1) {
 
                 Comment.destroy({ where: { id: req.params.id } });
-                res.status(200).json({ message: "comment deleted!" });
+                res.status(200).json({ message: "Commentaire supprimé !" });
             } else {
-                res.status(404).json({ message: "cannot deleted!" });
+                res.status(404).json({ message: "Suppression impossible !" });
             }
         })
         .catch((error) => console.log(error));
