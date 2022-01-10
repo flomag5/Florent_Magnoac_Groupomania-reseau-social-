@@ -1,13 +1,18 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">bezKoder</router-link>
+      <router-link to="/" class="navbar-brand">Groupomania</router-link>
+      <img
+        id="logo"
+        src="./assets/icon-left-font.png"
+        alt="logo de Groupomania"
+      />
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/posts" class="nav-link">Posts</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/add" class="nav-link">Add</router-link>
+          <router-link to="/add" class="nav-link">Profile</router-link>
         </li>
       </div>
     </nav>
@@ -32,5 +37,9 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+#logo {
+  width: 200px;
 }
 </style>

@@ -30,16 +30,16 @@ class PostDataService {
     }
 
     getOneComment(id) {
-        return api.get(`/comment/${id}`, { headers: auth() });
+        return http.get(`/comment/${id}`);
     }
     Createcomment(id, data) {
-        return http.post(`/posts/${id}/comment`, data, { headers: auth() })
+        return http.post(`/posts/${id}/comment`, data)
     }
     modifyComment(id, comment) {
-        return http.put(`/comment/${id}`, { comment: comment }, { headers: auth() })
+        return http.put(`/comment/${id}`, { comment: comment })
     }
     deleteComment(commentId) {
-        return http.delete('/comment/' + commentId, { headers: auth() })
+        return http.delete('/comment/' + commentId)
     }
 }
 
