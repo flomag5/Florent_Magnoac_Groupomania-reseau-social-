@@ -1,7 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
 
-import Home from '@/views/Home.vue'
-import Profile from '@/views/Profile.vue'
 
 
 
@@ -9,15 +7,23 @@ const routes = [
     {
         path: '/',
         name: 'Home',
-        component: Home,
+        component: () => import("../views/Home.vue"),
         meta: {
             title: "Groupomania : Bienvenus"
         }
     },
     {
+        path: '/login',
+        name: 'Login',
+        component: () => import("../views/Login.vue"),
+        meta: {
+            title: "Groupomania : Connexion"
+        }
+    },
+    {
         path: '/profile',
         name: 'profile',
-        component: Profile,
+        component: () => import("../views/Profile.vue"),
         meta: {
             title: "Groupomania : Mon profil"
         }
@@ -36,7 +42,15 @@ const routes = [
         path: "/createPost",
         name: "add",
         component: () => import("../components/CreatePost")
-    }
+    },
+    {
+        path: '/:pathMatch(.*)',
+        name: 'NotFound',
+        component: () => import("../views/NotFound.vue"),
+        meta: {
+            title: "404 : Not Found"
+        }
+    },
 ]
 const router = createRouter({
     history: createWebHistory(),

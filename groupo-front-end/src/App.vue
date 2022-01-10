@@ -1,27 +1,9 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">Groupo</router-link>
-      <img
-        id="logo"
-        src="./assets/icon-left-font.png"
-        alt="logo de Groupomania"
-      />
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/posts" class="nav-link">Posts</router-link>
-        </li>
-        <li class="nav-item">
-          <router-link to="/profile" class="nav-link">Profile</router-link>
-        </li>
-      </div>
-    </nav>
-
-    <div class="container mt-3">
-      <router-view />
-    </div>
+    <router-view></router-view>
   </div>
 </template>
+  
 
 <script>
 export default {
@@ -36,10 +18,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
 #logo {
-  width: 200px;
+  width: 80px;
+}
+body {
+  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 32px;
 }
 </style>
