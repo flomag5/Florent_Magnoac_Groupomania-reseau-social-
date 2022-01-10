@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand navbar-dark bg-dark">
-      <router-link to="/" class="navbar-brand">Groupomania</router-link>
+      <router-link to="/" class="navbar-brand">Groupo</router-link>
       <img
         id="logo"
         src="./assets/icon-left-font.png"
@@ -12,7 +12,7 @@
           <router-link to="/posts" class="nav-link">Posts</router-link>
         </li>
         <li class="nav-item">
-          <router-link to="/add" class="nav-link">Profile</router-link>
+          <router-link to="/profile" class="nav-link">Profile</router-link>
         </li>
       </div>
     </nav>
