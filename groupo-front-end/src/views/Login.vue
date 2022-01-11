@@ -9,18 +9,18 @@
       >
     </p>
     <p class="card__subtitle" v-else>
-      Déjà membre ?
+      Déjà membre?
       <span class="card__action" @click="switchToLogin()">Se connecter</span>
     </p>
     <div class="form-row" v-if="mode == 'create'">
       <input
-        v-model="prenom"
+        v-model="firstName"
         class="form-row__input"
         type="text"
         placeholder="Prénom"
       />
       <input
-        v-model="nom"
+        v-model="lastName"
         class="form-row__input"
         type="text"
         placeholder="Nom"
@@ -42,13 +42,21 @@
         placeholder="Mot de passe"
       />
     </div>
+    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+      Email ou mot de passe invalide
+    </div>
+    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
+      Adresse mail déjà utilisée
+    </div>
     <div class="form-row">
       <button
+        @click="login()"
         class="button"
         :class="{ 'button--disabled': !validatedFields }"
         v-if="mode == 'login'"
       >
-        Connexion
+        <span v-if="status == 'loading'">Connexion en cours...</span>
+        <span v-else>Connexion</span>
       </button>
       <button
         @click="createAccount()"
@@ -56,31 +64,41 @@
         :class="{ 'button--disabled': !validatedFields }"
         v-else
       >
-        Créer mon compte
+        <span v-if="status == 'loading'">Création en cours...</span>
+        <span v-else>Créer mon compte</span>
       </button>
     </div>
   </div>
 </template>
 
+
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "Login",
   data: function () {
     return {
       mode: "login",
       email: "",
-      prenom: "",
-      nom: "",
+      firstName: "",
+      lastName: "",
       password: "",
     };
+  },
+  mounted: function () {
+    if (this.$store.state.user.userId != -1) {
+      this.$router.push("/profile");
+      return;
+    }
   },
   computed: {
     validatedFields: function () {
       if (this.mode == "create") {
         if (
           this.email != "" &&
-          this.prenom != "" &&
-          this.nom != "" &&
+          this.firstName != "" &&
+          this.lastName != "" &&
           this.password != ""
         ) {
           return true;
@@ -95,6 +113,7 @@ export default {
         }
       }
     },
+    ...mapState(["status"]),
   },
   methods: {
     switchToCreateAccount: function () {
@@ -102,6 +121,38 @@ export default {
     },
     switchToLogin: function () {
       this.mode = "login";
+    },
+    login: function () {
+      const self = this;
+      this.$store
+        .dispatch("login", {
+          email: this.email,
+          password: this.password,
+        })
+        .then(function () {
+          self.$router.push("/profile");
+        }),
+        function (error) {
+          console.log(error);
+        };
+    },
+    createAccount: function () {
+      const self = this;
+      this.$store
+        .dispatch("createAccount", {
+          email: this.email,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          password: this.password,
+        })
+        .then(
+          function () {
+            self.login();
+          },
+          function (error) {
+            console.log(error);
+          }
+        );
     },
   },
 };

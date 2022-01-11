@@ -26,7 +26,7 @@ app.use(morgan('dev'));
 
 // Gestion des CORS
 var corsOptions = {
-    origin: process.env.ORIGIN,
+    origin: '*', //process.env.ORIGIN,
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"]
 };
 
