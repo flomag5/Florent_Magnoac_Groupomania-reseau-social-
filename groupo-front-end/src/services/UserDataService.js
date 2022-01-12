@@ -13,7 +13,7 @@ class UserDataService {
         return http.get('/user', { headers: auth() });
     }
     getOneUser(id) {
-        return api.get(`/user/${id}`, { headers: auth() })
+        return api.get(`/user/${id}`);
     }
 
     modifyUser(id, data) {

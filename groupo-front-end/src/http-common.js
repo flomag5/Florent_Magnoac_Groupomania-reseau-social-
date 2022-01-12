@@ -1,3 +1,5 @@
+// Intégration du client http
+
 import axios from "axios";
 
 export default axios.create({

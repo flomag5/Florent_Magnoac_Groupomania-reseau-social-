@@ -1,0 +1,57 @@
+<template>
+  <nav
+    id="navbar"
+    class="navbar fixed-top navbar-expand-lg navbar-light"
+    style="background-color: #d1515a"
+  >
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">
+        <img id="logo" src="../assets/icon.png" alt="logo de Groupomania" />
+      </a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <router-link
+              to="/login"
+              class="navbar-brand"
+              aria-current="page"
+              href="#"
+              >Home</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">Profile</router-link>
+          </li>
+        </ul>
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Rechercher sur Groupo"
+            aria-label="Search"
+          />
+          <button id="search" class="btn btn-outline-success" type="submit">
+            Search
+          </button>
+        </form>
+      </div>
+    </div>
+  </nav>
+</template>
+
+<script>
+export default {
+  name: "Header",
+};
+</script>

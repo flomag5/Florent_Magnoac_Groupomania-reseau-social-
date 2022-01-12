@@ -2,8 +2,8 @@
   <div class="card">
     <h1 class="card__title">Espace Perso</h1>
     <p class="card__subtitle">Voilà donc qui je suis...</p>
-    <p>{{ user.firstName }} {{ user.lastName }}</p>
-    <img :src="user.avatar" alt="photo de l'utilisateur" />
+    <p>{{ firstName }} {{ user.lastName }}</p>
+    <img :src="avatar" alt="photo de l'utilisateur" />
     <div class="form-row">
       <button @click="logout()" class="button">Déconnexion</button>
     </div>

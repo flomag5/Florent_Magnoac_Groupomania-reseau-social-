@@ -9,7 +9,7 @@ const instance = axios.create({
 let user = localStorage.getItem('user');
 if (!user) {
     user = {
-        id: -1,
+        UserId: -1,
         token: '',
     };
 } else {
@@ -18,7 +18,7 @@ if (!user) {
         instance.defaults.headers.common['Authorization'] = user.token;
     } catch (err) {
         user = {
-            id: -1,
+            userId: -1,
             token: '',
         };
     }
@@ -86,25 +86,15 @@ const store = createStore({
                     });
             });
         },
-        /* getUserData: ({ commit }) => {
-             instance.post(`/${data.user.id}`)
-                 .then(function (response) {
-                     commit('userData', response.data);
-                 })
-                 .catch(function () {
- 
-                 });
-         }*/
-        getUserData: ({ commit }, userData) => {
-            return new Promise((resolve, reject) => {
-                instance.get('/user/' + userData.id, { headers: { Authorization: 'bearer ' + userData.token } })
-                    .then(function (response) {
-                        commit('getUserData', response.data);
-                        commit('connected', userData); resolve(response)
-                    })
-                    .catch(function (error) { commit('setStatus', 'errorGetUser'); reject(error) })
-            });
-        },
+        getUserData: ({ commit }) => {
+            instance.get('/id')
+                .then(function (response) {
+                    commit('userData', response.data);
+                })
+                .catch(function () {
+
+                });
+        }
     }
 })
 

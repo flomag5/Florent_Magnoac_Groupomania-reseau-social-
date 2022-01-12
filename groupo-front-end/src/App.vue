@@ -1,13 +1,19 @@
 <template>
   <div id="app">
+    <Header />
     <router-view></router-view>
   </div>
 </template>
   
 
 <script>
+import Header from "./components/Header";
+
 export default {
   name: "App",
+  components: {
+    Header,
+  },
 };
 </script>
 
@@ -24,7 +30,7 @@ export default {
   width: 80px;
 }
 body {
-  background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+  background-image: linear-gradient(62deg, #bebdbd 0%, #0d2d61 100%);
   display: flex;
   align-items: center;
   justify-content: center;
