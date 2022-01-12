@@ -4,16 +4,16 @@ import { createWebHistory, createRouter } from "vue-router";
 
 
 const routes = [
-    /*{
-        path: '/',
+    {
+        path: '/home',
         name: 'Home',
         component: () => import("../views/Home.vue"),
         meta: {
-            title: "Groupomania : Bienvenus"
+            title: "Groupomania : Bienvenu"
         }
-    },*/
+    },
     {
-        path: '/',
+        path: '/login',
         name: 'Login',
         component: () => import("../views/Login.vue"),
         meta: {
@@ -31,17 +31,26 @@ const routes = [
     {
         path: "/posts",
         name: "Allposts",
-        component: () => import("../components/PostList")
+        component: () => import("../components/PostList"),
+        meta: {
+            title: "Groupomania : Actualités"
+        }
     },
     {
         path: "/posts/:id",
         name: "Onepost",
-        component: () => import("../components/Post")
+        component: () => import("../components/Post"),
+        meta: {
+            title: "Groupomania : Ce post"
+        }
     },
     {
         path: "/createPost",
         name: "add",
-        component: () => import("../components/CreatePost")
+        component: () => import("../components/CreatePost"),
+        meta: {
+            title: "Groupomania : Publier"
+        }
     },
     {
         path: '/:pathMatch(.*)',

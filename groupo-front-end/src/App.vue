@@ -1,18 +1,23 @@
 <template>
   <div id="app">
     <Header />
+
     <router-view></router-view>
+
+    <Footer />
   </div>
 </template>
   
 
 <script>
 import Header from "./components/Header";
+import Footer from "./components/Footer.vue";
 
 export default {
   name: "App",
   components: {
     Header,
+    Footer,
   },
 };
 </script>
@@ -26,9 +31,6 @@ export default {
   color: #2c3e50;
 }
 
-#logo {
-  width: 80px;
-}
 body {
   background-image: linear-gradient(62deg, #bebdbd 0%, #0d2d61 100%);
   display: flex;

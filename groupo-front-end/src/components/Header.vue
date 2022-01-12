@@ -5,7 +5,7 @@
     style="background-color: #d1515a"
   >
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="http://localhost:8080/home">
         <img id="logo" src="../assets/icon.png" alt="logo de Groupomania" />
       </a>
       <button
@@ -27,8 +27,11 @@
               class="navbar-brand"
               aria-current="page"
               href="#"
-              >Home</router-link
-            >
+              ><img
+                id="logo_home"
+                src="../assets/home2.png"
+                alt="logo de Groupomania"
+            /></router-link>
           </li>
           <li class="nav-item">
             <router-link to="/profile" class="nav-link">Profile</router-link>
@@ -55,3 +58,12 @@ export default {
   name: "Header",
 };
 </script>
+
+<style scoped>
+#logo {
+  width: 45px;
+}
+#logo_home {
+  width: 35px;
+}
+</style>

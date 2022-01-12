@@ -33,6 +33,12 @@ const store = createStore({
             firstName: '',
             email: '',
             avatar: '',
+        },
+        posts: [],
+        post: {
+            title: '',
+            content: '',
+            image: '',
         }
     },
     mutations: {
