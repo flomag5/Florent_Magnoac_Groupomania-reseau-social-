@@ -13,13 +13,13 @@ module.exports = app => {
 
     // Routes CRUD pour "comment" avec middleware d'authentification
 
-    router.get("/", commentCtrl.getAllComments);
+    router.get("/", auth, commentCtrl.getAllComments);
 
-    router.get("/:id", commentCtrl.getOneComment);
+    router.get("/:id", auth, commentCtrl.getOneComment);
 
-    router.put("/:id", commentCtrl.modifyComment);
+    router.put("/:id", auth, commentCtrl.modifyComment);
 
-    router.delete("/:id", commentCtrl.deleteComment);
+    router.delete("/:id", auth, commentCtrl.deleteComment);
 
 
     app.use('/api/comment', router);

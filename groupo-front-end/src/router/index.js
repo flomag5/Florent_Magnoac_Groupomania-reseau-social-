@@ -13,7 +13,8 @@ const routes = [
         }
     },
     {
-        path: '/login',
+        path: '/',
+        alias: '/login',
         name: 'Login',
         component: () => import("../views/Login.vue"),
         meta: {

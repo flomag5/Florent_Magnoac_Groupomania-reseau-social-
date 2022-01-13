@@ -23,11 +23,11 @@ module.exports = app => {
   router.post("/login", userCtrl.login);
 
   // Recherche d'un/tous utilisateur(s)
-  router.get("/:id", userCtrl.getOneUser);
-  router.get('/', userCtrl.getAllUsers)
+  router.get("/:id", auth, userCtrl.getOneUser);
+  router.get('/', auth, userCtrl.getAllUsers)
 
   // Modification d'un compte utilisateur
-  router.put("/:id", multer, userCtrl.updateUser);
+  router.put("/:id", auth, multer, userCtrl.updateUser);
 
   // Suppression d'un compte utilisateur
   router.delete("/:id", auth, userCtrl.delete);

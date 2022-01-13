@@ -10,18 +10,18 @@ class UserDataService {
     }
 
     getAllUsers() {
-        return http.get('/user', { headers: auth() });
+        return http.get('/user');
     }
     getOneUser(id) {
-        return api.get(`/user/${id}`);
+        return http.get(`/user/${id}`);
     }
 
     modifyUser(id, data) {
-        return http.put(`/user/${id}`, data, { headers: auth() });
+        return http.put(`/user/${id}`, data);
     }
 
     deleteUser(id) {
-        return http.delete(`/user/${id}`, { headers: auth() });
+        return http.delete(`/user/${id}`);
     }
 
 }

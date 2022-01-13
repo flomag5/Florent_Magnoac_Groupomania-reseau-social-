@@ -3,6 +3,9 @@
 // Import express pour construire API Rest
 const express = require("express");
 
+// Import du package de sécurité helmet
+const helmet = require('helmet');
+
 // Import middleware Express pour activer CORS avec options
 const cors = require("cors");
 
@@ -24,9 +27,12 @@ const app = express();
 // Logger les requests et les responses
 app.use(morgan('dev'));
 
+// Sécurisation des en-têtes de réponse http
+app.use(helmet());
+
 // Gestion des CORS
 var corsOptions = {
-    origin: '*', //process.env.ORIGIN,
+    origin: '*',
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"]
 };
 
