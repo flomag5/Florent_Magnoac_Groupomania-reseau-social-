@@ -1,6 +1,6 @@
+//--- Définition des routes pour chaque "components" ---//
+
 import { createWebHistory, createRouter } from "vue-router";
-
-
 
 
 const routes = [

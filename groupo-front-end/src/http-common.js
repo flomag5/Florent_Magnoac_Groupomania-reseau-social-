@@ -1,4 +1,4 @@
-// Intégration du client http
+//--- Initialisation axios avec l'URL de base HTTP et les en-têtes ---//
 
 import axios from "axios";
 

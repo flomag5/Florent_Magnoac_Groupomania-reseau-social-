@@ -1,3 +1,5 @@
+//--- Méthodes pour envoyer des requêtes HTTP à l'Api pour "user" ---//
+
 import http from "../http-common";
 
 class UserDataService {

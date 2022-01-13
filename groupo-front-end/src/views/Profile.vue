@@ -19,19 +19,21 @@ export default {
   name: "Profile",
   data() {
     return {
-      user: [],
+      user: {},
     };
   },
-  mounted() {
+  /*mounted() {
     this.getInfoUser();
-  },
-  /*mounted: function () {
-    if (this.$store.state.userId == -1) {
-      this.$router.push("/");
-      return;
-    }
-    this.$store.dispatch("getUserData");
   },*/
+  mounted() {
+    this.getInfoUser(this.$route.params.id, (err, user) => {
+      if (err) {
+        this.error = err.toString();
+      } else {
+        this.user = user.data;
+      }
+    });
+  },
 
   computed: {
     ...mapState({
@@ -44,7 +46,7 @@ export default {
       this.$router.push("/");
     },
     getInfoUser() {
-      UserDataService.getOneUser("38")
+      UserDataService.getOneUser()
         .then((user) => {
           this.user = user.data;
         })
