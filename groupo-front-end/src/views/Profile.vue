@@ -12,7 +12,7 @@
 
 
 <script>
-import { mapState } from "vuex";
+//import { mapState } from "vuex";
 import UserDataService from "../services/UserDataService";
 
 export default {
@@ -34,12 +34,12 @@ export default {
       }
     });
   },
-
+  /*
   computed: {
     ...mapState({
       user: "userData",
     }),
-  },
+  },*/
   methods: {
     logout: function () {
       this.$store.commit("logout");

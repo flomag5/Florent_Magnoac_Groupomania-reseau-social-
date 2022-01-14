@@ -27,14 +27,17 @@
               class="navbar-brand"
               aria-current="page"
               href="#"
-              ><img
-                id="logo_home"
-                src="../assets/home2.png"
-                alt="logo de Groupomania"
+              ><img id="logo_home" src="../assets/home2.png" alt="Icone maison"
             /></router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/profile" class="nav-link">Profile</router-link>
+            <router-link to="/profile" class="nav-link"
+              ><img
+                id="user_profile_pic"
+                src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                alt="user"
+                class="profile-photo-md pull-left"
+            /></router-link>
           </li>
         </ul>
         <form class="d-flex">
@@ -44,7 +47,12 @@
             placeholder="Rechercher sur Groupo"
             aria-label="Search"
           />
-          <button id="search" class="btn btn-outline-success" type="submit">
+          <button
+            id="search"
+            class="btn btn-outline-success"
+            color="blue"
+            type="submit"
+          >
             Search
           </button>
         </form>
@@ -65,5 +73,14 @@ export default {
 }
 #logo_home {
   width: 35px;
+}
+#logo_home {
+  align-items: center;
+  width: 20%;
+  padding-top: 3px;
+}
+#user_profile_pic {
+  width: 14%;
+  align-items: center;
 }
 </style>

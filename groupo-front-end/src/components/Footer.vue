@@ -4,10 +4,10 @@
     <footer class="page-footer font-small special-color-dark pt-2">
       <div class="container">
         <div id="foot" class="footer-copyright text-center py-2">
-          <a href="#">Conditions Générales </a>
-          <a href="#">Confidentialité </a>
+          <a id="link" href="#">Conditions Générales </a>
+          <a id="link" href="#">Confidentialité </a>
           © 2022 Copyright:
-          <a href="https://groupomania.com/">Groupomania</a>
+          <a id="link" href="https://groupomania.com/">Groupomania</a>
         </div>
       </div>
     </footer>
@@ -38,12 +38,11 @@ footer {
     width: 100%;
   }
 }
-a {
+#link {
   color: black;
+  padding: 0 20px;
 }
-a:hover {
-  color: #fff;
-}
+
 #foot {
   color: #fff;
 }

@@ -92,15 +92,15 @@ const store = createStore({
                     });
             });
         },
-        getUserData: ({ commit }) => {
-            instance.get('/id')
-                .then(function (response) {
-                    commit('userData', response.data);
-                })
-                .catch(function () {
-
-                });
-        }
+        /* getUserData: ({ commit }) => {
+             instance.get('/id')
+                 .then(function (response) {
+                     commit('userData', response.data);
+                 })
+                 .catch(function () {
+ 
+                 });
+         }*/
     }
 })
 

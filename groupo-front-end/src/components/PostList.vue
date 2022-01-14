@@ -1,107 +1,104 @@
 <template>
-  <container class="container_feed">
+  <div class="container_feed">
     <link
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
       rel="stylesheet"
     />
-    <div class="container">
-      <div class="col-md-7">
-        <div class="social-feed-box">
-          <a href="" class="pull-left">
-            <img alt="Avatar utilisateur" src="comment.UserId" />
-          </a>
-          <form class="d-flex">
-            <input
-              class="form-control me-2"
-              type="create"
-              placeholder="Quoi de neuf, {{user.UserId}}"
-              aria-label="Publier un post"
-            />
-          </form>
+    <div class="col-md-7">
+      <div class="social-feed-box">
+        <a href="" class="pull-left">
+          <img alt="Avatar utilisateur" src="comment.UserId" />
+        </a>
+        <form class="d-flex">
+          <input
+            class="form-control me-2"
+            type="create"
+            placeholder="Quoi de neuf, {{user.UserId}}"
+            aria-label="Publier un post"
+          />
+        </form>
+      </div>
+      <div class="social-feed-box" v-for="post in posts" :key="post.id">
+        <div class="pull-right social-action dropdown">
+          <button data-toggle="dropdown" class="dropdown-toggle btn-white">
+            <i class="fa fa-angle-down"></i>
+          </button>
+          <ul class="dropdown-menu m-t-xs">
+            <li><a href="#">Config</a></li>
+          </ul>
         </div>
-        <div class="social-feed-box" v-for="post in posts" :key="post.id">
-          <div class="pull-right social-action dropdown">
-            <button data-toggle="dropdown" class="dropdown-toggle btn-white">
-              <i class="fa fa-angle-down"></i>
-            </button>
-            <ul class="dropdown-menu m-t-xs">
-              <li><a href="#">Config</a></li>
-            </ul>
+        <div class="social-avatar">
+          <a href="" class="pull-left">
+            <img alt="Avatar utilisateur" src="user.avatar" />
+          </a>
+          <div class="media-body">
+            <a href="#"> {{ post.lastName }} {{ post.user.firstName }} </a>
+            <small class="text-muted"
+              >Publié le {{ dateFormat(post.date) }} à
+              {{ hourFormat(post.date) }}</small
+            >
           </div>
-          <div class="social-avatar">
+        </div>
+        <div class="social-body">
+          <h1>
+            {{ post.title }}
+          </h1>
+          <p>{{ post.content }}</p>
+          <img
+            v-if="post.image"
+            :src="post.image"
+            alt="image"
+            class="img-responsive"
+          />
+          <div class="btn-group">
+            <button class="btn btn-white btn-xs" @click="likePost">
+              <i class="fa fa-thumbs-up"></i>{{ like.count }} Like this!
+            </button>
+            <button class="btn btn-white btn-xs" @click="addComment">
+              <i class="fa fa-comments"></i> Comment
+            </button>
+          </div>
+        </div>
+        <div class="social-footer">
+          <div
+            class="social-comment"
+            v-for="comment in post.Comments"
+            :key="comment.id"
+          >
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="user.avatar" />
+              <img alt="Avatar utilisateur" src="comment.UserId" />
             </a>
             <div class="media-body">
-              <a href="#">
-                {{ post.User.lastName }} {{ post.User.firstName }}
-              </a>
-              <small class="text-muted"
-                >Publié le {{ dateFormat(post.date) }} à
-                {{ hourFormat(post.date) }}</small
+              <a href="#"
+                >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
               >
+              {{ comment.content }}
+              <br />
+              -
+              <small class="text-muted">{{ dateFormat(post.date) }}</small>
             </div>
           </div>
-          <div class="social-body">
-            <h1>
-              {{ post.title }}
-            </h1>
-            <p>{{ post.content }}</p>
-            <img
-              v-if="post.image"
-              src="post.image"
-              alt="image"
-              class="img-responsive"
-            />
-            <div class="btn-group">
-              <button class="btn btn-white btn-xs" @click="likePost()">
-                <i class="fa fa-thumbs-up"></i>{{ like.count }} Like this!
-              </button>
-              <button class="btn btn-white btn-xs" @click="addComment()">
-                <i class="fa fa-comments"></i> Comment
-              </button>
-            </div>
-          </div>
-          <div class="social-footer">
-            <div
-              class="social-comment"
-              v-for="comment in post.Comments"
-              :key="comment.id"
-            >
-              <a href="" class="pull-left">
-                <img alt="Avatar utilisateur" src="comment.UserId" />
-              </a>
-              <div class="media-body">
-                <a href="#"
-                  >{{ comment.User.firstName }} {{ comment.User.lastName }}</a
-                >
-                {{ comment.content }}
-                <br />
-                -
-                <small class="text-muted">{{ dateFormat(post.date) }}</small>
-              </div>
-            </div>
-            <div class="social-comment">
-              <a href="" class="pull-left">
-                <img alt="Avatar utilisateur" src="user.UserId" />
-              </a>
-              <div class="media-body">
-                <textarea
-                  class="form-control"
-                  placeholder="Ecrivez un commentaire public..."
-                ></textarea>
-              </div>
+          <div class="social-comment">
+            <a href="" class="pull-left">
+              <img alt="Avatar utilisateur" src="user.userId" />
+            </a>
+            <div class="media-body">
+              <textarea
+                class="form-control"
+                placeholder="Ecrivez un commentaire public..."
+              ></textarea>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </container>
+  </div>
 </template>
 
 <script>
 import PostDataService from "../services/PostDataService";
-import { mapState } from "vuex";
+
+//import { mapState } from "vuex";
 
 export default {
   name: "AllPosts",
@@ -109,24 +106,24 @@ export default {
   data() {
     return {
       posts: [],
+      user: [],
     };
   },
-  computed: {
+  /*computed: {
     ...mapState({
       posts: "posts",
     }),
-  },
+  },*/
   methods: {
-    getPosts() {
-      // const token = JSON.parse(localStorage.getItem("userToken"));
-      fetch("http://localhost:3000/api/posts/", {
-        method: "GET",
-        /*headers: {
-          authorization: `Bearer ${token}`,
-        },*/
-      })
-        .then((response) => response.json())
-        .then((data) => (this.posts = data));
+    retrievePosts() {
+      PostDataService.getAll()
+        .then((response) => {
+          this.posts = response.data;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     },
     dateFormat(createdDate) {
       const date = new Date(createdDate);
@@ -146,7 +143,7 @@ export default {
     createPost() {
       this.$router.push("/createpost");
     },
-    editPost(post) {
+    modifyPost(post) {
       this.$router.push("/modifyPost/" + post.id);
     },
     async likePost(post) {
@@ -154,9 +151,9 @@ export default {
       this.$store.dispatch("getAllPosts");
     },
   },
-  mounted() {
-    this.getPosts();
-  },
+  /*mounted() {
+    this.retrievePosts();
+  },*/
 };
 </script>
 
