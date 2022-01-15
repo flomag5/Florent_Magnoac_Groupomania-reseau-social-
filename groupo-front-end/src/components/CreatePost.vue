@@ -1,5 +1,4 @@
 <template>
-  <!--- \\\\\\\Post Form-->
   <div class="card gedf-card">
     <div class="card-header">
       <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
@@ -57,6 +56,12 @@
             </div>
             <div class="file">
               <label class="file-label">
+                <b-form-file
+                  v-model="post.image"
+                  accept="image/*"
+                  plain
+                  required
+                ></b-form-file>
                 <input class="file-input" type="file" name="resume" />
                 <span class="file-cta">
                   <span class="file-icon">
@@ -76,7 +81,6 @@
       </div>
     </div>
   </div>
-  <!-- Post Form /////-->
 </template>
 
 <script>
@@ -89,7 +93,7 @@ export default {
       post: {
         title: "",
         content: "",
-        image: null,
+        image: "",
       },
     };
   },

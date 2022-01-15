@@ -10,6 +10,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 
 
 
+
 export const eventBus = createApp(App)
 
 createApp(App).use(router).use(store).mount('#app')
