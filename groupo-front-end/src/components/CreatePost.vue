@@ -1,37 +1,82 @@
 <template>
-  <div class="submit-form">
-    <div v-if="!submitted">
-      <div class="form-group">
-        <label for="title">Title</label>
-        <input
-          type="text"
-          class="form-control"
-          id="title"
-          required
-          v-model="post.title"
-          name="title"
-        />
-      </div>
-
-      <div class="form-group">
-        <label for="content">Content</label>
-        <input
-          class="form-control"
-          id="description"
-          required
-          v-model="post.content"
-          name="content"
-        />
-      </div>
-
-      <button @click="savePost()" class="btn btn-success">Submit</button>
+  <!--- \\\\\\\Post Form-->
+  <div class="card gedf-card">
+    <div class="card-header">
+      <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+          <a
+            class="nav-link active"
+            id="posts-tab"
+            data-toggle="tab"
+            href="#posts"
+            role="tab"
+            aria-controls="posts"
+            aria-selected="true"
+            >Créer une publication</a
+          >
+        </li>
+      </ul>
     </div>
 
-    <div v-else>
-      <h4>You submitted successfully!</h4>
-      <button class="btn btn-success" @click="newPost()">Add</button>
+    <div class="card-body">
+      <div class="tab-content" id="myTabContent">
+        <form
+          method="POST"
+          @submit.prevent="submitForm"
+          enctype="multipart/form-data"
+        >
+          <div
+            class="tab-pane fade show active"
+            id="posts"
+            role="tabpanel"
+            aria-labelledby="posts-tab"
+          >
+            <div
+              class="form-group"
+              method="POST"
+              @submit.prevent="submitForm"
+              enctype="multipart/form-data"
+            >
+              <label class="sr-only" for="message">post</label>
+              <textarea
+                class="form-control"
+                id="message"
+                rows="1"
+                placeholder="Titre de la publication"
+                v-model="post.title"
+                required
+              ></textarea>
+              <textarea
+                class="form-control"
+                id="message"
+                rows="3"
+                placeholder="A quoi pensez-vous?"
+                v-model="post.content"
+                required
+              ></textarea>
+            </div>
+            <div class="file">
+              <label class="file-label">
+                <input class="file-input" type="file" name="resume" />
+                <span class="file-cta">
+                  <span class="file-icon">
+                    <i class="fas fa-upload"></i>
+                  </span>
+                  <span class="file-label"> Choose a file… </span>
+                </span>
+              </label>
+            </div>
+            <div class="btn-toolbar justify-content-between">
+              <div class="btn-group">
+                <button type="submit" class="btn btn-primary">Partager</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+  <!-- Post Form /////-->
 </template>
 
 <script>
@@ -42,45 +87,48 @@ export default {
   data() {
     return {
       post: {
-        id: "",
         title: "",
         content: "",
-        //image: "",
-        published: false,
+        image: null,
       },
-      submitted: false,
     };
   },
   methods: {
-    savePost() {
-      var data = {
-        title: this.post.title,
-        content: this.post.content,
-        //image: this.post.image,
-      };
+    submitForm: function () {
+      const newPost = new FormData();
+      newPost.append("title", this.post.title);
+      newPost.append("content", this.post.content);
+      newPost.append("image", this.post.image, this.post.filename);
 
-      PostDataService.create(data)
-        .then((response) => {
-          this.post.id = response.data.id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-
-    newPost() {
-      this.submitted = false;
-      this.post = {};
+      PostDataService.createPost(newPost).then(() => {
+        this.$router.go();
+      });
+      return true;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.submit-form {
-  max-width: 300px;
-  margin: auto;
+.h7 {
+  font-size: 0.8rem;
+}
+.gedf-wrapper {
+  margin-top: 0.97rem;
+}
+@media (min-width: 992px) {
+  .gedf-main {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+  .gedf-card {
+    margin-top: 2.77rem;
+    margin-bottom: 2.77rem;
+  }
+}
+/**Reset Bootstrap*/
+.dropdown-toggle::after {
+  content: none;
+  display: none;
 }
 </style>
