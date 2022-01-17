@@ -1,6 +1,7 @@
 //--- Méthodes pour envoyer des requêtes HTTP à l'Api pour "user" ---//
 
 import http from "../http-common";
+import auth from "./auth";
 
 class UserDataService {
     signup(data) {
@@ -12,18 +13,18 @@ class UserDataService {
     }
 
     getAllUsers() {
-        return http.get('/user');
+        return http.get('/user', { headers: auth() });
     }
     getOneUser(id) {
-        return http.get(`/user/${id}`);
+        return http.get(`/user/${id}`, { headers: auth() });
     }
 
     modifyUser(id, data) {
-        return http.put(`/user/${id}`, data);
+        return http.put(`/user/${id}`, data, { headers: auth() });
     }
 
     deleteUser(id) {
-        return http.delete(`/user/${id}`);
+        return http.delete(`/user/${id}`, { headers: auth() });
     }
 
 }

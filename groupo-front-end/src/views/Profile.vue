@@ -31,14 +31,41 @@
 <script>
 //import { mapState } from "vuex";
 import UserDataService from "../services/UserDataService";
+//import UpdateUser from "../components/UpdateUser";
+//import Axios from "axios";
 
 export default {
   name: "profile",
+  components: {
+    //UpdateUser,
+  },
   data() {
     return {
       userProfile: true,
+
       user: {},
     };
+  },
+  /* created() {
+    this.id = this.$route.params.id;
+    Axios.get(`http://localhost:3000/user/${this.id}`).then((response) => {
+      this.post = response.data[this.id];
+    });
+  },*/
+  beforeCreate() {
+    fetch(`http://localhost:3000/api/user/${localStorage.getItem("userId")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.avatar = `http://localhost:3000/images/${data.avatar}`;
+        this.user = data;
+      })
+      .catch((error) => {
+        error;
+      });
   },
 
   mounted() {
@@ -63,6 +90,10 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+    },
+    toggleProfile() {
+      this.userProfile = !this.userProfile;
+      this.UpdateUser = !this.UpdateUser;
     },
   },
 };
