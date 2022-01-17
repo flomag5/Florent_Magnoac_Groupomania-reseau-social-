@@ -40,9 +40,11 @@
           </div>
         </div>
         <div class="social-body">
-          <h1>
-            {{ post.title }}
-          </h1>
+          <router-link :to="'/posts/' + post.id"
+            ><h1>
+              {{ post.title }}
+            </h1></router-link
+          >
           <p>{{ post.content }}</p>
           <img
             v-if="post.image"

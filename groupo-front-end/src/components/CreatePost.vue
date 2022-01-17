@@ -102,7 +102,7 @@ export default {
       const newPost = new FormData();
       newPost.append("title", this.post.title);
       newPost.append("content", this.post.content);
-      newPost.append("image", this.post.image, this.post.filename);
+      newPost.append("image", this.post.image, this.post.image.filename);
 
       PostDataService.createPost(newPost).then(() => {
         this.$router.go();

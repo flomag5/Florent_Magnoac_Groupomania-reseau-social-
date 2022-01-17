@@ -23,7 +23,7 @@ module.exports = app => {
   router.post("/login", userCtrl.login);
 
   // Recherche d'un/tous utilisateur(s)
-  router.get("/:id", auth, userCtrl.getOneUser);
+  router.get("/:id", userCtrl.getOneUser);
   router.get('/', auth, userCtrl.getAllUsers)
 
   // Modification d'un compte utilisateur

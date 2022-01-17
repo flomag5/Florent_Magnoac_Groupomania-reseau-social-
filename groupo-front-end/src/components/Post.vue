@@ -8,33 +8,36 @@
       <div class="col-md-8">
         <div class="post-content">
           <img
-            src="https://via.placeholder.com/400x150/FFB6C1/000000"
+            :src="post.image"
             alt="post-image"
             class="img-responsive post-image"
           />
           <div class="post-container">
             <img
-              src="https://bootdey.com/img/Content/avatar/avatar6.png"
+              :src="user.avatar"
               alt="user"
               class="profile-photo-md pull-left"
             />
             <div class="post-detail">
               <div class="user-info">
                 <h5>
-                  <a href="timeline.html" class="profile-link">Alexis Clark</a>
-                  <span class="following">following</span>
+                  <a href="timeline.html" class="profile-link"
+                    >{{ user.firstName }} {{ user.lastName }}</a
+                  >
                 </h5>
-                <p class="text-muted">Published a photo about 3 mins ago</p>
+                <p class="text-muted">
+                  {{ dateFormat(post.date) }} à {{ hourFormat(post.date) }}
+                </p>
               </div>
               <div class="reaction">
-                <a class="btn text-green"><i class="fa fa-thumbs-up"></i> 13</a>
-                <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
+                <a class="btn text-green"
+                  ><i class="fa fa-thumbs-up"></i>{{ post.likes }}</a
+                >
               </div>
               <div class="line-divider"></div>
               <div class="post-text">
                 <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore .
+                  {{ post.content }}
                   <i class="em em-anguished"></i>
                   <i class="em em-anguished"></i>
                   <i class="em em-anguished"></i>
@@ -43,27 +46,14 @@
               <div class="line-divider"></div>
               <div class="post-comment">
                 <img
-                  src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                  alt=""
+                  :src="user.avatar"
+                  alt="avatar utilisateur"
                   class="profile-photo-sm"
                 />
                 <p>
                   <a href="timeline.html" class="profile-link"
                     >{{ firstName }} {{ lastName }} </a
-                  ><i class="em em-laughing"></i> Lorem ipsum dolor sit amet,
-                </p>
-              </div>
-              <div class="post-comment">
-                <img
-                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                  alt=""
-                  class="profile-photo-sm"
-                />
-                <p>
-                  <a href="timeline.html" class="profile-link">John</a> Lorem
-                  ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                  eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                  enim ad minim veniam, quis nostrud
+                  ><i class="em em-laughing"></i> {{ post.comment }}
                 </p>
               </div>
               <div class="post-comment">
@@ -93,38 +83,20 @@ export default {
   name: "Onepost",
   data() {
     return {
-      post: {
-        id: null,
-        title: "",
-        content: "",
-        image: "",
-        published: false,
-      },
-      submitted: false,
+      currentPost: null,
+      post: {},
     };
   },
   methods: {
-    savePost() {
-      var data = {
-        title: this.post.title,
-        content: this.post.content,
-        image: this.post.image,
-      };
-
-      PostDataService.create(data)
+    getPost(id) {
+      PostDataService.get(id)
         .then((response) => {
-          this.post.id = response.data.id;
+          this.currentPost = response.data;
           console.log(response.data);
-          this.submitted = true;
         })
         .catch((e) => {
           console.log(e);
         });
-    },
-
-    newPost() {
-      this.submitted = false;
-      this.post = {};
     },
   },
 };
@@ -134,10 +106,6 @@ export default {
 body {
   margin-top: 20px;
 }
-
-/*==================================================
-  Post Contents CSS
-  ==================================================*/
 
 .post-content {
   background: #f8f8f8;
