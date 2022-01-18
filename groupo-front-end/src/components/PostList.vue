@@ -1,3 +1,4 @@
+
 <template>
   <div class="container_feed">
     <link
@@ -7,13 +8,13 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="comment.UserId" />
+          <img alt="Avatar utilisateur" src="comment.userId" />
         </a>
         <form class="d-flex">
           <input
             class="form-control me-2"
             type="create"
-            placeholder="Quoi de neuf, {{user.UserId}}"
+            placeholder="Quoi de neuf, {{user.userId}}"
             aria-label="Publier un post"
           />
         </form>
@@ -32,7 +33,7 @@
             <img alt="Avatar utilisateur" src="user.avatar" />
           </a>
           <div class="media-body">
-            <a href="#"> {{ post.lastName }} {{ post.user.firstName }} </a>
+            <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
@@ -54,7 +55,7 @@
           />
           <div class="btn-group">
             <button class="btn btn-white btn-xs" @click="likePost">
-              <i class="fa fa-thumbs-up"></i>{{ like.count }} Like this!
+              <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
             </button>
             <button class="btn btn-white btn-xs" @click="addComment">
               <i class="fa fa-comments"></i> Comment
@@ -68,7 +69,7 @@
             :key="comment.id"
           >
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="comment.UserId" />
+              <img alt="Avatar utilisateur" src="comment.userId" />
             </a>
             <div class="media-body">
               <a href="#"
@@ -101,32 +102,24 @@
 import PostDataService from "../services/PostDataService";
 
 //import { mapState } from "vuex";
-
 export default {
   name: "AllPosts",
   components: {},
   data() {
     return {
       posts: [],
-      user: [],
     };
   },
-  /*computed: {
-    ...mapState({
-      posts: "posts",
-    }),
-  },*/
+  created() {
+    PostDataService.getAllPosts()
+      .then((response) => {
+        this.posts = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  },
   methods: {
-    retrievePosts() {
-      PostDataService.getAll()
-        .then((response) => {
-          this.posts = response.data;
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {
@@ -142,6 +135,7 @@ export default {
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
     },
+
     createPost() {
       this.$router.push("/createpost");
     },
@@ -153,9 +147,6 @@ export default {
       this.$store.dispatch("getAllPosts");
     },
   },
-  /*mounted() {
-    this.retrievePosts();
-  },*/
 };
 </script>
 
@@ -163,7 +154,6 @@ export default {
 body {
   margin-top: 60px;
 }
-/* Social feed */
 .social-feed-separated .social-feed-box {
   margin-left: 62px;
 }

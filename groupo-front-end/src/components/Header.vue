@@ -40,22 +40,6 @@
             /></router-link>
           </li>
         </ul>
-        <form class="d-flex">
-          <input
-            class="form-control me-2"
-            type="search"
-            placeholder="Rechercher sur Groupo"
-            aria-label="Search"
-          />
-          <button
-            id="search"
-            class="btn btn-outline-success"
-            color="blue"
-            type="submit"
-          >
-            Search
-          </button>
-        </form>
       </div>
     </div>
   </nav>

@@ -81,10 +81,13 @@ import PostDataService from "../services/PostDataService";
 
 export default {
   name: "Onepost",
+  props: {
+    post: Object,
+  },
   data() {
     return {
       currentPost: null,
-      post: {},
+      //post: {},
     };
   },
   methods: {

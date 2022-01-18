@@ -9,7 +9,10 @@
         </button>
       </div>
       <div class="profileContainer">
-        <img :src="user.avatar" alt="photo utilisateur" class="profile" />
+        <img :src="user.avatar" alt="photo utilisateur" class="profile" />{{
+          user.avartar
+        }}
+        <img />
       </div>
       <button @click.prevent="toggleProfile">
         <i class="fas fa-camera"></i> Changer la photo de profil
@@ -30,9 +33,8 @@
 
 <script>
 //import { mapState } from "vuex";
-import UserDataService from "../services/UserDataService";
+//import UserDataService from "../services/UserDataService";
 //import UpdateUser from "../components/UpdateUser";
-//import Axios from "axios";
 
 export default {
   name: "profile",
@@ -46,14 +48,8 @@ export default {
       user: {},
     };
   },
-  /* created() {
-    this.id = this.$route.params.id;
-    Axios.get(`http://localhost:3000/user/${this.id}`).then((response) => {
-      this.post = response.data[this.id];
-    });
-  },*/
   beforeCreate() {
-    fetch(`http://localhost:3000/api/user/${localStorage.getItem("userId")}`, {
+    fetch(`http://localhost:3000/api/user/${localStorage.getItem("user.id")}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },
@@ -67,10 +63,10 @@ export default {
         error;
       });
   },
-
+  /*
   mounted() {
     this.getInfoUser();
-  },
+  },*/
   /*
   computed: {
     ...mapState({
@@ -82,7 +78,7 @@ export default {
       this.$store.commit("logout");
       this.$router.push("/");
     },
-    getInfoUser() {
+    /* getInfoUser() {
       UserDataService.getOneUser()
         .then((user) => {
           this.user = user.data;
@@ -90,7 +86,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
+    },*/
     toggleProfile() {
       this.userProfile = !this.userProfile;
       this.UpdateUser = !this.UpdateUser;

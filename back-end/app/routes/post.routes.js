@@ -19,7 +19,7 @@ module.exports = app => {
   // Routes CRUD pour "post" avec middleware d'authentification
   router.post("/", multer, posts.createPost);
 
-  router.get("/", auth, posts.findAll);
+  router.get("/", posts.findAll);
 
   router.get("/:id", auth, posts.findPostById);
 

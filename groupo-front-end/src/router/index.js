@@ -31,7 +31,7 @@ const routes = [
     },
     {
         path: "/posts",
-        name: "Allposts",
+        name: "AllPosts",
         component: () => import("../components/PostList"),
         meta: {
             title: "Groupomania : Actualités"
@@ -47,7 +47,7 @@ const routes = [
     },
     {
         path: "/createPost",
-        name: "add",
+        name: "create-post",
         component: () => import("../components/CreatePost"),
         meta: {
             title: "Groupomania : Publier"
