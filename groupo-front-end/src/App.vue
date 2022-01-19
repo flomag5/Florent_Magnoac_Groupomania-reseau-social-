@@ -42,6 +42,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   padding: 32px;
+  margin: 0;
 }
 
 img {

@@ -152,7 +152,7 @@ export default {
 
 <style>
 body {
-  margin-top: 60px;
+  margin-top: 30px;
 }
 .social-feed-separated .social-feed-box {
   margin-left: 62px;
@@ -171,7 +171,8 @@ body {
   float: none;
 }
 .social-feed-box {
-  /*padding: 15px;*/
+  width: 370px;
+  padding: 15px;
   border: 1px solid #e7eaec;
   background: #fff;
   margin-bottom: 15px;
