@@ -8,13 +8,13 @@
       <div class="col-md-8">
         <div class="post-content">
           <img
-            :src="post.image"
+            src="post.image"
             alt="post-image"
             class="img-responsive post-image"
           />
           <div class="post-container">
             <img
-              :src="user.avatar"
+              src="user.avatar"
               alt="user"
               class="profile-photo-md pull-left"
             />
@@ -46,7 +46,7 @@
               <div class="line-divider"></div>
               <div class="post-comment">
                 <img
-                  :src="user.avatar"
+                  src="user.avatar"
                   alt="avatar utilisateur"
                   class="profile-photo-sm"
                 />
@@ -81,13 +81,11 @@ import PostDataService from "../services/PostDataService";
 
 export default {
   name: "Onepost",
-  props: {
-    post: Object,
-  },
+
   data() {
     return {
       currentPost: null,
-      //post: {},
+      post: [],
     };
   },
   methods: {
@@ -100,6 +98,21 @@ export default {
         .catch((e) => {
           console.log(e);
         });
+    },
+    dateFormat(createdDate) {
+      const date = new Date(createdDate);
+      const options = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      };
+      return date.toLocaleDateString("fr-FR", options);
+    },
+    hourFormat(createdHour) {
+      const hour = new Date(createdHour);
+      const options = { hour: "numeric", minute: "numeric", second: "numeric" };
+      return hour.toLocaleTimeString("fr-FR", options);
     },
   },
 };

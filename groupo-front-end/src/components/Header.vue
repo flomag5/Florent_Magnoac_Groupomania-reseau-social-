@@ -5,29 +5,33 @@
         <img
           class="topbar-logo"
           id="logo"
-          src="../assets/icon-left-font-monochrome-black.png"
+          src="../assets/icon-left-font-monochrome-black-recut.png"
           alt="logo de Groupomania"
         />
       </a>
     </div>
     <nav class="topbar-nav">
-      <a class="home-logo"
+      <a class="navbar-brand"
         ><router-link
           to="/login"
-          class="navbar-brand"
+          class="home-logo-md pull-left"
           aria-current="page"
           href="#"
           ><i class="fas fa-home"></i></router-link
       ></a>
       <a
-        ><router-link to="/profile" class="nav-link"
+        ><router-link to="/profile" class="navbar-brand"
           ><img
             id="user_profile_pic"
             src="https://bootdey.com/img/Content/avatar/avatar6.png"
-            alt="accés profil utilisateur" /></router-link
-      ></a>
+            alt="accés profil utilisateur"
+          />
+        </router-link>
+      </a>
       <router-link to="/login" class="navbar-brand">
-        <a href="#" alt="Se déconnecter"><i class="fas fa-sign-out-alt"></i></a>
+        <a href="#" alt="Se déconnecter" class="profile-photo-md pull-right"
+          ><i class="fas fa-sign-out-alt"></i
+        ></a>
       </router-link>
     </nav>
   </header>
@@ -40,22 +44,12 @@ export default {
 </script>
 
 <style scoped>
-#user_profile_pic {
-  width: 5%;
-  align-items: center;
-}
-.fas {
-  font-size: 30px;
-}
-.fas .fa-sign-out-alt {
-  position: right;
-}
 .navbar {
   background: #d1515a;
   width: auto;
   margin: 0;
-
   color: white;
+  max-height: 100px;
 }
 
 .topbar a {
@@ -67,15 +61,14 @@ a {
 }
 
 .topbar-logo {
-  display: block;
+  display: inline;
   text-align: center;
-  width: 20%;
-  line-height: 54px;
+  width: 35%;
   padding: 12px 0;
-  border-radius: 50px;
 }
 .topbar-nav {
   text-align: center;
+  align-items: center;
   padding-bottom: 16px;
 }
 
@@ -88,6 +81,13 @@ a {
 .topbar-nav a:hover {
   text-decoration: none;
   color: #163466;
+}
+
+#user_profile_pic {
+  width: 7%;
+}
+.fas {
+  font-size: 25px;
 }
 
 @media only screen and (min-width: 520px) {
@@ -104,6 +104,19 @@ a {
   }
   .topbar-nav a {
     margin: 0 30px;
+  }
+  .topbar-logo {
+    width: 25%;
+    padding: 12px 0;
+  }
+
+  .fas {
+    font-size: 28px;
+    margin-top: 8px;
+  }
+
+  #user_profile_pic {
+    width: 5%;
   }
 }
 </style>

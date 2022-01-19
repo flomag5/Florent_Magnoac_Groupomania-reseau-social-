@@ -27,6 +27,11 @@
         <button @click="logout()" class="log_button">Déconnexion</button>
       </div>
     </div>
+    <UpdateUser
+      v-if="updateUser"
+      :user="user"
+      @toggle-profile="toggleProfile"
+    />
   </div>
 </template>
 
@@ -34,20 +39,35 @@
 <script>
 //import { mapState } from "vuex";
 //import UserDataService from "../services/UserDataService";
-//import UpdateUser from "../components/UpdateUser";
+import UpdateUser from "../components/UpdateUser";
 
 export default {
   name: "profile",
   components: {
-    //UpdateUser,
+    UpdateUser,
   },
   data() {
     return {
       userProfile: true,
-
+      updateUser: false,
       user: {},
     };
   },
+  beforeCreate() {
+    fetch(`http://localhost:3000/api/user/${localStorage.getItem("userId")}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        data.avatar = `http://localhost:3000/images/${data.avatar}`;
+        this.user = data;
+      })
+      .catch((error) => {
+        error;
+      });
+  } /*
   beforeCreate() {
     fetch(`http://localhost:3000/api/user/${localStorage.getItem("user.id")}`, {
       headers: {
@@ -63,10 +83,10 @@ export default {
         error;
       });
   },
-  /*
+  
   mounted() {
     this.getInfoUser();
-  },*/
+  },*/,
   /*
   computed: {
     ...mapState({
@@ -89,7 +109,7 @@ export default {
     },*/
     toggleProfile() {
       this.userProfile = !this.userProfile;
-      this.UpdateUser = !this.UpdateUser;
+      this.updateUser = !this.UpdateUser;
     },
   },
 };

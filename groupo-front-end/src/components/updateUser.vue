@@ -5,14 +5,14 @@
         <i class="fas fa-arrow-left"></i>retour au profil
       </button>
     </div>
-    <form @submit.prevent="editProfile">
+    <form @submit.prevent="updateUser">
       <label for="file" class="profileLabel">
         <div>Changer d'image de profil :</div>
         <div class="profileContainer">
           <img
             id="preview"
             :src="user.avatar"
-            :alt="user.avatar"
+            alt="Photo de profil"
             class="profile"
           />
         </div>

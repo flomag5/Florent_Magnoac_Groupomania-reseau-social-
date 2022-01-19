@@ -34,6 +34,9 @@ class PostDataService {
     getOneComment(id) {
         return http.get(`/comment/${id}`);
     }
+    getComments(id, data) {
+        return http.get(`/posts/${id}/comments`, data)
+    }
     Createcomment(id, data) {
         return http.post(`/posts/${id}/comment`, data)
     }

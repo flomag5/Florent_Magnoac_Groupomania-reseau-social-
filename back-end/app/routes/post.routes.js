@@ -28,7 +28,7 @@ module.exports = app => {
   router.delete("/:id", auth, posts.deletePost);
 
   // Route commentaire de post
-  router.post('/:id/comment', auth, commentCtrl.createComment);
+  router.post('/:id/comment', commentCtrl.createComment);
 
   // Route de like/unlike
   router.post('/:id/like', auth, likesCtrl.likePost);

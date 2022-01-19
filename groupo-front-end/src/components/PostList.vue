@@ -8,13 +8,14 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="comment.userId" />
+          <img alt="Avatar utilisateur" src="" />
         </a>
         <form class="d-flex">
           <input
+            @click="createPost()"
             class="form-control me-2"
             type="create"
-            placeholder="Quoi de neuf, {{user.userId}}"
+            placeholder="Quoi de neuf"
             aria-label="Publier un post"
           />
         </form>
@@ -30,7 +31,11 @@
         </div>
         <div class="social-avatar">
           <a href="" class="pull-left">
-            <img alt="Avatar utilisateur" src="user.avatar" />
+            <img
+              alt="Avatar utilisateur"
+              src="'http://localhost:3000/images/' +
+            post.user.avatar"
+            />
           </a>
           <div class="media-body">
             <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
@@ -50,11 +55,11 @@
           <img
             v-if="post.image"
             :src="post.image"
-            alt="image"
+            alt="photo du post"
             class="img-responsive"
           />
           <div class="btn-group">
-            <button class="btn btn-white btn-xs" @click="likePost">
+            <button class="btn btn-white btn-xs" @click="likePost()">
               <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
             </button>
             <button class="btn btn-white btn-xs" @click="addComment">
@@ -65,11 +70,11 @@
         <div class="social-footer">
           <div
             class="social-comment"
-            v-for="comment in post.Comments"
+            v-for="comment in post.comments"
             :key="comment.id"
           >
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="comment.userId" />
+              <img alt="Avatar utilisateur" :src="comment.userId.avatar" />
             </a>
             <div class="media-body">
               <a href="#"
@@ -83,13 +88,14 @@
           </div>
           <div class="social-comment">
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="user.userId" />
+              <img alt="Avatar utilisateur" src="user.id" />
             </a>
             <div class="media-body">
-              <textarea
+              <input
                 class="form-control"
+                @submit="createComment()"
                 placeholder="Ecrivez un commentaire public..."
-              ></textarea>
+              />
             </div>
           </div>
         </div>
@@ -102,12 +108,16 @@
 import PostDataService from "../services/PostDataService";
 
 //import { mapState } from "vuex";
+
 export default {
   name: "AllPosts",
   components: {},
   data() {
     return {
       posts: [],
+      comment: {
+        content: "",
+      },
     };
   },
   created() {
@@ -119,6 +129,7 @@ export default {
         console.log(error);
       });
   },
+
   methods: {
     dateFormat(createdDate) {
       const date = new Date(createdDate);
@@ -145,6 +156,9 @@ export default {
     async likePost(post) {
       await PostDataService.likePost(post.id);
       this.$store.dispatch("getAllPosts");
+    },
+    async createComment(post) {
+      this.$router.push("/posts/" + post.id + "/comment");
     },
   },
 };
