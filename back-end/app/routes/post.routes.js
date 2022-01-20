@@ -21,7 +21,7 @@ module.exports = app => {
 
   router.get("/", posts.findAll);
 
-  router.get("/:id", auth, posts.findPostById);
+  router.get("/:id", posts.findPostById);
 
   router.put("/:id", auth, multer, posts.modifyPost);
 
