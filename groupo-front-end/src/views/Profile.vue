@@ -10,7 +10,7 @@
       </div>
       <div class="profileContainer">
         <img :src="user.avatar" alt="photo utilisateur" class="profile" />{{
-          user.avartar
+          user.avatar
         }}
         <img />
       </div>
@@ -54,14 +54,15 @@ export default {
     };
   },
   beforeCreate() {
-    fetch(`http://localhost:3000/api/user/${localStorage.getItem("userId")}`, {
+    let user = JSON.parse(localStorage.getItem("user"));
+    fetch(`http://localhost:3000/api/user/${user.userId}`, {
       headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
+        Authorization: `Bearer ${user.token}`,
       },
     })
       .then((res) => res.json())
       .then((data) => {
-        data.avatar = `http://localhost:3000/images/${data.avatar}`;
+        data.avatar = `http://localhost:3000/images_default/${data.avatar}`;
         this.user = data;
       })
       .catch((error) => {
@@ -98,6 +99,7 @@ export default {
       this.$store.commit("logout");
       this.$router.push("/");
     },
+
     /* getInfoUser() {
       UserDataService.getOneUser()
         .then((user) => {

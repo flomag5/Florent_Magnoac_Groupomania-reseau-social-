@@ -33,8 +33,7 @@
           <a href="" class="pull-left">
             <img
               alt="Avatar utilisateur"
-              src="'http://localhost:3000/images/' +
-            post.user.avatar"
+              :src="'http://localhost:3000/images_default/' + post.user.avatar"
             />
           </a>
           <div class="media-body">
@@ -124,6 +123,7 @@ export default {
     PostDataService.getAllPosts()
       .then((response) => {
         this.posts = response.data;
+        console.log(response.data);
       })
       .catch((error) => {
         console.log(error);

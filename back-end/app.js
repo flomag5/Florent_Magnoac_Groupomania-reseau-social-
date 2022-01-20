@@ -28,7 +28,7 @@ const app = express();
 app.use(morgan('dev'));
 
 // Sécurisation des en-têtes de réponse http
-app.use(helmet());
+//app.use(helmet());
 
 // Gestion des CORS
 var corsOptions = {
@@ -65,6 +65,7 @@ db.sequelize.sync().then(() => {
 // Gestionnaire de routage
 // Configuration du serveur pour renvoyer des fichiers statiques
 app.use("/images", express.static(path.join(__dirname, 'images')));
+app.use("/images_default", express.static(path.join(__dirname, 'images_default')));
 
 // ROUTES
 require("./app/routes/user.routes")(app);

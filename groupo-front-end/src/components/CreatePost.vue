@@ -30,30 +30,24 @@
             role="tabpanel"
             aria-labelledby="posts-tab"
           >
-            <div
-              class="form-group"
-              method="POST"
-              @submit.prevent="submitForm"
-              enctype="multipart/form-data"
-            >
-              <label class="sr-only" for="message">post</label>
-              <textarea
-                class="form-control"
-                id="message"
-                rows="1"
-                placeholder="Titre de la publication"
-                v-model="post.title"
-                required
-              ></textarea>
-              <textarea
-                class="form-control"
-                id="message"
-                rows="3"
-                placeholder="A quoi pensez-vous?"
-                v-model="post.content"
-                required
-              ></textarea>
-            </div>
+            <label class="sr-only" for="message">post</label>
+            <textarea
+              class="form-control"
+              id="message"
+              rows="1"
+              placeholder="Titre de la publication"
+              v-model="post.title"
+              required
+            ></textarea>
+            <textarea
+              class="form-control"
+              id="message"
+              rows="3"
+              placeholder="A quoi pensez-vous?"
+              v-model="post.content"
+              required
+            ></textarea>
+
             <div class="file">
               <label class="file-label">
                 <b-form-file
@@ -98,10 +92,12 @@ export default {
     };
   },
   methods: {
-    submitForm: function () {
+    submitForm: function (event) {
       const newPost = new FormData();
+      console.log(event.target);
       newPost.append("title", this.post.title);
       newPost.append("content", this.post.content);
+      console.log(this.post.image);
       newPost.append("image", this.post.image, this.post.image.filename);
 
       PostDataService.createPost(newPost).then(() => {

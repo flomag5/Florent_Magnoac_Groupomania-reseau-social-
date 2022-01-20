@@ -133,7 +133,7 @@ export default {
 </script>
 
 <style scoped>
-#editProfile {
+/*#editProfile {
   max-width: 60%;
   box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
   margin: auto;
@@ -142,7 +142,7 @@ export default {
   border-radius: 4px;
   display: flex;
   flex-direction: column;
-}
+}*/
 .showProfile {
   text-align: right;
 }
