@@ -8,13 +8,13 @@
       <div class="col-md-8">
         <div class="post-content">
           <img
-            src="post.image"
-            alt="post-image"
+            :src="post.image"
+            alt="Image de la publication"
             class="img-responsive post-image"
           />
           <div class="post-container">
             <img
-              src="user.avatar"
+              :src="post.user.avatar"
               alt="user"
               class="profile-photo-md pull-left"
             />
@@ -22,7 +22,7 @@
               <div class="user-info">
                 <h5>
                   <a href="timeline.html" class="profile-link"
-                    >{{ user.firstName }} {{ user.lastName }}</a
+                    >{{ post.user.firstName }} {{ post.user.lastName }}</a
                   >
                 </h5>
                 <p class="text-muted">
@@ -46,7 +46,7 @@
               <div class="line-divider"></div>
               <div class="post-comment">
                 <img
-                  src="user.avatar"
+                  :src="user.avatar"
                   alt="avatar utilisateur"
                   class="profile-photo-sm"
                 />

@@ -21,7 +21,7 @@
       <div class="tab-content" id="myTabContent">
         <form
           method="POST"
-          @submit.prevent="submitForm"
+          @submit.prevent="createPost"
           enctype="multipart/form-data"
         >
           <div
@@ -36,7 +36,7 @@
               id="message"
               rows="1"
               placeholder="Titre de la publication"
-              v-model="post.title"
+              v-model="title"
               required
             ></textarea>
             <textarea
@@ -44,19 +44,23 @@
               id="message"
               rows="3"
               placeholder="A quoi pensez-vous?"
-              v-model="post.content"
+              v-model="content"
               required
             ></textarea>
 
             <div class="file">
+              <div id="preview" v-if="preview">
+                <img :src="preview" :alt="preview" />
+              </div>
               <label class="file-label">
-                <b-form-file
-                  v-model="post.image"
+                <input
+                  class="file-input"
+                  type="file"
                   accept="image/*"
-                  plain
-                  required
-                ></b-form-file>
-                <input class="file-input" type="file" name="resume" />
+                  name="image"
+                  ref="image"
+                  v-on:change="uploadFile"
+                />
                 <span class="file-cta">
                   <span class="file-icon">
                     <i class="fas fa-upload"></i>
@@ -78,27 +82,120 @@
 </template>
 
 <script>
-import PostDataService from "../services/PostDataService";
-
 export default {
   name: "create-post",
   data() {
     return {
-      post: {
-        title: "",
-        content: "",
-        image: "",
-      },
+      title: "",
+      content: "",
+      image: "",
+      userId: "",
+      preview: null,
     };
   },
   methods: {
-    submitForm: function (event) {
+    createPost() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      const fileField = document.querySelector('input[type="file"]');
+      const token = JSON.parse(localStorage.getItem("userToken"));
+
+      if (this.image === "" && this.title != "" && this.content != "") {
+        let data = new FormData();
+        data.append("title", this.title);
+        data.append("content", this.content);
+        data.append("userId", user.userId);
+        fetch("http://localhost:3000/api/posts", {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+          body: data,
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then(() => {
+            this.$router.push("/posts");
+          })
+          .catch(alert);
+      } else if (this.title != "" && this.content != "") {
+        let data = new FormData();
+        data.append("image", fileField.files[0]);
+        data.append("title", this.title);
+        data.append("content", this.content);
+        data.append("userId", user.userId);
+        fetch("http://localhost:3000/api/posts", {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+          body: data,
+        })
+          .then((response) => response.json())
+          .then(() => {
+            this.$router.push("/posts");
+          })
+          .catch(alert);
+      }
+    },
+    uploadFile(e) {
+      if (e.target.files) {
+        let reader = new FileReader();
+        reader.onload = (event) => {
+          this.preview = event.target.result;
+          this.image = event.target.result;
+        };
+        reader.readAsDataURL(e.target.files[0]);
+      }
+    },
+  },
+};
+//import PostDataService from "../services/PostDataService";
+//import axios from "axios";
+/*
+export default {
+  name: "create-post",
+  data() {
+    return {
+      title: "",
+      content: "",
+      image: "",
+      preview: null,
+    };
+  },
+  methods: {
+    uploadFile(event) {
+      this.image = event.target.files[0];
+    },
+    createPost() {
+      const Id = JSON.parse(localStorage.getItem("userId"));
+      let formData = new FormData();
+      formData.append("title", this.title);
+      formData.append("content", this.content);
+      formData.append("image", this.image);
+      formData.append("userId", Id);
+
+      axios
+        .post("http://localhost:3000/api/posts", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then(function () {
+          console.log("SUCCESS!!");
+        })
+        .catch(function () {
+          console.log("FAILURE!!");
+        });
+    },
+  },
+};
+
+    submitForm: function () {
       const newPost = new FormData();
-      console.log(event.target);
-      newPost.append("title", this.post.title);
-      newPost.append("content", this.post.content);
-      console.log(this.post.image);
-      newPost.append("image", this.post.image, this.post.image.filename);
+      newPost.append("title", this.title);
+      newPost.append("content", this.content);
+      newPost.append("image", this.file, this.file.filename);
 
       PostDataService.createPost(newPost).then(() => {
         this.$router.go();
@@ -106,7 +203,7 @@ export default {
       return true;
     },
   },
-};
+};*/
 </script>
 
 <style lang="scss" scoped>
@@ -115,6 +212,10 @@ export default {
 }
 .gedf-wrapper {
   margin-top: 0.97rem;
+}
+#preview {
+  overflow: hidden;
+  max-width: 20%;
 }
 @media (min-width: 992px) {
   .gedf-main {

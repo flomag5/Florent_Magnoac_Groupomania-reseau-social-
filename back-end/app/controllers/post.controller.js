@@ -11,26 +11,26 @@ const fs = require("fs");
 
 // Créer nouveau post
 exports.createPost = (req, res, next) => {
-
-    // Création d'un post
-    const post = {
-        title: req.body.title,
-        content: req.body.content,
-        image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-        userId: req.body.userId
-    };
-    // Sauvegarde post dans la database
-    Post.create(post)
-        .then(data => {
-            res.send(data);
+    if (req.file) {
+        Post.create({
+            title: req.body.title,
+            content: req.body.content,
+            image: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
+            userId: req.body.userId
         })
-        .catch(err => {
-            res.status(500).send({
-                message: err.message || "Une erreur est survenue lors de la création du post."
-            });
-        });
-};
+            .then(() => res.status(201).json({ message: 'Post créé !' }))
+            .catch(error => res.status(400).json({ error }));
+    } else {
+        Post.create({
+            title: req.body.title,
+            content: req.body.content,
+            userId: req.body.userId
+        })
+            .then(() => res.status(201).json({ message: 'Post créé !' }))
+            .catch(error => res.status(400).json({ error }));
+    }
 
+};
 
 
 // Lecture de l'ensemble des posts

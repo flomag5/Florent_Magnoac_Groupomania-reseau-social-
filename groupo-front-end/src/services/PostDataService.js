@@ -12,7 +12,7 @@ class PostDataService {
     }
 
     createPost(data) {
-        return http.post("/posts", data);
+        return http.post("/posts/", data);
     }
 
     modifyPost(id, data) {

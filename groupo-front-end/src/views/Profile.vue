@@ -68,47 +68,13 @@ export default {
       .catch((error) => {
         error;
       });
-  } /*
-  beforeCreate() {
-    fetch(`http://localhost:3000/api/user/${localStorage.getItem("user.id")}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        data.avatar = `http://localhost:3000/images/${data.avatar}`;
-        this.user = data;
-      })
-      .catch((error) => {
-        error;
-      });
   },
-  
-  mounted() {
-    this.getInfoUser();
-  },*/,
-  /*
-  computed: {
-    ...mapState({
-      user: "userData",
-    }),
-  },*/
   methods: {
     logout: function () {
       this.$store.commit("logout");
       this.$router.push("/");
     },
 
-    /* getInfoUser() {
-      UserDataService.getOneUser()
-        .then((user) => {
-          this.user = user.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    },*/
     toggleProfile() {
       this.userProfile = !this.userProfile;
       this.updateUser = !this.UpdateUser;
