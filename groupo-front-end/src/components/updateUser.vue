@@ -20,7 +20,7 @@
       <input
         type="file"
         ref="file"
-        name="file"
+        name="avatar"
         id="file"
         @change="selectFile"
       />
@@ -30,17 +30,6 @@
 
       <label for="lastName">Modifier le nom :</label>
       <input type="text" name="lastName" v-model="updateUser.lastName" />
-
-      <label for="email">Modifier email :</label>
-      <input type="email" name="email" v-model="updateUser.email" />
-
-      <label for="password">Changer de mot de passe :</label>
-      <input
-        type="password"
-        name="password"
-        placeholder="entrez un nouveau mot de passe"
-        v-model="updateUser.password"
-      />
 
       <button @click.prevent="deleteProfile" class="delete">
         <i class="far fa-trash-alt delete"></i>Supprimer compte
@@ -70,8 +59,8 @@ export default {
       updateUser: {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
-        email: this.user.email,
-        password: null,
+
+        avatar: this.user.avatar,
       },
       file: "",
       errMsg: null,
@@ -79,17 +68,15 @@ export default {
   },
   methods: {
     deleteProfile() {
+      let user = JSON.parse(localStorage.getItem("user"));
       if (confirm("êtes vous sûr de vouloir supprimer votre compte ?")) {
-        fetch(
-          `http://localhost:3000/api/user/${localStorage.getItem("userId")}`,
-          {
-            method: "DELETE",
-            headers: {
-              "Content-type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        )
+        fetch(`http://localhost:3000/api/user/${user.userId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
           .then(localStorage.clear())
           .then(router.push({ path: "/" }))
           .catch((error) => {
@@ -99,27 +86,21 @@ export default {
     },
 
     modifyProfile() {
+      let user = JSON.parse(localStorage.getItem("user"));
       let formData = new FormData();
       formData.append("firstName", this.updateUser.firstName);
       formData.append("lastName", this.updateUser.lastName);
-      formData.append("email", this.updateUser.email);
-      if (this.updateUser.password) {
-        formData.append("password", this.updateUser.password);
-      }
+
       if (this.file) {
         formData.append("file", this.file);
       }
       if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
         axios
-          .put(
-            `http://localhost:3000/api/user/${localStorage.getItem("userId")}`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-              },
-            }
-          )
+          .put(`http://localhost:3000/api/user/${user.userId}`, formData, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          })
           .then(location.reload())
           .catch((error) => {
             error;

@@ -30,7 +30,7 @@ module.exports = app => {
   router.put("/:id", auth, multer, userCtrl.updateUser);
 
   // Suppression d'un compte utilisateur
-  router.delete("/:id", auth, userCtrl.delete);
+  router.delete("/:id", userCtrl.delete);
 
 
   app.use("/api/user", router);

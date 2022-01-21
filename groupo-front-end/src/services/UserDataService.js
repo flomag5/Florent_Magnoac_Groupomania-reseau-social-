@@ -20,11 +20,11 @@ class UserDataService {
     }
 
     modifyUser(id, data) {
-        return http.put(`/user/${id}`, data, { headers: auth() });
+        return http.put(`/user/${id}`, data);
     }
 
     deleteUser(id) {
-        return http.delete(`/user/${id}`, { headers: auth() });
+        return http.delete(`/user/${id}`);
     }
 
 }

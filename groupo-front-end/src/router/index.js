@@ -54,6 +54,14 @@ const routes = [
         }
     },
     {
+        path: "/modifyPost/:id",
+        name: "modify-post",
+        component: () => import("../components/ModifyPost.vue"),
+        meta: {
+            title: "Groupomania : Modifier la publication"
+        }
+    },
+    {
         path: '/:pathMatch(.*)',
         name: 'NotFound',
         component: () => import("../views/NotFound.vue"),

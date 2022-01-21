@@ -26,7 +26,8 @@
             <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu m-t-xs">
-            <li><a href="#">Config</a></li>
+            <li><a href="#">Modifier</a></li>
+            <li><a href="#">Supprimer</a></li>
           </ul>
         </div>
         <div class="social-avatar">
@@ -82,7 +83,7 @@
               {{ comment.content }}
               <br />
               -
-              <small class="text-muted">{{ dateFormat(post.date) }}</small>
+              <small class="text-muted">{{ dateFormat(comment.date) }}</small>
             </div>
           </div>
           <div class="social-comment">
@@ -114,9 +115,7 @@ export default {
   data() {
     return {
       posts: [],
-      comment: {
-        content: "",
-      },
+      comments: [],
     };
   },
   created() {
@@ -145,6 +144,19 @@ export default {
       const hour = new Date(createdHour);
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
+    },
+
+    async fetchComments(postId) {
+      if (postId == null) {
+        return;
+      }
+      const resComments = await fetch(
+        `http://localhost:3000/api/comments/${JSON.stringify(postId)}/all`
+      );
+      const dataComments = await resComments.json();
+      dataComments.reverse();
+      this.comments = dataComments;
+      return dataComments;
     },
 
     createPost() {

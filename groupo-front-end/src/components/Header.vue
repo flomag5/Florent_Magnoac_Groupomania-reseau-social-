@@ -13,7 +13,7 @@
     <nav class="topbar-nav">
       <a class="navbar-brand"
         ><router-link
-          to="/login"
+          to="/posts"
           class="home-logo-md pull-left"
           aria-current="page"
           href="#"

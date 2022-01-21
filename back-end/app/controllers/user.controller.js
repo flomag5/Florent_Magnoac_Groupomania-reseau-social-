@@ -118,7 +118,7 @@ exports.getAllUsers = (req, res, next) => {
 // Modification d'un compte utilisateur
 exports.updateUser = (req, res, next) => {
     // Crypter l'email de la requête
-    const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
+    //const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
     User.findOne({
         where: { id: req.params.id }
     })
@@ -126,7 +126,7 @@ exports.updateUser = (req, res, next) => {
             const updateUser = {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
-                email: emailCryptoJs,
+                //email: emailCryptoJs,
             };
             if (req.file) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
@@ -153,18 +153,18 @@ exports.delete = (req, res, next) => {
         }
     })
         .then((user) => {
-            if (req.body.userId == req.params.id || req.body.isAdmin === 1) {
-                user.destroy()
-                    .then(() => res.status(200).json({
-                        message: 'Utilisateur supprimé'
-                    }))
-                    .catch(error => res.status(400).json({
-                        error
-                    }));
-            } else {
-                res.status(403).json({
-                    'error': 'UnAuthorize'
-                })
-            }
+            /*if (req.body.userId == req.params.id || req.body.isAdmin === 1) {*/
+            user.destroy()
+                .then(() => res.status(200).json({
+                    message: 'Utilisateur supprimé'
+                }))
+                .catch(error => res.status(400).json({
+                    error
+                }));
+            /* } else {
+                 res.status(403).json({
+                     'error': 'UnAuthorize'
+                 })
+             }*/
         })
 };

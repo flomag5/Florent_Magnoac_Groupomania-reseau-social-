@@ -43,7 +43,7 @@ const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300 // limite de requête par IP pour windowsMs
 });
-app.use(limiter);
+//app.use(limiter);
 
 
 // Analyse les req de type de contenu - application/json

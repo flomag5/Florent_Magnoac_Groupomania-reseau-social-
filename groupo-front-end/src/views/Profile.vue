@@ -62,7 +62,7 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.avatar = `http://localhost:3000/images_default/${data.avatar}`;
+        data.avatar = `/${user.avatar}`;
         this.user = data;
       })
       .catch((error) => {

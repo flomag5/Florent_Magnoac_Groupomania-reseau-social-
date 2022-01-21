@@ -10,12 +10,21 @@
           <i class="fa fa-angle-down"></i>
         </button>
         <ul class="dropdown-menu m-t-xs">
-          <li><a href="#">Config</a></li>
+          <li>
+            ><a @click="modifyPost()" href="">Modifier</a>
+            >
+          </li>
+          <li>
+            <a @click="deletePost()" href="">Supprimer</a>
+          </li>
         </ul>
       </div>
       <div class="social-avatar">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" :src="post.user.avatar" />
+          <img
+            alt="Avatar utilisateur"
+            :src="'http://localhost:3000/images_default/' + post.user.avatar"
+          />
         </a>
         <div class="media-body">
           <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
@@ -51,10 +60,15 @@
         <div
           class="social-comment"
           v-for="comment in post.comments"
-          :key="comment.id"
+          :key="comment.post.id"
         >
           <a href="" class="pull-left">
-            <img alt="Avatar utilisateur" :src="comment.userId.avatar" />
+            <img
+              alt="Avatar utilisateur"
+              :src="
+                'http://localhost:3000/images_default/' + comment.user.avatar
+              "
+            />
           </a>
           <div class="media-body">
             <a href="#"
@@ -113,32 +127,6 @@ export default {
       });
   },
   methods: {
-    /*getPost() {
-      let user = JSON.parse(localStorage.getItem("user"));
-      fetch(`http://localhost:3000/api/posts/${this.id_param}`, {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => (this.post = data))
-        .catch(alert);
-    },
-
-    getComments() {
-      const token = JSON.parse(localStorage.getItem("userToken"));
-      fetch(`http://localhost:3000/api/comments/${this.id_param}`, {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => (this.comments = data))
-        .catch(alert);
-    },*/
-
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {
@@ -153,6 +141,39 @@ export default {
       const hour = new Date(createdHour);
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
+    },
+    /*getComments() {
+      const token = JSON.parse(localStorage.getItem("userToken"));
+      fetch(`http://localhost:3000/api/comments/${this.id_param}`, {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => (this.comments = data))
+        .catch(alert);
+    },*/
+    deletePost() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      if (confirm("Voulez-vous vraiment supprimer le post") === true) {
+        fetch(`http://localhost:3000/api/posts/${this.id_param}`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then(() => {
+            alert("La suppression du post est bien prise en compte");
+            this.$router.push("/posts");
+          })
+          .catch(alert);
+      }
+    },
+
+    modifyPost() {
+      this.$router.push(`/modifyPost/${this.id_param}`);
     },
   },
 };
