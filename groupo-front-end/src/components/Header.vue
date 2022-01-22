@@ -1,122 +1,172 @@
 <template>
-  <header class="navbar fixed-top navbar-expand-lg navbar-light">
-    <div class="topbar">
-      <a href="http://localhost:8080/home">
-        <img
-          class="topbar-logo"
-          id="logo"
-          src="../assets/icon-left-font-monochrome-black-recut.png"
-          alt="logo de Groupomania"
-        />
-      </a>
-    </div>
-    <nav class="topbar-nav">
-      <a class="navbar-brand"
-        ><router-link
-          to="/posts"
-          class="home-logo-md pull-left"
-          aria-current="page"
-          href="#"
-          ><i class="fas fa-home"></i></router-link
-      ></a>
-      <a
-        ><router-link to="/profile" class="navbar-brand"
-          ><img
-            id="user_profile_pic"
-            src="https://bootdey.com/img/Content/avatar/avatar6.png"
-            alt="accés profil utilisateur"
-          />
-        </router-link>
-      </a>
-      <router-link to="/login" class="navbar-brand">
-        <a href="#" alt="Se déconnecter" class="profile-photo-md pull-right"
-          ><i class="fas fa-sign-out-alt"></i
-        ></a>
-      </router-link>
+  <header>
+    <nav
+      class="navbar navbar-expand-lg navbar-dark fixed-top"
+      role="navigation"
+    >
+      <div class="container">
+        <router-link
+          :to="'/posts'"
+          aria-label="Lien vers le fil d'actualité"
+          class="navbar-brand"
+        >
+          <img
+            src="../assets/icon-left-font-monochrome-black-recut.png"
+            alt="Logo Groupomania"
+        /></router-link>
+
+        <!--Responsive menu-->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarResponsive"
+          aria-controls="navbarResponsive"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <router-link
+                class="nav-link"
+                :to="'/posts'"
+                aria-label="Lien vers la page fil d'actualité"
+                title="Accueil"
+              >
+                <i class="fas fa-home"></i>
+                <span class="sr-only">(current)</span>
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="'/createpost'"
+                aria-label="Lien vers la page de création de message"
+                title="Publier"
+              >
+                <i class="fas fa-pen-square"></i
+              ></router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="'/user'"
+                aria-label="Lien vers la liste des utilisateurs"
+              >
+                <input
+                  placeholder="rechercher utilisateurs"
+                  autocomplete="on"
+                />
+              </router-link>
+            </li>
+            <li class="nav-item">
+              <router-link
+                class="nav-link"
+                :to="'/profile'"
+                aria-label="Lien vers la page du profil utilisateur"
+                title="Mon profil"
+              >
+                <i class="fas fa-user"></i
+              ></router-link>
+            </li>
+            <li class="nav-item" v-if="user.isAdmin">
+              <router-link
+                class="nav-link"
+                :to="'/trafic'"
+                aria-label="Lien vers le tableau de bord"
+              >
+                TRAFIC</router-link
+              >
+            </li>
+
+            <li class="nav-item">
+              <div
+                id="disconnect"
+                class="nav-link"
+                aria-label="Déconnexion et retour vers la page d'accueil"
+                title="Se déconnecter"
+                @click="disconnect"
+              >
+                <i class="fas fa-sign-out-alt"></i>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
 </template>
 
+
 <script>
 export default {
   name: "Header",
+  data() {
+    return {
+      user: {
+        userId: "",
+        id: this.$route.params.id,
+      },
+    };
+  },
+  mounted() {
+    this.userProfile();
+  },
+  methods: {
+    //Affichage de l'id de l'utilisateur dans l'url du profil utilisateur---------------------------------
+    userProfile() {
+      const storage = JSON.parse(localStorage.getItem("user"));
+      const headers = new Headers();
+      headers.append("Authorization", storage.token);
+      const myInit = {
+        method: "GET",
+        headers: headers,
+      };
+      fetch("http://localhost:3000/api/user/" + storage.userId, myInit)
+        .then((response) => {
+          response.json().then((user) => {
+            this.user = user;
+          });
+        })
+        .catch((error) => {
+          console.log(
+            error + "L'URL vers le profil utilisateur ne s'affiche pas"
+          );
+        });
+    },
+    //Déconnection de l'utilisateur----------------------------------------------------------------------
+    disconnect() {
+      localStorage.clear();
+      setTimeout(() => {
+        this.$router.push({ path: "/login" });
+        console.log("L'utilisateur s'est déconnecté");
+      }, 600);
+    },
+  },
 };
 </script>
 
 <style scoped>
 .navbar {
-  background: #d1515a;
-  width: auto;
-  margin: 0;
-  color: white;
-  max-height: 100px;
+  background-color: #d1515a;
 }
-
-.topbar a {
-  text-decoration: none;
-}
-
-a {
-  color: inherit;
-}
-
-.topbar-logo {
-  display: inline;
-  text-align: center;
-  width: 35%;
-  padding: 12px 0;
-}
-.topbar-nav {
-  text-align: center;
-  align-items: center;
-  padding-bottom: 16px;
-}
-
-.topbar-nav a {
-  display: inline;
-  margin-right: 0 12px;
-  transition: color 0.3s;
-}
-
-.topbar-nav a:hover {
-  text-decoration: none;
-  color: #163466;
-}
-
-#user_profile_pic {
-  width: 7%;
+header img {
+  width: 200px;
 }
 .fas {
+  color: black;
   font-size: 25px;
 }
-
-@media only screen and (min-width: 520px) {
-  .topbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 45px;
-    padding: 0 20px;
-  }
-  .topbar-logo,
-  .topbar-nav {
-    padding: 0;
-  }
-  .topbar-nav a {
-    margin: 0 30px;
-  }
-  .topbar-logo {
-    width: 25%;
-    padding: 12px 0;
-  }
-
-  .fas {
-    font-size: 28px;
-    margin-top: 8px;
-  }
-
-  #user_profile_pic {
-    width: 5%;
-  }
+#disconnect {
+  cursor: pointer;
+}
+input[type="submit"] {
+  font-family: "Font Awesome 5 Free";
+  font-size: 1em;
+  font-weight: 700;
 }
 </style>
