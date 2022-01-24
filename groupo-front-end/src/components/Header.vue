@@ -54,7 +54,7 @@
             <li class="nav-item">
               <router-link
                 class="nav-link"
-                :to="'/user'"
+                :to="'/users'"
                 aria-label="Lien vers la liste des utilisateurs"
               >
                 <input

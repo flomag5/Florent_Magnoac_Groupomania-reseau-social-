@@ -24,7 +24,7 @@ module.exports = app => {
 
   // Recherche d'un/tous utilisateur(s)
   router.get("/:id", userCtrl.getOneUser);
-  router.get('/', auth, userCtrl.getAllUsers)
+  router.get('/', userCtrl.getAllUsers)
 
   // Modification d'un compte utilisateur
   router.put("/:id", auth, multer, userCtrl.updateUser);

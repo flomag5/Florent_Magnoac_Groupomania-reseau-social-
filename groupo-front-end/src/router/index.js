@@ -30,6 +30,14 @@ const routes = [
         }
     },
     {
+        path: '/users',
+        name: 'Users',
+        component: () => import("../views/Users.vue"),
+        meta: {
+            title: "Groupomania : Utilisateurs"
+        }
+    },
+    {
         path: "/posts",
         name: "AllPosts",
         component: () => import("../components/PostList"),
