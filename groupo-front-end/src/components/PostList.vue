@@ -32,10 +32,7 @@
         </div>
         <div class="social-avatar">
           <a href="" class="pull-left">
-            <img
-              alt="Avatar utilisateur"
-              :src="'http://localhost:3000/images_default/' + post.user.avatar"
-            />
+            <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="media-body">
             <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
@@ -74,7 +71,10 @@
             :key="comment.id"
           >
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" :src="comment.userId.avatar" />
+              <img
+                alt="Avatar utilisateur"
+                :src="'http://localhost:3000/images/' + user.avatar"
+              />
             </a>
             <div class="media-body">
               <a href="#"
@@ -88,12 +88,12 @@
           </div>
           <div class="social-comment">
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="user.id" />
+              <img alt="Avatar utilisateur" src="comment.user.avatar" />
             </a>
             <div class="media-body">
               <input
                 class="form-control"
-                @submit="createComment()"
+                v-on:keyup.enter="createComment()"
                 placeholder="Ecrivez un commentaire public..."
               />
             </div>
@@ -151,7 +151,7 @@ export default {
         return;
       }
       const resComments = await fetch(
-        `http://localhost:3000/api/comments/${JSON.stringify(postId)}/all`
+        `http://localhost:3000/api/comment/${JSON.stringify(postId)}`
       );
       const dataComments = await resComments.json();
       dataComments.reverse();
@@ -165,8 +165,8 @@ export default {
     modifyPost(post) {
       this.$router.push("/modifyPost/" + post.id);
     },
-    async likePost(post) {
-      await PostDataService.likePost(post.id);
+    async likePost(postId) {
+      await PostDataService.likePost(postId);
       this.$store.dispatch("getAllPosts");
     },
     async createComment(post) {
@@ -178,7 +178,7 @@ export default {
 
 <style>
 body {
-  margin-top: 30px;
+  margin-top: 35px;
 }
 .social-feed-separated .social-feed-box {
   margin-left: 62px;

@@ -11,20 +11,17 @@
         </button>
         <ul class="dropdown-menu m-t-xs">
           <li>
-            ><a @click="modifyPost()" href="">Modifier</a>
+            ><a @click="modifyPost()" href="#">Modifier</a>
             >
           </li>
           <li>
-            <a @click="deletePost()" href="">Supprimer</a>
+            <a @click="deletePost()" href="#">Supprimer</a>
           </li>
         </ul>
       </div>
       <div class="social-avatar">
         <a href="" class="pull-left">
-          <img
-            alt="Avatar utilisateur"
-            :src="'http://localhost:3000/images_default/' + post.user.avatar"
-          />
+          <img alt="Avatar utilisateur" :src="post.user.avatar" />
         </a>
         <div class="media-body">
           <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
@@ -59,16 +56,11 @@
       <div class="social-footer">
         <div
           class="social-comment"
-          v-for="comment in post.comments"
-          :key="comment.post.id"
+          v-for="comment in comments"
+          :key="comment.postId"
         >
           <a href="" class="pull-left">
-            <img
-              alt="Avatar utilisateur"
-              :src="
-                'http://localhost:3000/images_default/' + comment.user.avatar
-              "
-            />
+            <img alt="Avatar utilisateur" :src="comment.user.avatar" />
           </a>
           <div class="media-body">
             <a href="#"
@@ -87,7 +79,7 @@
           <div class="media-body">
             <input
               class="form-control"
-              @submit="createComment()"
+              v-on:keyup.enter="createComment()"
               placeholder="Ecrivez un commentaire public..."
             />
           </div>
@@ -142,22 +134,55 @@ export default {
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
     },
-    /*getComments() {
-      const token = JSON.parse(localStorage.getItem("userToken"));
-      fetch(`http://localhost:3000/api/comments/${this.id_param}`, {
+
+    getComments() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
         method: "GET",
         headers: {
-          authorization: `Bearer ${token}`,
+          authorization: `Bearer ${user.token}`,
         },
       })
         .then((response) => response.json())
         .then((data) => (this.comments = data))
         .catch(alert);
-    },*/
+    },
+
+    createComment() {
+      if (this.comment === "") {
+        alert("Veuillez remplir votre commentaire");
+      } else {
+        const user = JSON.parse(localStorage.getItem("user"));
+
+        let data = {
+          content: this.comment,
+          postId: this.id_param,
+          userId: user.userId,
+        };
+        fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            authorization: `Bearer ${user.token}`,
+          },
+          body: JSON.stringify(data),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then(() => {
+            this.$router.go();
+          })
+          .catch(alert);
+      }
+    },
+
     deletePost() {
       let user = JSON.parse(localStorage.getItem("user"));
+      let postId = this.$route.params.id;
       if (confirm("Voulez-vous vraiment supprimer le post") === true) {
-        fetch(`http://localhost:3000/api/posts/${this.id_param}`, {
+        fetch(`http://localhost:3000/api/posts/${postId}`, {
           method: "DELETE",
           headers: {
             authorization: `Bearer ${user.token}`,

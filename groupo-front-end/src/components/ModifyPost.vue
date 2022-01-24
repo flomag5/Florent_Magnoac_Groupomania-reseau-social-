@@ -5,20 +5,15 @@
         <label for="file">Choisir une nouvelle image</label>
         <input
           type="file"
-          ref="file"
-          name="file"
+          ref="image"
+          name="image"
           class="upload"
           id="file"
           @change="updateFile"
         />
       </div>
       <div id="fileContainer">
-        <img
-          id="preview"
-          :src="'http://localhost:3000/images/' + post.image"
-          :alt="post.image"
-          v-if="preview"
-        />
+        <img id="preview" :src="post.image" :alt="post.image" v-if="preview" />
         <p v-else>Ce post ne possède pas d'image</p>
       </div>
       <div id="text">
@@ -71,7 +66,6 @@ export default {
   },
   methods: {
     updateFile(event) {
-      /* sur le onchange on va attribuer cette valeur à file (nécessaire pour l'envoi au backend) */
       this.newFile = this.$refs.image.files[0];
       let input = event.target;
       if (input.files) {
@@ -85,19 +79,19 @@ export default {
     },
     async modifyPost() {
       let user = JSON.parse(localStorage.getItem("user"));
-      if (!this.post.text) {
+      if (!this.post.content) {
         this.errMsg =
           "Error => vous devez remplir le champ <message> pour créer une nouvelle publication!";
         return;
       }
-      /* on créé un objet formData afin de pouvoir ajouter le texte et surtout le file choisi */
+
       let formData = new FormData();
-      formData.append("text", this.post.title);
-      formData.append("text", this.post.content);
+      formData.append("title", this.post.title);
+      formData.append("content", this.post.content);
       if (this.newFile) {
-        formData.append("file", this.newFile);
+        formData.append("image", this.newFile);
       }
-      /* envoi du form via axios.put de l'objet formData */
+
       if (confirm("êtes vous sûr de vouloir modifier votre post ?")) {
         const postId = this.$route.params.id;
         axios
@@ -119,12 +113,13 @@ export default {
 
 <style scoped>
 #modifyPost {
-  max-width: 60%;
+  max-width: 100%;
   box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
   margin: auto;
   margin-top: 2rem;
   padding: 1rem;
   border-radius: 4px;
+  background-color: white;
 }
 form {
   display: flex;

@@ -13,7 +13,7 @@ module.exports = app => {
 
     // Routes CRUD pour "comment" avec middleware d'authentification
 
-    router.get("/", auth, commentCtrl.getAllComments);
+    router.get("/", commentCtrl.getAllComments);
 
     router.get("/:id", auth, commentCtrl.getOneComment);
 

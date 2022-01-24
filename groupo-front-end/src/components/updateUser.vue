@@ -92,7 +92,7 @@ export default {
       formData.append("lastName", this.updateUser.lastName);
 
       if (this.file) {
-        formData.append("file", this.file);
+        formData.append("avatar", this.file);
       }
       if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
         axios
