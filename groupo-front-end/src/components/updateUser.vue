@@ -59,7 +59,6 @@ export default {
       updateUser: {
         firstName: this.user.firstName,
         lastName: this.user.lastName,
-
         avatar: this.user.avatar,
       },
       file: "",
@@ -82,6 +81,18 @@ export default {
           .catch((error) => {
             error;
           });
+      }
+    },
+    selectFile(event) {
+      this.file = this.$refs.file.files[0];
+      let input = event.target;
+      /* pour obtenir une prévisualisation du fichier */
+      if (input.files) {
+        let reader = new FileReader();
+        reader.onload = (e) => {
+          document.getElementById("preview").src = e.target.result;
+        };
+        reader.readAsDataURL(input.files[0]);
       }
     },
 

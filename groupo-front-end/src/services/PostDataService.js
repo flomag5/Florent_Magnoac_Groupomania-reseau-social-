@@ -1,6 +1,7 @@
 //--- Méthodes pour envoyer des requêtes HTTP à l'Api pour "post" ---//
 
 import http from "../http-common";
+import auth from './auth';
 
 class PostDataService {
     getAllPosts() {
@@ -16,11 +17,11 @@ class PostDataService {
     }
 
     modifyPost(id, data) {
-        return http.put(`/posts/${id}`, data);
+        return http.put(`/posts/${id}`, data, { headers: auth() });
     }
 
     deletePost(id) {
-        return http.delete(`/posts/${id}`);
+        return http.delete(`/posts/${id}`, { headers: auth() });
     }
 
     likePost(id) {

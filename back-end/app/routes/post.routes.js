@@ -23,7 +23,7 @@ module.exports = app => {
 
   router.get("/:id", posts.findPostById);
 
-  router.put("/:id", multer, posts.modifyPost);
+  router.put("/:id", auth, multer, posts.modifyPost);
 
   router.delete("/:id", posts.deletePost);
 
@@ -33,8 +33,6 @@ module.exports = app => {
   // Route de like/unlike
   router.post('/:id/like', auth, likesCtrl.likePost);
   router.delete('/:postId/unlike', auth, likesCtrl.unlikePost);
-
-
 
 
   app.use('/api/posts', router);

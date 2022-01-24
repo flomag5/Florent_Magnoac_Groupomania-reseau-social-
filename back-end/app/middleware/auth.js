@@ -20,6 +20,7 @@ module.exports = (req, res, next) => {
 
         // Comparaison userId de la requête et userId du token
         if (req.body.userId && req.body.userId !== userId) {
+
             throw '403: Unauthorized request';
         } else {
             next(); // si user authentifié, on passe à l'exécution
