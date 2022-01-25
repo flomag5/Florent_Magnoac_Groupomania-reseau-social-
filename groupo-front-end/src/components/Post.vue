@@ -4,7 +4,7 @@
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
       rel="stylesheet"
     />
-    <div class="social-feed-box">
+    <div class="social-feed-box" :key="post.id">
       <div class="pull-right social-action dropdown">
         <button data-toggle="dropdown" class="dropdown-toggle btn-white">
           <i class="fa fa-angle-down"></i>
@@ -45,9 +45,10 @@
           class="img-responsive"
         />
         <div class="btn-group">
-          <button class="btn btn-white btn-xs" @click="likePost()">
+          <Like :postId="post.id" :userId="userId" />
+          <!--<button class="btn btn-white btn-xs" @click="likePost()">
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
-          </button>
+          </button>-->
           <button class="btn btn-white btn-xs" @click="addComment">
             <i class="fa fa-comments"></i> Comment
           </button>
@@ -60,7 +61,7 @@
           :key="comment.postId"
         >
           <a href="" class="pull-left">
-            <img alt="Avatar utilisateur" :src="comment.user.avatar" />
+            <img alt="Avatar utilisateur" src="comment.user.avatar" />
           </a>
           <div class="media-body">
             <a href="#"
@@ -69,7 +70,7 @@
             {{ comment.content }}
             <br />
             -
-            <small class="text-muted">{{ dateFormat(post.date) }}</small>
+            <small class="text-muted">{{ dateFormat(comment.date) }}</small>
           </div>
         </div>
         <div class="social-comment">
@@ -79,7 +80,7 @@
           <div class="media-body">
             <input
               class="form-control"
-              v-on:keyup.enter="createComment()"
+              v-on:keyup.enter="createComment"
               placeholder="Ecrivez un commentaire public..."
             />
           </div>
@@ -91,10 +92,15 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-
+import Like from "../components/Like.vue";
 export default {
   name: "Onepost",
-
+  components: {
+    Like,
+  },
+  props: {
+    userId: Number,
+  },
   data() {
     return {
       id_param: this.$route.params.id,
@@ -105,6 +111,7 @@ export default {
         user: {},
       },
       comments: [],
+      likes: [],
     };
   },
   created() {
@@ -149,33 +156,29 @@ export default {
     },
 
     createComment() {
-      if (this.comment === "") {
-        alert("Veuillez remplir votre commentaire");
-      } else {
-        const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(localStorage.getItem("user"));
 
-        let data = {
-          content: this.comment,
-          postId: this.id_param,
-          userId: user.userId,
-        };
-        fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            authorization: `Bearer ${user.token}`,
-          },
-          body: JSON.stringify(data),
+      let data = {
+        content: this.content,
+        postId: this.id_param,
+        userId: user.userId,
+      };
+      fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          return response.json();
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then(() => {
-            this.$router.go();
-          })
-          .catch(alert);
-      }
+        .then(() => {
+          this.$router.go();
+        })
+        .catch(alert);
     },
 
     deletePost() {

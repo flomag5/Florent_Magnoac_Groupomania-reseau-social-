@@ -31,8 +31,9 @@ module.exports = app => {
   router.post('/:id/comment', commentCtrl.createComment);
 
   // Route de like/unlike
-  router.post('/:id/like', auth, likesCtrl.likePost);
-  router.delete('/:postId/unlike', auth, likesCtrl.unlikePost);
+  router.get('/:id/likes', likesCtrl.getLikes);
+  router.post('/:id/like', likesCtrl.likePost);
+  router.delete('/:postId/unlike', likesCtrl.unlikePost);
 
 
   app.use('/api/posts', router);

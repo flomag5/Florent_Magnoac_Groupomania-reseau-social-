@@ -26,7 +26,7 @@
             <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu m-t-xs">
-            <li><a href="#">Modifier</a></li>
+            <li><a @click="modifyPost()" href="#">Modifier</a></li>
             <li><a href="#">Supprimer</a></li>
           </ul>
         </div>
@@ -56,7 +56,7 @@
             class="img-responsive"
           />
           <div class="btn-group">
-            <button class="btn btn-white btn-xs" @click="likePost()">
+            <button class="btn btn-white btn-xs" @click="likePost">
               <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
             </button>
             <button class="btn btn-white btn-xs" @click="addComment">
@@ -116,6 +116,7 @@ export default {
     return {
       posts: [],
       comments: [],
+      likes: Number,
     };
   },
   created() {
@@ -162,13 +163,10 @@ export default {
     createPost() {
       this.$router.push("/createpost");
     },
-    modifyPost(post) {
-      this.$router.push("/modifyPost/" + post.id);
+    modifyPost(id) {
+      this.$router.push(`/modifyPost/${id}`);
     },
-    async likePost(postId) {
-      await PostDataService.likePost(postId);
-      this.$store.dispatch("getAllPosts");
-    },
+
     async createComment(post) {
       this.$router.push("/posts/" + post.id + "/comment");
     },
@@ -197,7 +195,7 @@ body {
   float: none;
 }
 .social-feed-box {
-  width: 370px;
+  width: 500px; /* taille des box */
   padding: 15px;
   border: 1px solid #e7eaec;
   background: #fff;

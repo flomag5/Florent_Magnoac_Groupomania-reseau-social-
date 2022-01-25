@@ -7,11 +7,13 @@
     <div :key="user.id" v-for="user in filterUsers" class="user">
       <div id="header">
         <div class="profileContainer">
-          <img
-            :src="'http://localhost:3000/images/' + user.avatar"
-            :alt="user.avatar"
-            class="profile"
-          />
+          <router-link :to="`/profile/${user.id}`">
+            <img
+              :src="'http://localhost:3000/images_default/' + user.avatar"
+              :alt="user.avatar"
+              class="profile"
+            />
+          </router-link>
         </div>
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>
       </div>

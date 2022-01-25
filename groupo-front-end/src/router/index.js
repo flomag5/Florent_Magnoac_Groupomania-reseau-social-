@@ -26,7 +26,15 @@ const routes = [
         name: 'profile',
         component: () => import("../views/Profile.vue"),
         meta: {
-            title: "Groupomania : Mon profil"
+            title: "Groupomania : Mon Profil"
+        }
+    },
+    {
+        path: '/profile/:id',
+        name: 'profile-user',
+        component: () => import("../views/Profile.vue"),
+        meta: {
+            title: "Groupomania : Profil Ami"
         }
     },
     {
