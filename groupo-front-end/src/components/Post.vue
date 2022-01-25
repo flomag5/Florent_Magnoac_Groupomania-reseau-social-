@@ -49,7 +49,7 @@
           <!--<button class="btn btn-white btn-xs" @click="likePost()">
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
           </button>-->
-          <button class="btn btn-white btn-xs" @click="addComment">
+          <button class="btn btn-white btn-xs" @click="toggleComments(post.id)">
             <i class="fa fa-comments"></i> Comment
           </button>
         </div>
@@ -60,7 +60,7 @@
           v-for="comment in comments"
           :key="comment.postId"
         >
-          <a href="" class="pull-left">
+          <a href="#" class="pull-left">
             <img alt="Avatar utilisateur" src="comment.user.avatar" />
           </a>
           <div class="media-body">
@@ -73,14 +73,28 @@
             <small class="text-muted">{{ dateFormat(comment.date) }}</small>
           </div>
         </div>
+
         <div class="social-comment">
-          <a href="" class="pull-left">
+          <a href="#" class="pull-left">
             <img alt="Avatar utilisateur" src="user.id" />
           </a>
+          <div class="pull-right social-action dropdown">
+            <button data-toggle="dropdown">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <ul class="dropdown-menu m-t-xs">
+              <li>
+                <a @click="modifyComment()" href="#">Modifier</a>
+              </li>
+              <li>
+                <a @click="deleteComment()" href="#">Supprimer</a>
+              </li>
+            </ul>
+          </div>
           <div class="media-body">
             <input
               class="form-control"
-              v-on:keyup.enter="createComment"
+              v-on:keyup.enter="createComment()"
               placeholder="Ecrivez un commentaire public..."
             />
           </div>
@@ -92,6 +106,7 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
+
 import Like from "../components/Like.vue";
 export default {
   name: "Onepost",
@@ -111,7 +126,7 @@ export default {
         user: {},
       },
       comments: [],
-      likes: [],
+      like: [],
     };
   },
   created() {
@@ -142,6 +157,7 @@ export default {
       return hour.toLocaleTimeString("fr-FR", options);
     },
 
+    // -- COMMENTS
     getComments() {
       let user = JSON.parse(localStorage.getItem("user"));
       fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
@@ -181,6 +197,25 @@ export default {
         .catch(alert);
     },
 
+    deleteComment(index) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (confirm("Voulez-vous vraiment supprimer ce commentaire") === true) {
+        fetch(`http://localhost:3000/api/comment/${this.comments[index].id}`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then(() => {
+            alert("La suppression du commentaire est bien prise en compte");
+            this.$router.go();
+          })
+          .catch(alert);
+      }
+    },
+
+    // -- POST
     deletePost() {
       let user = JSON.parse(localStorage.getItem("user"));
       let postId = this.$route.params.id;
