@@ -19,7 +19,7 @@ module.exports = app => {
 
     router.put("/:id", auth, commentCtrl.modifyComment);
 
-    router.delete("/:id", auth, commentCtrl.deleteComment);
+    router.delete("/:id", commentCtrl.deleteComment);
 
 
     app.use('/api/comment', router);

@@ -30,11 +30,11 @@
           </button>
           <ul class="dropdown-menu m-t-xs">
             <li><a @click="modifyPost()" href="#">Modifier</a></li>
-            <li><a href="#">Supprimer</a></li>
+            <li><a @click="deletePost()" href="#">Supprimer</a></li>
           </ul>
         </div>
         <div class="social-avatar">
-          <a href="" class="pull-left">
+          <a href="#" class="pull-left">
             <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="media-body">
@@ -59,25 +59,24 @@
             class="img-responsive"
           />
           <div class="btn-group">
-            <button class="btn btn-white btn-xs" @click="likePost">
+            <Like :postId="post.id" :userId="userId" />
+            <!--  <button class="btn btn-white btn-xs" @click="likePost">
               <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
             </button>
-            <button class="btn btn-white btn-xs" @click="addComment">
+            <button class="btn btn-white btn-xs" @click="getComments()">
               <i class="fa fa-comments"></i> Comment
-            </button>
+            </button> -->
           </div>
         </div>
         <div class="social-footer">
           <div
             class="social-comment"
-            v-for="comment in post.comments"
+            v-for="comment in comments"
             :key="comment.id"
+            :postId="post.id"
           >
-            <a href="" class="pull-left">
-              <img
-                alt="Avatar utilisateur"
-                :src="'http://localhost:3000/images/' + user.avatar"
-              />
+            <a href="#" class="pull-left">
+              <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>
             <div class="media-body">
               <a href="#"
@@ -86,7 +85,10 @@
               {{ comment.content }}
               <br />
               -
-              <small class="text-muted">{{ dateFormat(comment.date) }}</small>
+              <small class="text-muted"
+                >{{ dateFormat(comment.date) }}
+                {{ hourFormat(comment.createdAt) }}</small
+              >
             </div>
           </div>
           <div class="social-comment">
@@ -109,17 +111,20 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
+import Like from "../components/Like.vue";
 
 //import { mapState } from "vuex";
 
 export default {
   name: "AllPosts",
-  components: {},
+  components: {
+    Like,
+  },
   data() {
     return {
       posts: [],
-      comments: [],
-      likes: Number,
+      comments: {},
+      likes: [],
     };
   },
   created() {
@@ -150,17 +155,17 @@ export default {
       return hour.toLocaleTimeString("fr-FR", options);
     },
 
-    async fetchComments(postId) {
-      if (postId == null) {
-        return;
-      }
-      const resComments = await fetch(
-        `http://localhost:3000/api/comment/${JSON.stringify(postId)}`
-      );
-      const dataComments = await resComments.json();
-      dataComments.reverse();
-      this.comments = dataComments;
-      return dataComments;
+    async getComments(postId) {
+      let user = JSON.parse(localStorage.getItem("user"));
+      fetch(`http://localhost:3000/api/comment/${postId}/all`, {
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => (this.comments = data))
+        .catch(alert);
     },
 
     createPost() {

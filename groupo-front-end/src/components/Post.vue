@@ -11,8 +11,7 @@
         </button>
         <ul class="dropdown-menu m-t-xs">
           <li>
-            ><a @click="modifyPost()" href="#">Modifier</a>
-            >
+            <a @click="modifyPost()" href="#">Modifier</a>
           </li>
           <li>
             <a @click="deletePost()" href="#">Supprimer</a>
@@ -50,20 +49,38 @@
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
           </button>-->
           <button class="btn btn-white btn-xs" @click="getComments()">
-            <i class="fa fa-comments"></i> Comment
+            {{ comments.length }} <i class="fa fa-comments"></i> Comment
           </button>
         </div>
       </div>
+
       <!-- Commentaires du post -->
       <div class="social-footer">
         <div
           class="social-comment"
-          v-for="comment in comments"
-          :key="comment.id"
+          v-bind:key="index"
+          v-for="(comment, index) in comments"
         >
           <a href="#" class="pull-left">
             <img alt="Avatar utilisateur" :src="comment.user.avatar" />
           </a>
+          <div class="pull-right social-action dropdown">
+            <button data-toggle="dropdown">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <ul class="dropdown-menu m-t-xs">
+              <li>
+                <a @click="modifyComment()" href="#"
+                  ><i class="far fa-edit modify"></i> modifier</a
+                >
+              </li>
+              <li>
+                <a @click="deleteComment(index)" href="#"
+                  ><i class="far fa-trash-alt delete"></i> supprimer</a
+                >
+              </li>
+            </ul>
+          </div>
           <div class="media-body">
             <a href="#"
               >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
@@ -89,10 +106,14 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li>
-                <a @click="modifyComment()" href="#">Modifier</a>
+                <a @click="modifyComment()" href="#"
+                  ><i class="far fa-edit modify"></i> modifier</a
+                >
               </li>
               <li>
-                <a @click="deleteComment()" href="#">Supprimer</a>
+                <a @click="deleteComment(index)" href="#"
+                  ><i class="far fa-trash-alt delete"></i> supprimer</a
+                >
               </li>
             </ul>
           </div>
@@ -131,7 +152,7 @@ export default {
         user: {},
       },
       comments: [],
-      like: [],
+      likes: [],
     };
   },
   created() {
@@ -243,6 +264,9 @@ export default {
 
     modifyPost() {
       this.$router.push(`/modifyPost/${this.id_param}`);
+    },
+    mounted() {
+      this.getComments();
     },
   },
 };

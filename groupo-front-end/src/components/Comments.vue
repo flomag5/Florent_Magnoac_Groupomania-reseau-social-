@@ -1,43 +1,94 @@
-<template>
-  <div>
-    <div class="social-footer">
-      <div class="social-comment" v-for="comment in comments" :key="comment.id">
-        <a href="#" class="pull-left">
-          <img
-            :alt="comment.user.avatar"
-            :src="'http://localhost:3000/images/' + comment.user.avatar"
-            class="avatar"
-          />
-        </a>
-        <div class="media-body">
-          <a href="#"
-            >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-          >
-          {{ comment.content }}
+     <template>
+  <div class="social-footer">
+    <div
+      class="social-comment"
+      v-bind:key="index"
+      v-for="(comment, index) in comments"
+    >
+      <a href="#" class="pull-left">
+        <img alt="Avatar utilisateur" :src="comment.user.avatar" />
+      </a>
+      <div class="pull-right social-action dropdown">
+        <button data-toggle="dropdown">
+          <i class="fas fa-ellipsis-h"></i>
+        </button>
+        <ul class="dropdown-menu m-t-xs">
+          <li>
+            <a @click="toggleComment(comment.id)" href="#"
+              ><i class="far fa-edit modify"></i> modifier</a
+            >
+          </li>
+          <li>
+            <a @click="deleteComment(index)" href="#"
+              ><i class="far fa-trash-alt delete"></i> supprimer</a
+            >
+          </li>
+        </ul>
+      </div>
+      <div class="media-body">
+        <a href="#">{{ comment.user.firstName }} {{ comment.user.lastName }}</a
+        ><br />
+        <p v-show="!editComment" class="text">{{ comment.content }}</p>
+        <p>
           <br />
-          -
-          <small class="text-muted">{{ dateFormat(comment.date) }}</small>
-        </div>
+          <small class="text-muted"
+            >{{ dateFormat(comment.date) }}
+            {{ hourFormat(comment.createdAt) }}</small
+          >
+        </p>
+      </div>
+      <div
+        class="media-body"
+        v-if="editComment"
+        @submit.prevent="modifyComment(comment.id)"
+      >
+        <input
+          name="updateComment"
+          ref="modify"
+          :value="comment.content"
+          class="form-control"
+        />
+        <input
+          type="submit"
+          value="Je modifie!"
+          class="btn"
+          v-on:keyup.enter="modifyComment(comment.id)"
+        />
       </div>
     </div>
+
     <div class="social-comment">
       <a href="#" class="pull-left">
-        <img alt="Avatar utilisateur" src="user.id" />
+        <img alt="Avatar utilisateur" src="post.user.avatar" />
       </a>
+      <div class="pull-right social-action dropdown">
+        <button data-toggle="dropdown">
+          <i class="fas fa-ellipsis-h"></i>
+        </button>
+        <ul class="dropdown-menu m-t-xs">
+          <li>
+            <a @click="modifyComment" href="#"
+              ><i class="far fa-edit modify"></i> modifier</a
+            >
+          </li>
+          <li>
+            <a @click="deleteComment(index)" href="#"
+              ><i class="far fa-trash-alt delete"></i> supprimer</a
+            >
+          </li>
+        </ul>
+      </div>
       <div class="media-body">
         <input
           class="form-control"
-          name="comment"
-          v-model="newComment"
-          v-on:keyup.enter="createComment"
-          v-show="!editComment"
+          v-on:keyup.enter="createComment()"
           placeholder="Ecrivez un commentaire public..."
         />
       </div>
     </div>
   </div>
-</template>
-    
+</template> 
+
 <script>
 export default {
   name: "Comments",
@@ -49,45 +100,13 @@ export default {
   },
   data() {
     return {
-      newComment: null,
       updateComment: null,
       editComment: false,
       errMsg: null,
+      user: {},
     };
   },
   methods: {
-    /* fonction pour créer un nouveau commentaire */
-    createComment() {
-      let postId = JSON.stringify(this.postId);
-      if (!this.newComment) {
-        this.errMsg =
-          "Erreur => vous devez remplir le champ <commentaire> pour créer un nouveau commentaire!";
-        return;
-      }
-      const data = {
-        content: this.newComment,
-        userId: JSON.stringify(this.userId),
-        postId: JSON.stringify(this.postId),
-      };
-      fetch(
-        `http://localhost:3000/api/posts/${JSON.stringify(postId)}/comment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          mode: "cors",
-          body: JSON.stringify(data),
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => this.$emit("created", data.id))
-        .catch((error) => {
-          console.error(error);
-        });
-      this.newComment = "";
-    },
     /* on vérifie le statut de l'user connecté */
     auth(commentUserId) {
       if (this.isAdmin) {
@@ -112,7 +131,7 @@ export default {
     deleteComment(commentId) {
       if (confirm("êtes vous sûr de vouloir supprimer ce commentaire ?")) {
         fetch(
-          `http://localhost:3000/api/comment/${JSON.stringify(commentId)}`,
+          `http://localhost:3000/api/comments/${JSON.stringify(commentId)}`,
           {
             method: "DELETE",
             headers: {
@@ -126,9 +145,9 @@ export default {
     /* pour modifier le commentaire */
     modifyComment(commentId) {
       const data = {
-        text: this.$refs.modify.value,
+        content: this.$refs.modify.value,
       };
-      fetch(`http://localhost:3000/api/comment/${JSON.stringify(commentId)}`, {
+      fetch(`http://localhost:3000/api/comments/${JSON.stringify(commentId)}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -136,12 +155,12 @@ export default {
         },
         body: JSON.stringify(data),
       }).catch((error) => console.log(error));
-      this.$emit("modified", commentId, data.text);
+      this.$emit("modified", commentId, data.content);
       this.toggleComment(commentId);
     },
   },
   /* on indique les emitters (ici l'ajout et la suppression) */
-  emits: ["created", "deleted", "modified"],
+  emits: ["deleted", "modified"],
 };
 </script>
 
