@@ -24,6 +24,7 @@ exports.createComment = (req, res, next) => {
 exports.getAllComments = (req, res, next) => {
 
     Comment.findAll({
+        where: { postId: req.params.postId },
         include: [
 
             "user", "post"

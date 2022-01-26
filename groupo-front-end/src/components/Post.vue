@@ -49,34 +49,39 @@
           <!--<button class="btn btn-white btn-xs" @click="likePost()">
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
           </button>-->
-          <button class="btn btn-white btn-xs" @click="toggleComments(post.id)">
+          <button class="btn btn-white btn-xs" @click="getComments()">
             <i class="fa fa-comments"></i> Comment
           </button>
         </div>
       </div>
+      <!-- Commentaires du post -->
       <div class="social-footer">
         <div
           class="social-comment"
           v-for="comment in comments"
-          :key="comment.postId"
+          :key="comment.id"
         >
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" src="comment.user.avatar" />
+            <img alt="Avatar utilisateur" :src="comment.user.avatar" />
           </a>
           <div class="media-body">
             <a href="#"
               >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-            >
-            {{ comment.content }}
-            <br />
-            -
-            <small class="text-muted">{{ dateFormat(comment.date) }}</small>
+            ><br />
+            <p>{{ comment.content }}</p>
+            <p>
+              <br />
+              <small class="text-muted"
+                >{{ dateFormat(comment.date) }}
+                {{ hourFormat(comment.createdAt) }}</small
+              >
+            </p>
           </div>
         </div>
 
         <div class="social-comment">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" src="user.id" />
+            <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="pull-right social-action dropdown">
             <button data-toggle="dropdown">
@@ -159,8 +164,9 @@ export default {
 
     // -- COMMENTS
     getComments() {
+      let postId = this.$route.params.id;
       let user = JSON.parse(localStorage.getItem("user"));
-      fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
+      fetch(`http://localhost:3000/api/comment/${postId}/all`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${user.token}`,

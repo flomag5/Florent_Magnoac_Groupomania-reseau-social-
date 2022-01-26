@@ -8,7 +8,10 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="" />
+          <img
+            alt="Avatar utilisateur"
+            src="'http://localhost:3000/images/' + user.avatar"
+          />
         </a>
         <form class="d-flex">
           <input
