@@ -1,12 +1,14 @@
 <template>
-  <button v-if="!liked" @click="likePost(postId)" class="btn">
-    <i class="far fa-thumbs-up likeBtn like"></i>
-    {{ likes.length }}
-  </button>
-  <button v-else @click="unlikePost(postId)" class="btn">
-    <i class="far fa-thumbs-up likeBtn liked"></i>
-    {{ likes.length }}
-  </button>
+  <div v-if="likes">
+    <button v-if="!liked" @click="likePost(postId)" class="btn">
+      <i class="far fa-thumbs-up likeBtn like"></i>
+      {{ likes.length }}
+    </button>
+    <button v-else @click="unlikePost(postId)" class="btn">
+      <i class="far fa-thumbs-up likeBtn liked"></i>
+      {{ likes.length }}
+    </button>
+  </div>
 </template>
 
 <script>
@@ -15,24 +17,33 @@ export default {
   props: {
     postId: Number,
     userId: Number,
+    likesArray: Array,
   },
   data() {
     return {
-      likes: [],
+      likes: this.likesArray,
       liked: null,
     };
   },
   methods: {
-    async fetchLikes(postId) {
+    /* async fetchLikes(postId) {
       const resLikes = await fetch(
         `http://localhost:3000/api/posts/${JSON.stringify(postId)}/likes`
       );
       const dataLikes = await resLikes.json();
-      dataLikes.forEach((like) => {
-        like.userId == this.userId ? (this.liked = true) : (this.like = false);
-      });
+
       return dataLikes;
-    },
+    },*/
+
+    /* userIsLikes() {
+      console.log("test");
+      this.likes.forEach((like) => {
+        console.log(like);
+        if (like.userId == this.userId) {
+          this.liked = true;
+        }
+      });
+    },*/
 
     likePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
@@ -73,9 +84,11 @@ export default {
       this.liked = false;
     },
   },
-  async created() {
-    this.likes = await this.fetchLikes(this.postId);
-  },
+  /* beforeMounted() {
+    console.log(this.likesArray);
+    userIsLikes();
+    //this.likes = await this.fetchLikes(this.postId);
+  },*/
 };
 </script>
 

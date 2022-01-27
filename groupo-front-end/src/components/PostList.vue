@@ -59,42 +59,44 @@
             class="img-responsive"
           />
           <div class="btn-group">
-            <Like :postId="post.id" :userId="userId" />
-            <!--  <button class="btn btn-white btn-xs" @click="likePost">
+            <!-- <Like :postId="post.id" :userId="userId" />
+              <button class="btn btn-white btn-xs" @click="likePost">
               <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
-            </button>
-            <button class="btn btn-white btn-xs" @click="getComments()">
-              <i class="fa fa-comments"></i> Comment
             </button> -->
+            <!--  <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
+            <i class="fa fa-comments"></i>
+            {{ post.comment.length }} Commentaires
+            <!--  </button> -->
           </div>
         </div>
         <div class="social-footer">
           <div
             class="social-comment"
-            v-for="comment in comments"
-            :key="comment.id"
+            v-for="comment in post.comment"
+            v-bind:key="comment.id"
             :postId="post.id"
           >
-            <a href="#" class="pull-left">
+            <!--    <a href="#" class="pull-left">
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-            </a>
+            </a>-->
             <div class="media-body">
-              <a href="#"
+              <!--  <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              >
-              {{ comment.content }}
-              <br />
-              -
-              <small class="text-muted"
-                >{{ dateFormat(comment.date) }}
-                {{ hourFormat(comment.createdAt) }}</small
-              >
+              ><br /> -->
+              <p>{{ comment.content }}</p>
+              <p>
+                -
+                <small class="text-muted"
+                  >{{ dateFormat(comment.date) }}
+                  {{ hourFormat(comment.createdAt) }}</small
+                >
+              </p>
             </div>
           </div>
           <div class="social-comment">
-            <a href="" class="pull-left">
+            <!--  <a href="" class="pull-left">
               <img alt="Avatar utilisateur" src="comment.user.avatar" />
-            </a>
+            </a>-->
             <div class="media-body">
               <input
                 class="form-control"
@@ -111,14 +113,14 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-import Like from "../components/Like.vue";
+//import Like from "../components/Like.vue";
 
 //import { mapState } from "vuex";
 
 export default {
   name: "AllPosts",
   components: {
-    Like,
+    // Like,
   },
   data() {
     return {

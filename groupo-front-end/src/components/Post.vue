@@ -44,7 +44,11 @@
           class="img-responsive"
         />
         <div class="btn-group">
-          <Like :postId="post.id" :userId="userId" />
+          <Like
+            :postId="post.id"
+            :userId="post.userId"
+            :likesArray="post.like"
+          />
           <!--<button class="btn btn-white btn-xs" @click="likePost()">
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
           </button>-->
@@ -134,6 +138,7 @@
 import PostDataService from "../services/PostDataService";
 
 import Like from "../components/Like.vue";
+
 export default {
   name: "Onepost",
   components: {

@@ -86,7 +86,7 @@ export default {
     selectFile(event) {
       this.file = this.$refs.file.files[0];
       let input = event.target;
-      /* pour obtenir une prévisualisation du fichier */
+
       if (input.files) {
         let reader = new FileReader();
         reader.onload = (e) => {

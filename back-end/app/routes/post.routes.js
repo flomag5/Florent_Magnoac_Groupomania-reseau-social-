@@ -31,7 +31,7 @@ module.exports = app => {
   router.post('/:id/comment', commentCtrl.createComment);
 
   // Route de like/unlike
-  router.get('/postId/likes', likesCtrl.getLikes);
+  router.get('/:postId/likes', likesCtrl.getLikes);
   router.post('/:id/like', likesCtrl.likePost);
   router.delete('/:postId/unlike', likesCtrl.unlikePost);
 
