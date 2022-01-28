@@ -126,6 +126,7 @@ exports.updateUser = (req, res, next) => {
             const updateUser = {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
+
                 //email: emailCryptoJs,
             };
             if (req.file) {

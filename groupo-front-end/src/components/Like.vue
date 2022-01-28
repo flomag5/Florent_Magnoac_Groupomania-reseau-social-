@@ -1,6 +1,10 @@
 <template>
   <div v-if="likes">
-    <button v-if="!liked" @click="likePost(postId)" class="btn">
+    <button
+      v-if="likes.findIndex((like) => like.userId == userMe.userId) == -1"
+      @click="likePost(postId)"
+      class="btn"
+    >
       <i class="far fa-thumbs-up likeBtn like"></i>
       {{ likes.length }}
     </button>
@@ -21,8 +25,9 @@ export default {
   },
   data() {
     return {
-      likes: this.likesArray,
+      likes: [], //this.likesArray,
       liked: null,
+      userMe: -1,
     };
   },
   methods: {
@@ -84,11 +89,22 @@ export default {
       this.liked = false;
     },
   },
-  /* beforeMounted() {
-    console.log(this.likesArray);
-    userIsLikes();
-    //this.likes = await this.fetchLikes(this.postId);
-  },*/
+
+  created() {
+    this.userMe = JSON.parse(localStorage.getItem("user"));
+
+    console.log(this.userMe);
+    console.log("POSTID", this.postId);
+    fetch(
+      `http://localhost:3000/api/posts/${JSON.stringify(this.postId)}/likes`
+    )
+      .then((response) => response.json())
+
+      .then((data) => {
+        console.log(data);
+        this.likes = data;
+      });
+  },
 };
 </script>
 
@@ -97,7 +113,7 @@ button {
   background: none;
   border-style: none;
   outline: none;
-  width: 40%;
+  /*width: 20%;*/
 }
 p {
   margin: 1rem 0 1rem 0;

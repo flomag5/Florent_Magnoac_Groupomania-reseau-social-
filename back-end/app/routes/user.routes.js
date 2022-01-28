@@ -27,7 +27,7 @@ module.exports = app => {
   router.get('/', userCtrl.getAllUsers)
 
   // Modification d'un compte utilisateur
-  router.put("/:id", auth, multer, userCtrl.updateUser);
+  router.put("/:id", multer, userCtrl.updateUser);
 
   // Suppression d'un compte utilisateur
   router.delete("/:id", userCtrl.delete);

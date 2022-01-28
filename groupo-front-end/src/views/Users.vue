@@ -8,11 +8,7 @@
       <div id="header">
         <div class="profileContainer">
           <router-link :to="`/profile/${user.id}`">
-            <img
-              :src="'http://localhost:3000/images_default/' + user.avatar"
-              :alt="user.avatar"
-              class="profile"
-            />
+            <img :src="user.avatar" :alt="user.avatar" class="profile" />
           </router-link>
         </div>
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>

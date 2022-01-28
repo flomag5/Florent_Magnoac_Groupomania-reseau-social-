@@ -34,11 +34,11 @@
           </ul>
         </div>
         <div class="social-avatar">
-          <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" :src="post.user.avatar" />
+          <a href="" class="pull-left">
+            <img alt="Avatar utilisateur" src="post.user.avatar" />
           </a>
           <div class="media-body">
-            <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
+            <!--    <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>-->
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
@@ -59,14 +59,14 @@
             class="img-responsive"
           />
           <div class="btn-group">
-            <!-- <Like :postId="post.id" :userId="userId" />
-              <button class="btn btn-white btn-xs" @click="likePost">
-              <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
-            </button> -->
-            <!--  <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
-            <i class="fa fa-comments"></i>
-            {{ post.comment.length }} Commentaires
-            <!--  </button> -->
+            <Like :postId="post.id" :userId="userId" />
+            <button class="btn btn-white btn-xs" @click="likePost">
+              {{ post.likes }}
+            </button>
+            <button class="btn btn-white btn-xs" @click="getComments(post.id)">
+              <i class="fa fa-comments"></i>
+              {{ post.comment.length }} Commentaires
+            </button>
           </div>
         </div>
         <div class="social-footer">
@@ -80,9 +80,8 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--  <a href="#"
-                >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              ><br /> -->
+              <a href="#">{{ comment.userId }} {{ comment.userId }}</a
+              ><br />
               <p>{{ comment.content }}</p>
               <p>
                 -
@@ -113,20 +112,23 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-//import Like from "../components/Like.vue";
-
-//import { mapState } from "vuex";
+import Like from "../components/Like.vue";
 
 export default {
   name: "AllPosts",
   components: {
-    // Like,
+    Like,
+  },
+  props: {
+    isAdmin: Boolean,
+    userId: Number,
   },
   data() {
     return {
       posts: [],
       comments: {},
       likes: [],
+      user: [],
     };
   },
   created() {
@@ -156,7 +158,7 @@ export default {
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
     },
-
+    /*
     async getComments(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       fetch(`http://localhost:3000/api/comment/${postId}/all`, {
@@ -169,7 +171,7 @@ export default {
         .then((data) => (this.comments = data))
         .catch(alert);
     },
-
+*/
     createPost() {
       this.$router.push("/createpost");
     },
