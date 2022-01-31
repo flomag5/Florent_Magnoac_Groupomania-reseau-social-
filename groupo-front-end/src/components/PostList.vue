@@ -35,7 +35,7 @@
         </div>
         <div class="social-avatar">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" :src="post.user.avatar" />
+            <img alt="Avatar utilisateur" src="post.user.avatar" />
           </a>
           <div class="media-body">
             <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
