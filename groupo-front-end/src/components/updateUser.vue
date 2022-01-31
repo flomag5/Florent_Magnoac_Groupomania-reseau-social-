@@ -5,7 +5,11 @@
         <i class="fas fa-arrow-left"></i>retour au profil
       </button>
     </div>
-    <form @submit.prevent="updateUser">
+    <form
+      @submit.prevent="modifyProfile"
+      method="PUT"
+      enctype="multipart/form-data"
+    >
       <label for="file" class="profileLabel">
         <div>Changer d'image de profil :</div>
         <div class="profileContainer">
@@ -20,7 +24,7 @@
       <input
         type="file"
         ref="file"
-        name="avatar"
+        name="image"
         id="file"
         @change="selectFile"
       />
@@ -83,8 +87,10 @@ export default {
           });
       }
     },
+
     selectFile(event) {
       this.file = this.$refs.file.files[0];
+      //this.file = event.target.files[0];
       let input = event.target;
 
       if (input.files) {
@@ -103,7 +109,7 @@ export default {
       formData.append("lastName", this.updateUser.lastName);
 
       if (this.file) {
-        formData.append("avatar", this.file);
+        formData.append("image", this.file);
       }
       if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
         axios

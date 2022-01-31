@@ -60,13 +60,13 @@
           />
           <div class="btn-group">
             <!-- <Like :postId="post.id" :userId="userId" />
-              <button class="btn btn-white btn-xs" @click="likePost">
-              <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
+            <button class="btn btn-white btn-xs" @click="likePost">
+              {{ post.likes }}
             </button> -->
-            <!--  <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
+            <!-- <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
             <i class="fa fa-comments"></i>
             {{ post.comment.length }} Commentaires
-            <!--  </button> -->
+            <!--</button> -->
           </div>
         </div>
         <div class="social-footer">
@@ -80,9 +80,9 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--  <a href="#"
+              <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              ><br /> -->
+              ><br />
               <p>{{ comment.content }}</p>
               <p>
                 -
@@ -114,19 +114,19 @@
 <script>
 import PostDataService from "../services/PostDataService";
 //import Like from "../components/Like.vue";
-
 //import { mapState } from "vuex";
-
 export default {
   name: "AllPosts",
   components: {
-    // Like,
+    //Like,
   },
+
   data() {
     return {
       posts: [],
       comments: {},
       likes: [],
+      user: [],
     };
   },
   created() {

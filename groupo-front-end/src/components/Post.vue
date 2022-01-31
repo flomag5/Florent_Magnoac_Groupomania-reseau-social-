@@ -45,6 +45,7 @@
         />
         <div class="btn-group">
           <Like
+            v-if="post.id"
             :postId="post.id"
             :userId="post.userId"
             :likesArray="post.like"

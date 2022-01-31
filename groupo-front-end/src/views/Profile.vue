@@ -9,10 +9,7 @@
         </button>
       </div>
       <div class="profileContainer">
-        <img :src="user.avatar" alt="photo utilisateur" class="profile" />{{
-          user.avatar
-        }}
-        <img />
+        <img :src="user.avatar" alt="photo utilisateur" class="profile" />
       </div>
       <button @click.prevent="toggleProfile">
         <i class="fas fa-camera"></i> Changer la photo de profil

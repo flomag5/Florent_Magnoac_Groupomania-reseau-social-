@@ -38,13 +38,17 @@ exports.findAll = (req, res, next) => {
 
     Post.findAll({
         include: [
-            "comment",
-            "user", "like"
+
+            "user", "comment", "like"
         ],
 
         order: [["date", "DESC"]],
     })
-        .then(response => res.status(200).json(response))
+        .then((response) => {
+            console.log(req);
+            return res.status(200).json(response)
+
+        })
         .catch(err => console.log(err))
 }
 
@@ -72,26 +76,26 @@ exports.modifyPost = (req, res, next) => {
     const id = req.params.id;
     Post.findOne({ where: { id: id } })
         .then(post => {
-            console.log(req.body.userId, "WAOUUUUUUUUUUUUUUUU")
-            if (req.body.userId == post.userId) {
-                const updatePost = {
-                    title: req.body.title,
-                    content: req.body.content
-                }
-                if (req.file) {
-                    updatePost.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                    const filename = post.image.split('/images/')[1];
-                    fs.unlinkSync(`images/${filename}`)
-                    console.log(post.image);
-                }
-                Post.update(updatePost, { where: { id: id } })
-                    .then(() => res.status(200).json({ message: 'Post modifié !' }))
-                    .catch(error => res.status(400).json({ error }))
-            } else {
-                return res.status(403).json({
-                    'error': 'UnAuthorize'
-                });
+
+            // if (req.body.userId == post.userId) {
+            const updatePost = {
+                title: req.body.title,
+                content: req.body.content
             }
+            if (req.file) {
+                updatePost.image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                const filename = post.image.split('/images/')[1];
+                fs.unlinkSync(`images/${filename}`)
+                console.log(post.image);
+            }
+            Post.update(updatePost, { where: { id: id } })
+                .then(() => res.status(200).json({ message: 'Post modifié !' }))
+                .catch(error => res.status(400).json({ error }))
+            /* } else {
+                 return res.status(403).json({
+                     'error': 'UnAuthorize'
+                 });
+             }*/
         })
         .catch((error) => res.status(500).json({ error }));
 };
@@ -106,7 +110,6 @@ exports.deletePost = (req, res, next) => {
         }
     })
         .then(post => {
-            console.log(req.body.userId, "GOOOOOOOOOOOOD");
             if (req.body.userId == post.userId || req.body.isAdmin === 1) {
 
                 const filename = post.image.split('/images/')[1];

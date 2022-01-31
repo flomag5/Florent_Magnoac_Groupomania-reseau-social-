@@ -23,7 +23,7 @@ module.exports = app => {
 
   router.get("/:id", posts.findPostById);
 
-  router.put("/:id", auth, multer, posts.modifyPost);
+  router.put("/:id", multer, posts.modifyPost);
 
   router.delete("/:id", posts.deletePost);
 

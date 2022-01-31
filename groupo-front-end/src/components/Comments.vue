@@ -1,92 +1,28 @@
      <template>
   <div class="social-footer">
-    <div
-      class="social-comment"
-      v-bind:key="index"
-      v-for="(comment, index) in comments"
-    >
-      <a href="#" class="pull-left">
-        <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-      </a>
-      <div class="pull-right social-action dropdown">
-        <button data-toggle="dropdown">
-          <i class="fas fa-ellipsis-h"></i>
-        </button>
-        <ul class="dropdown-menu m-t-xs">
-          <li>
-            <a @click="toggleComment(comment.id)" href="#"
-              ><i class="far fa-edit modify"></i> modifier</a
-            >
-          </li>
-          <li>
-            <a @click="deleteComment(index)" href="#"
-              ><i class="far fa-trash-alt delete"></i> supprimer</a
-            >
-          </li>
-        </ul>
-      </div>
-      <div class="media-body">
-        <a href="#">{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-        ><br />
-        <p v-show="!editComment" class="text">{{ comment.content }}</p>
-        <p>
-          <br />
-          <small class="text-muted"
-            >{{ dateFormat(comment.date) }}
-            {{ hourFormat(comment.createdAt) }}</small
+          <div
+            class="social-comment"
+            v-for="comment in post.comment"
+            v-bind:key="comment.id"
+            :postId="post.id"
+            
           >
-        </p>
-      </div>
-      <div
-        class="media-body"
-        v-if="editComment"
-        @submit.prevent="modifyComment(comment.id)"
-      >
-        <input
-          name="updateComment"
-          ref="modify"
-          :value="comment.content"
-          class="form-control"
-        />
-        <input
-          type="submit"
-          value="Je modifie!"
-          class="btn"
-          v-on:keyup.enter="modifyComment(comment.id)"
-        />
-      </div>
-    </div>
-
-    <div class="social-comment">
-      <a href="#" class="pull-left">
-        <img alt="Avatar utilisateur" src="post.user.avatar" />
-      </a>
-      <div class="pull-right social-action dropdown">
-        <button data-toggle="dropdown">
-          <i class="fas fa-ellipsis-h"></i>
-        </button>
-        <ul class="dropdown-menu m-t-xs">
-          <li>
-            <a @click="modifyComment" href="#"
-              ><i class="far fa-edit modify"></i> modifier</a
-            >
-          </li>
-          <li>
-            <a @click="deleteComment(index)" href="#"
-              ><i class="far fa-trash-alt delete"></i> supprimer</a
-            >
-          </li>
-        </ul>
-      </div>
-      <div class="media-body">
-        <input
-          class="form-control"
-          v-on:keyup.enter="createComment()"
-          placeholder="Ecrivez un commentaire public..."
-        />
-      </div>
-    </div>
-  </div>
+            <!--    <a href="#" class="pull-left">
+              <img alt="Avatar utilisateur" :src="comment.user.avatar" />
+            </a>-->
+            <div class="media-body">
+              <a href="#">{{ comment.userId }} {{ comment.userId }}</a
+              ><br />
+              <p>{{ comment.content }}</p>
+              <p>
+                -
+                <small class="text-muted"
+                  >{{ dateFormat(comment.date) }}
+                  {{ hourFormat(comment.createdAt) }}</small
+                >
+              </p>
+            </div>
+          </div>
 </template> 
 
 <script>
@@ -98,76 +34,54 @@ export default {
     userId: Number,
     postId: Number,
   },
+
   data() {
     return {
-      updateComment: null,
-      editComment: false,
-      errMsg: null,
-      user: {},
+      posts: [],
+      comments: {},
+      likes: [],
+      user: [],
     };
   },
-  methods: {
-    /* on vérifie le statut de l'user connecté */
-    auth(commentUserId) {
-      if (this.isAdmin) {
-        return true;
-      }
-      if (this.userId !== commentUserId) {
-        return false;
-      }
-      return true;
-    },
-    /* pour afficher/cacher la section commentaire de ce post */
-    toggleComment(commentId, cancel) {
-      if (cancel) {
-        console.log("hello");
-      }
-      if (this.editComment == commentId) {
-        commentId = null;
-      }
-      this.editComment = commentId;
-    },
-    /* pour supprimer le commentaire */
-    deleteComment(commentId) {
-      if (confirm("êtes vous sûr de vouloir supprimer ce commentaire ?")) {
-        fetch(
-          `http://localhost:3000/api/comments/${JSON.stringify(commentId)}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        ).catch((error) => console.log(error));
-        this.$emit("deleted", commentId);
-      }
-    },
-    /* pour modifier le commentaire */
-    modifyComment(commentId) {
-      const data = {
-        content: this.$refs.modify.value,
-      };
-      fetch(`http://localhost:3000/api/comments/${JSON.stringify(commentId)}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).catch((error) => console.log(error));
-      this.$emit("modified", commentId, data.content);
-      this.toggleComment(commentId);
-    },
+
+  dateFormat(createdDate) {
+    const date = new Date(createdDate);
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    return date.toLocaleDateString("fr-FR", options);
   },
-  /* on indique les emitters (ici l'ajout et la suppression) */
-  emits: ["deleted", "modified"],
+  hourFormat(createdHour) {
+    const hour = new Date(createdHour);
+    const options = { hour: "numeric", minute: "numeric", second: "numeric" };
+    return hour.toLocaleTimeString("fr-FR", options);
+  },
+
+  async getComments(postId) {
+    let user = JSON.parse(localStorage.getItem("user"));
+    fetch(`http://localhost:3000/api/comment/${postId}/all`, {
+      method: "GET",
+      headers: {
+        authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => (this.comments = data))
+      .catch(alert);
+  },
+
+  async createComment(post) {
+    this.$router.push("/posts/" + post.id + "/comment");
+  },
 };
 </script>
 
-
 <style>
 body {
-  margin-top: 30px;
+  margin-top: 35px;
 }
 .social-feed-separated .social-feed-box {
   margin-left: 62px;
@@ -186,7 +100,7 @@ body {
   float: none;
 }
 .social-feed-box {
-  width: 370px;
+  width: 500px; /* taille des box */
   padding: 15px;
   border: 1px solid #e7eaec;
   background: #fff;
