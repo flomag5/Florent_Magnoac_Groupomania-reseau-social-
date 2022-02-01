@@ -81,10 +81,10 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--  <a href="#"
+              <!--   <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              ><br />
--->
+              ><br /> -->
+
               <p>{{ comment.content }}</p>
               <p>
                 -
@@ -102,6 +102,7 @@
             <div class="media-body">
               <input
                 class="form-control"
+                v-model="newComment"
                 v-on:keyup.enter="createComment()"
                 placeholder="Ecrivez un commentaire public..."
               />
@@ -131,6 +132,7 @@ export default {
     return {
       posts: [],
       comments: {},
+      newComment: null,
       likes: [],
     };
   },
@@ -181,10 +183,34 @@ export default {
     modifyPost(id) {
       this.$router.push(`/modifyPost/${id}`);
     },
+    createComment() {
+      const user = JSON.parse(localStorage.getItem("user"));
 
-    async createComment(post) {
-      this.$router.push("/posts/" + post.id + "/comment");
+      let data = {
+        content: this.newComment,
+        postId: this.id_param,
+        userId: user.userId,
+      };
+      fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          authorization: `Bearer ${user.token}`,
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          return response.json();
+        })
+        .then(() => {
+          this.$router.go();
+        })
+        .catch(alert);
     },
+    /*async createComment(post) {
+      this.$router.push("/posts/" + post.id + "/comment");
+    },*/
   },
 };
 </script>
