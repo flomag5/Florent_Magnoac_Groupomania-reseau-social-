@@ -10,6 +10,7 @@ const { comment } = require("../models");
 // Création d'un commentaire
 exports.createComment = (req, res, next) => {
     const PostId = req.params.id;
+    console.log(req.body, "COMMENT*****************")
     Comment.create({
         content: req.body.content,
         userId: req.body.userId,

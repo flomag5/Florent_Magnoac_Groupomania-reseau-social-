@@ -39,7 +39,7 @@
 <script>
 //import { mapState } from "vuex";
 //import UserDataService from "../services/UserDataService";
-import UpdateUser from "../components/UpdateUser";
+import UpdateUser from "../components/updateUser";
 
 export default {
   name: "profile",

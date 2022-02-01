@@ -1,5 +1,6 @@
-# groupo-front-end
+# groupo-front-end  
 
+----------------------
 ## Project setup
 ```
 npm install

@@ -35,10 +35,12 @@
         </div>
         <div class="social-avatar">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" :src="post.user.avatar" />
+            <img alt="Avatar utilisateur" src="post.user.avatar" />
           </a>
           <div class="media-body">
-            <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
+            <!--   <a href="#">
+              {{ post.user.lastName }} {{ post.user.firstName }}
+            </a> -->
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
@@ -55,6 +57,7 @@
           <img
             v-if="post.image"
             :src="post.image"
+            name="image"
             alt="photo du post"
             class="img-responsive"
           />
@@ -80,9 +83,10 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--  <a href="#"
+              <!--   <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              ><br /> -->
+              ><br />
+              -->
               <p>{{ comment.content }}</p>
               <p>
                 -
@@ -156,7 +160,7 @@ export default {
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
     },
-
+    /*
     async getComments(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       fetch(`http://localhost:3000/api/comment/${postId}/all`, {
@@ -168,7 +172,7 @@ export default {
         .then((response) => response.json())
         .then((data) => (this.comments = data))
         .catch(alert);
-    },
+    },*/
 
     createPost() {
       this.$router.push("/createpost");
