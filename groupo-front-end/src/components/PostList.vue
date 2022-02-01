@@ -64,7 +64,7 @@
               :likesArray="post.like"
             />
             <button class="btn btn-white btn-xs" @click="likePost"></button>
-            <!--  <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
+
             <i class="fa fa-comments"></i>
             {{ post.comment.length }} Commentaires
             <!--  </button> -->
