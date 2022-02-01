@@ -103,7 +103,8 @@
               <input
                 class="form-control"
                 v-model="newComment"
-                v-on:keyup.enter="createComment()"
+                :postId="post.id"
+                v-on:keyup.enter="createComment(post.postId)"
                 placeholder="Ecrivez un commentaire public..."
               />
             </div>
@@ -164,19 +165,6 @@ export default {
       const options = { hour: "numeric", minute: "numeric", second: "numeric" };
       return hour.toLocaleTimeString("fr-FR", options);
     },
-    /*
-    async getComments(postId) {
-      let user = JSON.parse(localStorage.getItem("user"));
-      fetch(`http://localhost:3000/api/comment/${postId}/all`, {
-        method: "GET",
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => (this.comments = data))
-        .catch(alert);
-    },*/
 
     createPost() {
       this.$router.push("/createpost");
@@ -184,15 +172,15 @@ export default {
     modifyPost(id) {
       this.$router.push(`/modifyPost/${id}`);
     },
-    createComment() {
-      const user = JSON.parse(localStorage.getItem("user"));
 
+    createComment(postId) {
+      const user = JSON.parse(localStorage.getItem("user"));
       let data = {
         content: this.newComment,
-        postId: this.postId,
+        postId: JSON.stringify(this.postId),
         userId: user.userId,
       };
-      fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
+      fetch(`http://localhost:3000/api/posts/${postId}/comment`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -209,9 +197,6 @@ export default {
         })
         .catch(alert);
     },
-    /*async createComment(post) {
-      this.$router.push("/posts/" + post.id + "/comment");
-    },*/
   },
 };
 </script>
