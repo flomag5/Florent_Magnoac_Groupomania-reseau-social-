@@ -68,13 +68,11 @@ exports.deleteComment = (req, res, next) => {
     Comment.findOne({ where: { id: req.params.id } })
         .then((comment) => {
 
-            if (comment.userId == req.body.userId || req.body.isAdmin === 1) {
 
-                Comment.destroy({ where: { id: req.params.id } });
-                res.status(200).json({ message: "Commentaire supprimé !" });
-            } else {
-                res.status(404).json({ message: "Suppression impossible !" });
-            }
+
+            Comment.destroy({ where: { id: req.params.id } });
+            res.status(200).json({ message: "Commentaire supprimé !" });
+
         })
         .catch((error) => console.log(error));
 }

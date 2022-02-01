@@ -125,6 +125,7 @@
           <div class="media-body">
             <input
               class="form-control"
+              v-model="newComment"
               v-on:keyup.enter="createComment()"
               placeholder="Ecrivez un commentaire public..."
             />
@@ -158,6 +159,7 @@ export default {
         user: {},
       },
       comments: [],
+      newComment: null,
       likes: [],
     };
   },
@@ -208,7 +210,7 @@ export default {
       const user = JSON.parse(localStorage.getItem("user"));
 
       let data = {
-        content: this.content,
+        content: this.newComment,
         postId: this.id_param,
         userId: user.userId,
       };

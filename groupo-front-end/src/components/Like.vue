@@ -105,7 +105,7 @@ button {
   background: none;
   border-style: none;
   outline: none;
-  width: 40%;
+  /*width: 20%;*/
 }
 p {
   margin: 1rem 0 1rem 0;

@@ -57,10 +57,13 @@
             class="img-responsive"
           />
           <div class="btn-group">
-            <!-- <Like :postId="post.id" :userId="userId" />
-              <button class="btn btn-white btn-xs" @click="likePost">
-              <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
-            </button> -->
+            <Like
+              v-if="post.id"
+              :postId="post.id"
+              :userId="post.userId"
+              :likesArray="post.like"
+            />
+            <button class="btn btn-white btn-xs" @click="likePost"></button>
             <!--  <button class="btn btn-white btn-xs" @click="getComments(post.id)"> -->
             <i class="fa fa-comments"></i>
             {{ post.comment.length }} Commentaires
@@ -112,14 +115,17 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-//import Like from "../components/Like.vue";
+import Like from "../components/Like.vue";
 
 //import { mapState } from "vuex";
 
 export default {
   name: "AllPosts",
   components: {
-    // Like,
+    Like,
+  },
+  props: {
+    userId: Number,
   },
   data() {
     return {
