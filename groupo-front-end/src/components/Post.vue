@@ -45,6 +45,7 @@
         />
         <div class="btn-group">
           <Like
+            v-if="post.id"
             :postId="post.id"
             :userId="post.userId"
             :likesArray="post.like"
@@ -53,7 +54,7 @@
             <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
           </button>-->
           <button class="btn btn-white btn-xs" @click="getComments()">
-            {{ comments.length }} <i class="fa fa-comments"></i> Comment
+            {{ comments.length }} <i class="fa fa-comments"></i> Commentaires
           </button>
         </div>
       </div>

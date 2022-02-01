@@ -8,10 +8,7 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img
-            alt="Avatar utilisateur"
-            src="'http://localhost:3000/images/' + user.avatar"
-          />
+          <img alt="Avatar utilisateur" src="this.user.avatar" />
         </a>
         <form class="d-flex">
           <input
@@ -35,12 +32,10 @@
         </div>
         <div class="social-avatar">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" src="post.user.avatar" />
+            <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="media-body">
-            <!--   <a href="#">
-              {{ post.user.lastName }} {{ post.user.firstName }}
-            </a> -->
+            <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
@@ -83,10 +78,10 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--   <a href="#"
+              <!--  <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
               ><br />
-              -->
+-->
               <p>{{ comment.content }}</p>
               <p>
                 -

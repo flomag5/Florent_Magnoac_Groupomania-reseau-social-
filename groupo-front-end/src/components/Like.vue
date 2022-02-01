@@ -1,6 +1,10 @@
 <template>
   <div v-if="likes">
-    <button v-if="!liked" @click="likePost(postId)" class="btn">
+    <button
+      v-if="likes.findIndex((like) => like.userId == userMe.userId) == -1"
+      @click="likePost(postId)"
+      class="btn"
+    >
       <i class="far fa-thumbs-up likeBtn like"></i>
       {{ likes.length }}
     </button>
@@ -21,30 +25,21 @@ export default {
   },
   data() {
     return {
-      likes: this.likesArray,
+      likes: [],
       liked: null,
+      userMe: -1,
     };
   },
   methods: {
-    /* async fetchLikes(postId) {
+    /*async fetchLikes(postId) {
       const resLikes = await fetch(
         `http://localhost:3000/api/posts/${JSON.stringify(postId)}/likes`
       );
       const dataLikes = await resLikes.json();
 
       return dataLikes;
-    },*/
-
-    /* userIsLikes() {
-      console.log("test");
-      this.likes.forEach((like) => {
-        console.log(like);
-        if (like.userId == this.userId) {
-          this.liked = true;
-        }
-      });
-    },*/
-
+    },
+*/
     likePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       const data = {
@@ -68,7 +63,9 @@ export default {
     unlikePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       const data = {
+        like: false,
         userId: user.userId,
+        postId: postId,
       };
       fetch(
         `http://localhost:3000/api/posts/${JSON.stringify(postId)}/unlike`,
@@ -84,11 +81,22 @@ export default {
       this.liked = false;
     },
   },
-  /* beforeMounted() {
-    console.log(this.likesArray);
-    userIsLikes();
-    //this.likes = await this.fetchLikes(this.postId);
-  },*/
+
+  created() {
+    this.userMe = JSON.parse(localStorage.getItem("user"));
+
+    console.log(this.userMe);
+    console.log("POSTID", this.postId);
+    fetch(
+      `http://localhost:3000/api/posts/${JSON.stringify(this.postId)}/likes`
+    )
+      .then((response) => response.json())
+
+      .then((data) => {
+        console.log(data);
+        this.likes = data;
+      });
+  },
 };
 </script>
 

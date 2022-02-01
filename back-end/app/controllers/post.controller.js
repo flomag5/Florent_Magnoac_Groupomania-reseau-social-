@@ -3,6 +3,8 @@
 // Importation 
 const db = require("../models");
 const Post = db.posts;
+const Comment = db.comment;
+const User = db.user;
 const Op = db.Sequelize.Op;
 const fs = require("fs");
 
@@ -40,6 +42,7 @@ exports.findAll = (req, res, next) => {
         include: [
             "comment",
             "user", "like"
+            //"user", { model: "comment", include: "user" }
         ],
 
         order: [["date", "DESC"]],
