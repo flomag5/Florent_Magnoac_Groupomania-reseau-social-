@@ -133,6 +133,7 @@ export default {
       posts: [],
       comments: {},
       newComment: null,
+      postId: null,
       likes: [],
     };
   },
@@ -188,7 +189,7 @@ export default {
 
       let data = {
         content: this.newComment,
-        postId: this.id_param,
+        postId: this.postId,
         userId: user.userId,
       };
       fetch(`http://localhost:3000/api/posts/${this.id_param}/comment`, {
