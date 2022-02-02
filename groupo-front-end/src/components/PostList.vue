@@ -8,7 +8,7 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="this.user.avatar" />
+          <img alt="Avatar utilisateur" src="self.avatar" />
         </a>
         <form class="d-flex">
           <input
@@ -31,11 +31,11 @@
           </ul>
         </div>
         <div class="social-avatar">
-          <a href="#" class="pull-left">
+          <a class="pull-left">
             <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="media-body">
-            <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
+            <a> {{ post.user.lastName }} {{ post.user.firstName }} </a>
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
@@ -88,7 +88,7 @@
               <p>{{ comment.content }}</p>
               <p>
                 -
-                <small class="text-muted"
+                <small class="text" id="comment-date"
                   >{{ dateFormat(comment.date) }}
                   {{ hourFormat(comment.createdAt) }}</small
                 >
@@ -100,13 +100,15 @@
               <img alt="Avatar utilisateur" src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <input
-                class="form-control"
-                v-model="newComment"
-                :postId="post.id"
-                v-on:keyup.enter="createComment(post.postId)"
-                placeholder="Ecrivez un commentaire public..."
-              />
+              <router-link :to="'/posts/' + post.id">
+                <input
+                  class="form-control"
+                  aria-label="Commenter la publication"
+                  v-model="newComment"
+                  :postId="post.id"
+                  placeholder="Ecrivez un commentaire public..."
+                />
+              </router-link>
             </div>
           </div>
         </div>
@@ -204,6 +206,10 @@ export default {
 <style>
 body {
   margin-top: 35px;
+}
+
+#comment-date {
+  color: #575558;
 }
 .social-feed-separated .social-feed-box {
   margin-left: 62px;

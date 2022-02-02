@@ -41,7 +41,7 @@ exports.signup = (req, res, next) => {
                 firstName: req.body.firstName,
                 email: emailCryptoJs,
                 password: hash,
-                avatar: `${req.protocol}://${req.get('host')}/images_default/default_user_profile.png`,
+                avatar: `${req.protocol}://${req.get('host')}/images/default_user_profile.png`,
                 isAdmin: req.body.isAdmin
             })
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -116,7 +116,7 @@ exports.getAllUsers = (req, res, next) => {
 
 
 // Modification d'un compte utilisateur
-exports.updateUser = (req, res, next) => {
+/*exports.updateUser = (req, res, next) => {
     // Crypter l'email de la requête
     //const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
     User.findOne({
@@ -141,7 +141,32 @@ exports.updateUser = (req, res, next) => {
                 .catch((error) => res.status(400).json({ error }));
 
         });
+};*/
+
+exports.updateUser = (req, res) => {
+    req.file ? req.body.avatar = req.file.filename : console.log("on garde la même photo"); // <- on vérifie si l'user a uploadé une nouvelle photo
+    if (req.file) { // <- on supprime l'ancienne image de profil
+        User.findOne({ where: { id: req.params.id } })
+            .then(user => {
+                if (user.avatar !== "default_user_profile.png") { // <- si sa photo de profile n'est pas celle par défaut on peut la supprimer
+
+                    fs.unlink(`images/${user.avatar}`, (error) => {
+                        if (error) throw error
+                    })
+                } else {
+                    console.log("ce fichier ne peut être effacé car c'est l'image par défaut")
+                }
+            })
+            .catch(error => res.status(400).json(error));
+    }
+
+    else { // <- le password n'a pas été modifié on peut donc enregistrer nos données directement
+        User.update(req.body, { where: { id: req.params.id } })
+            .then(() => res.status(201).json({ message: "profil actualisé" }))
+            .catch(error => res.status(400).json(error));
+    };
 };
+
 
 
 // Suppression d'un utilisateur

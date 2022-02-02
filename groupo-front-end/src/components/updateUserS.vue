@@ -5,7 +5,7 @@
         <i class="fas fa-arrow-left"></i>retour au profil
       </button>
     </div>
-    <form @submit.prevent="updateUser">
+    <form>
       <label for="file" class="profileLabel">
         <div>Changer d'image de profil :</div>
         <div class="profileContainer">
@@ -13,23 +13,25 @@
             id="preview"
             :src="user.avatar"
             alt="Photo de profil"
-            class="avatar"
+            class="profile"
           />
         </div>
       </label>
       <input
         type="file"
         ref="file"
-        name="image"
+        name="avatar"
+        accept="image/*"
         id="file"
+        aria-label="Photo de profil"
         @change="selectFile"
       />
 
       <label for="firstName">Modifier le prénom :</label>
-      <input type="text" name="firstName" v-model="updateUser.firstName" />
+      <input type="text" name="firstName" v-model="firstName" />
 
       <label for="lastName">Modifier le nom :</label>
-      <input type="text" name="lastName" v-model="updateUser.lastName" />
+      <input type="text" name="lastName" v-model="lastName" />
 
       <button @click.prevent="deleteProfile" class="delete">
         <i class="far fa-trash-alt delete"></i>Supprimer compte
@@ -49,20 +51,19 @@
 <script>
 import router from "../router";
 import axios from "axios";
-
 export default {
   name: "updateUser",
-  props: {
-    user: Object,
-  },
+
   data() {
     return {
-      updateUser: {
-        firstName: this.user.firstName,
-        lastName: this.user.lastName,
-      },
+      token: "",
       image: "",
-      errMsg: null,
+      firstname: "",
+      lastname: "",
+
+      userid: "",
+      file: null,
+      url: null,
     };
   },
   methods: {
@@ -83,8 +84,8 @@ export default {
           });
       }
     },
-    selectFile(event) {
-      this.file = this.$refs.file.files[0];
+    /*   selectFile(event) {
+      this.avatar = this.$refs.file.files[0];
       let input = event.target;
 
       if (input.files) {
@@ -94,31 +95,38 @@ export default {
         };
         reader.readAsDataURL(input.files[0]);
       }
-    },
+    },*/
 
     modifyProfile() {
-      let user = JSON.parse(localStorage.getItem("user"));
-      let formData = new FormData();
-      formData.append("firstName", this.updateUser.firstName);
-      formData.append("lastName", this.updateUser.lastName);
-
-      if (this.file) {
-        formData.append("image", this.file);
-      }
-      if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
-        axios
-          .put(`http://localhost:3000/api/user/${user.userId}`, formData, {
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-            },
-          })
-          .then(location.reload())
-          .catch((error) => {
-            error;
-          });
-      } else {
-        location.reload();
-      }
+      const fd = new FormData();
+      fd.append("image", this.file, this.file.name);
+      axios
+        .put(`http://localhost:3000/api/user/${this.userid}`, fd, {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${this.token}`,
+          },
+        })
+        .then((res) => {
+          localStorage.setItem("update", JSON.stringify(res.data));
+          let newUpProfil = {
+            avatar: JSON.parse(localStorage.update).avatar,
+            firstname: JSON.parse(localStorage.user).firstname,
+            lastname: JSON.parse(localStorage.user).lastname,
+            token: JSON.parse(localStorage.user).token,
+            userId: JSON.parse(localStorage.user).userId,
+          };
+          localStorage.setItem("user", JSON.stringify(newUpProfil));
+          alert(`${JSON.parse(localStorage.update).message}`);
+          localStorage.removeItem("update");
+          //this.buttonModif();
+        })
+        .catch((error) => console.log({ error }));
+    },
+    selectFile(event) {
+      this.file = event.target.files[0];
+      this.url = URL.createObjectURL(this.file);
     },
   },
 };

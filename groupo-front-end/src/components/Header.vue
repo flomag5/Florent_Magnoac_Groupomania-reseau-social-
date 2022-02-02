@@ -58,6 +58,7 @@
                 aria-label="Lien vers la liste des utilisateurs"
               >
                 <input
+                  aria-label="Trouver un utilisateur"
                   placeholder="rechercher utilisateurs"
                   autocomplete="on"
                 />
