@@ -134,7 +134,7 @@ export default {
       posts: [],
       comments: {},
       newComment: null,
-      postId: null,
+      postId: "",
       likes: [],
     };
   },

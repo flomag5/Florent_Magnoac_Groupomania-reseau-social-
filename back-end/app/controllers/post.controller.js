@@ -42,7 +42,7 @@ exports.findAll = (req, res, next) => {
         include: [
             "comment",
             "user", "like"
-            //"user", { model: "comment", include: "user" }
+
         ],
 
         order: [["date", "DESC"]],

@@ -16,7 +16,7 @@ class UserDataService {
         return http.get('/user', { headers: auth() });
     }
     getOneUser(id) {
-        return http.get(`/user/${id}`, { headers: auth() });
+        return http.get(`/user/${id}`);
     }
 
     modifyUser(id, data) {

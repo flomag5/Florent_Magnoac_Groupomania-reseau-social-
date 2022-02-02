@@ -1,5 +1,5 @@
 <template>
-  <div id="usersContainer">
+  <!-- <div id="usersContainer">
     <div id="query">
       <span><i class="fas fa-search"></i></span>
       <input type="text" placeholder="exemple: Prénom Nom" v-model="search" />
@@ -8,15 +8,37 @@
       <div id="header">
         <div class="profileContainer">
           <router-link :to="`/profile/${user.id}`">
-            <img
-              :src="'http://localhost:3000/images_default/' + user.avatar"
-              :alt="user.avatar"
-              class="profile"
-            />
+            <img :src="user.avatar" :alt="user.avatar" class="profile" />
           </router-link>
         </div>
         <h4>{{ user.firstName }} {{ user.lastName }}</h4>
       </div>
+    </div>
+  </div> -->
+  <div id="usersContainer">
+    <div id="query">
+      <span><i class="fas fa-search"></i></span>
+      <input type="text" placeholder="exemple: Prénom Nom" v-model="search" />
+    </div>
+    <div :key="user.id" v-for="user in filterUsers" class="user">
+      <a
+        id="header"
+        v-if="user.id == userId"
+        href="http://localhost:8080/profile"
+      >
+        <div class="profileContainer">
+          <img :src="user.avatar" :alt="user.avatar" class="profile" />
+        </div>
+        <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+      </a>
+      <a id="header" v-else :href="`http://localhost:8080/profile/${user.id}`">
+        <div class="profileContainer">
+          <router-link :to="`/profile/${user.id}`">
+            <img :src="user.avatar" :alt="user.avatar" class="profile" />
+          </router-link>
+        </div>
+        <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+      </a>
     </div>
   </div>
 </template>
@@ -28,6 +50,7 @@ export default {
   data() {
     return {
       users: [],
+      userId: "",
       search: "",
     };
   },

@@ -32,7 +32,7 @@ const routes = [
     {
         path: '/profile/:id',
         name: 'profile-user',
-        component: () => import("../views/Profile.vue"),
+        component: () => import("../views/User.vue"),
         meta: {
             title: "Groupomania : Profil Ami"
         }
