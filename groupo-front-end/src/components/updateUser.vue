@@ -5,7 +5,12 @@
         <i class="fas fa-arrow-left"></i>retour au profil
       </button>
     </div>
-    <form @submit.prevent="updateUser">
+    <!-- <form @submit.prevent="updateUser"> -->
+    <form
+      @submit.prevent="modifyProfile"
+      method="PUT"
+      enctype="multipart/form-data"
+    >
       <label for="file" class="profileLabel">
         <div>Changer d'image de profil :</div>
         <div class="profileContainer">

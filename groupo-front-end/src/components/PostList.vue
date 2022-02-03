@@ -81,9 +81,9 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>-->
             <div class="media-body">
-              <!--   <a href="#"
+              <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
-              ><br /> -->
+              ><br />
 
               <p>{{ comment.content }}</p>
               <p>
@@ -134,7 +134,7 @@ export default {
   data() {
     return {
       posts: [],
-      comments: {},
+      comments: [],
       newComment: null,
       postId: "",
       likes: [],

@@ -126,6 +126,7 @@ exports.getAllUsers = (req, res, next) => {
             const updateUser = {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
+
                 //email: emailCryptoJs,
             };
             if (req.file) {
@@ -141,14 +142,14 @@ exports.getAllUsers = (req, res, next) => {
                 .catch((error) => res.status(400).json({ error }));
 
         });
-};*/
-
+};
+*/
 exports.updateUser = (req, res) => {
     req.file ? req.body.avatar = req.file.filename : console.log("on garde la même photo"); // <- on vérifie si l'user a uploadé une nouvelle photo
     if (req.file) { // <- on supprime l'ancienne image de profil
         User.findOne({ where: { id: req.params.id } })
             .then(user => {
-                if (user.avatar !== "default_user_profile.png") { // <- si sa photo de profile n'est pas celle par défaut on peut la supprimer
+                if (user.avatar !== "default_user_profile.png") {
 
                     fs.unlink(`images/${user.avatar}`, (error) => {
                         if (error) throw error

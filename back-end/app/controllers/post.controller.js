@@ -40,9 +40,9 @@ exports.findAll = (req, res, next) => {
 
     Post.findAll({
         include: [
-            "comment",
-            "user", "like"
-
+            //"comment",
+            //"user", "like"
+            "user", { model: Comment, as: "comment", include: "user" }
         ],
 
         order: [["date", "DESC"]],
