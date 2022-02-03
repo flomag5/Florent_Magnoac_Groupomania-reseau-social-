@@ -8,7 +8,7 @@
     <div class="col-md-7">
       <div class="social-feed-box">
         <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="self.avatar" />
+          <img alt="Avatar utilisateur" src="user.avatar" />
         </a>
         <form class="d-flex">
           <input
@@ -67,7 +67,6 @@
 
             <i class="fa fa-comments"></i>
             {{ post.comment.length }} Commentaires
-            <!--  </button> -->
           </div>
         </div>
         <div class="social-footer">
@@ -77,9 +76,9 @@
             v-bind:key="comment.id"
             :postId="post.id"
           >
-            <!--    <a href="#" class="pull-left">
+            <a href="#" class="pull-left">
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-            </a>-->
+            </a>
             <div class="media-body">
               <a href="#"
                 >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
@@ -96,9 +95,9 @@
             </div>
           </div>
           <div class="social-comment">
-            <!--  <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" src="comment.user.avatar" />
-            </a>-->
+            <a href="" class="pull-left">
+              <img alt="Avatar utilisateur" :src="post.user.avatar" />
+            </a>
             <div class="media-body">
               <router-link :to="'/posts/' + post.id">
                 <input
@@ -106,6 +105,7 @@
                   aria-label="Commenter la publication"
                   v-model="newComment"
                   :postId="post.id"
+                  v-on:keyup.enter="createComment"
                   placeholder="Ecrivez un commentaire public..."
                 />
               </router-link>
@@ -120,7 +120,7 @@
 <script>
 import PostDataService from "../services/PostDataService";
 import Like from "../components/Like.vue";
-
+//import axios from "axios";
 //import { mapState } from "vuex";
 
 export default {
@@ -174,15 +174,16 @@ export default {
     modifyPost(id) {
       this.$router.push(`/modifyPost/${id}`);
     },
-
-    createComment(postId) {
+    /*
+    createComment(id) {
+      //let postId = JSON.stringify(this.postId);
       const user = JSON.parse(localStorage.getItem("user"));
       let data = {
         content: this.newComment,
         postId: JSON.stringify(this.postId),
         userId: user.userId,
       };
-      fetch(`http://localhost:3000/api/posts/${postId}/comment`, {
+      fetch(`http://localhost:3000/api/posts/${id}/comment`, {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -198,7 +199,7 @@ export default {
           this.$router.go();
         })
         .catch(alert);
-    },
+    },*/
   },
 };
 </script>

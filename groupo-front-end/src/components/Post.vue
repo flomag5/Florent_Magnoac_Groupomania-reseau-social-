@@ -50,11 +50,10 @@
             :userId="post.userId"
             :likesArray="post.like"
           />
-          <!--<button class="btn btn-white btn-xs" @click="likePost()">
-            <i class="fa fa-thumbs-up"></i>{{ post.likes }} Like this!
-          </button>-->
+
           <button class="btn btn-white btn-xs" @click="getComments()">
-            {{ comments.length }} <i class="fa fa-comments"></i> Commentaires
+            {{ post.comment.length }}
+            <i class="fa fa-comments"></i> Commentaires
           </button>
         </div>
       </div>

@@ -1,171 +1,80 @@
 <template>
-  <container>
+  <div>
     <!-- pour créer un nouveau commentaire -->
-    <form @submit.prevent="createComment" v-show="!editComment">
-      <input
-        name="comment"
-        placeholder="Publiez un commentaire"
-        v-model="newComment"
-        class="text"
-      />
-      <input type="submit" value="Je commente!" class="btn" />
-    </form>
-    <p>{{ errMsg }}</p>
-
-    <div id="commentsContainer" v-show="comments.length > 0">
-      <div :key="comment.id" v-for="comment in comments" class="comment">
-        <div class="header">
-          <div class="profileContainer">
-            <img
-              :src="'http://localhost:3000/images/' + comment.user.avatar"
-              :alt="comment.user.avatar"
-              class="profile"
-            />>
-          </div>
-          <div class="commentUsername">
-            <h5>{{ comment.user.firstName }} {{ comment.user.lastName }}</h5>
-          </div>
-          <div v-if="auth(comment.user.id)" class="optionsBtn">
-            <button
-              v-if="editComment != comment.id"
-              @click="toggleComment(comment.id)"
-            >
-              <i class="far fa-edit modify"></i>modifier
-            </button>
-            <button
-              v-if="editComment == comment.id"
-              @click="toggleComment(comment.id)"
-            >
-              <i class="fas fa-arrow-left"></i>annuler
-            </button>
-            <button @click="deleteComment(comment.id)">
-              <i class="far fa-trash-alt delete"></i>supprimer
-            </button>
-          </div>
-        </div>
-        <p v-show="!editComment" class="commentText">{{ comment.text }}</p>
-        <!-- pour modifier le commentaire -->
-        <form
-          v-if="editComment == comment.id"
-          @submit.prevent="modifyComment(comment.id)"
-        >
-          <input
-            name="updateComment"
-            ref="modify"
-            :value="comment.content"
-            class="text"
-          />
-          <input type="submit" value="Je modifie!" class="btn" />
+    <div class="social-comment">
+      <a href="" class="pull-left">
+        <img alt="Avatar utilisateur" src="post.user.avatar" />
+      </a>
+      <div class="media-body">
+        <!--     <router-link :to="'/posts/' + post.id"> -->
+        <form>
+          <textarea
+            class="border rounded p-2 mb-2 text-color bg-white"
+            type="text"
+            name="comment"
+            id="comment"
+            required="required"
+            v-model="newComment.content"
+            v-on:keyup.enter="createComment"
+            placeholder="Commentaire"
+          ></textarea>
         </form>
+
+        <!--   </router-link> -->
       </div>
     </div>
-  </container>
+  </div>
 </template>
 
 <script>
 export default {
   name: "Comments",
-  props: {
-    comments: Array,
-    isAdmin: Boolean,
-    userId: Number,
-    postId: Number,
-  },
+
   data() {
     return {
-      newComment: null,
-      updateComment: null,
-      editComment: false,
-      errMsg: null,
+      newComment: {
+        id: "",
+        userId: "",
+        postId: "",
+        content: "",
+      },
     };
   },
   methods: {
-    /* fonction pour créer un nouveau commentaire */
-    createComment() {
-      let postId = JSON.stringify(this.postId);
-      if (!this.newComment) {
-        this.errMsg =
-          "Erreur => vous devez remplir le champ <commentaire> pour créer un nouveau commentaire!";
-        return;
-      }
-      const data = {
-        content: this.newComment,
-        userId: JSON.stringify(this.userId),
-        postId: JSON.stringify(this.postId),
+    createComment(postId) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      this.newComment.userId = user.userId;
+      this.newComment.postId = postId;
+      const headers = new Headers();
+      headers.append("content-type", "application/json");
+      headers.append("Authorization", user.token);
+      const myInit = {
+        method: "POST",
+        headers: headers,
+        body: JSON.stringify(this.newComment),
       };
-      fetch(
-        `http://localhost:3000/api/posts/${JSON.stringify(postId)}/comment`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          mode: "cors",
-          body: JSON.stringify(data),
-        }
-      )
-        .then((res) => res.json())
-        .then((data) => this.$emit("created", data.id))
+      //console.log(this.newComment);
+      fetch(`http://localhost:3000/api/posts/${this.post.id}/comment`, myInit)
+        .then((result) => {
+          result
+            .json()
+            .then((data) => {
+              window.location.reload(true);
+              if (data.error) {
+                console.log(data);
+                return;
+              }
+              console.log(result + "Un commentaire a été créé");
+            })
+            .catch((error) => {
+              console.log(error + "Aucun commentaire n'a été créé");
+            });
+        })
         .catch((error) => {
-          console.error(error);
+          console.log(error + "La création de commentaire ne fonctionne pas");
         });
-      this.newComment = "";
-    },
-    /* on vérifie le statut de l'user connecté */
-    auth(commentUserId) {
-      if (this.isAdmin) {
-        return true;
-      }
-      if (this.userId !== commentUserId) {
-        return false;
-      }
-      return true;
-    },
-    /* pour afficher/cacher la section commentaire de ce post */
-    toggleComment(commentId, cancel) {
-      if (cancel) {
-        console.log("hello");
-      }
-      if (this.editComment == commentId) {
-        commentId = null;
-      }
-      this.editComment = commentId;
-    },
-    /* pour supprimer le commentaire */
-    deleteComment(commentId) {
-      if (confirm("êtes vous sûr de vouloir supprimer ce commentaire ?")) {
-        fetch(
-          `http://localhost:3000/api/comment/${JSON.stringify(commentId)}`,
-          {
-            method: "DELETE",
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        ).catch((error) => console.log(error));
-        this.$emit("deleted", commentId);
-      }
-    },
-    /* pour modifier le commentaire */
-    modifyComment(commentId) {
-      const data = {
-        text: this.$refs.modify.value,
-      };
-      fetch(`http://localhost:3000/api/comment/${JSON.stringify(commentId)}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      }).catch((error) => console.log(error));
-      this.$emit("modified", commentId, data.text);
-      this.toggleComment(commentId);
     },
   },
-  /* on indique les emitters (ici l'ajout et la suppression) */
-  emits: ["created", "deleted", "modified"],
 };
 </script>
 
