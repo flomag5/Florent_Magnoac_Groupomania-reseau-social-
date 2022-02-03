@@ -116,9 +116,8 @@ exports.getAllUsers = (req, res, next) => {
 
 
 // Modification d'un compte utilisateur
-/*exports.updateUser = (req, res, next) => {
-    // Crypter l'email de la requête
-    //const emailCryptoJs = cryptojs.HmacSHA256(req.body.email, `${process.env.EMAIL_CRYPTOJS_KEY}`).toString();
+exports.updateUser = (req, res, next) => {
+
     User.findOne({
         where: { id: req.params.id }
     })
@@ -127,13 +126,11 @@ exports.getAllUsers = (req, res, next) => {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
 
-                //email: emailCryptoJs,
             };
             if (req.file) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                const filename = user.avatar.split('/images/')[1];
-                fs.unlinkSync(`images/${filename}`)
-                console.log(user.avatar);
+                /*const filename = user.avatar.split('/images/')[1];
+                fs.unlinkSync(`images/${filename}`);*/
             }
             User.update(updateUser, {
                 where: { id: req.params.id }
@@ -143,31 +140,6 @@ exports.getAllUsers = (req, res, next) => {
 
         });
 };
-*/
-exports.updateUser = (req, res) => {
-    req.file ? req.body.avatar = req.file.filename : console.log("on garde la même photo"); // <- on vérifie si l'user a uploadé une nouvelle photo
-    if (req.file) { // <- on supprime l'ancienne image de profil
-        User.findOne({ where: { id: req.params.id } })
-            .then(user => {
-                if (user.avatar !== "default_user_profile.png") {
-
-                    fs.unlink(`images/${user.avatar}`, (error) => {
-                        if (error) throw error
-                    })
-                } else {
-                    console.log("ce fichier ne peut être effacé car c'est l'image par défaut")
-                }
-            })
-            .catch(error => res.status(400).json(error));
-    }
-
-    else { // <- le password n'a pas été modifié on peut donc enregistrer nos données directement
-        User.update(req.body, { where: { id: req.params.id } })
-            .then(() => res.status(201).json({ message: "profil actualisé" }))
-            .catch(error => res.status(400).json(error));
-    };
-};
-
 
 
 // Suppression d'un utilisateur

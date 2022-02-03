@@ -17,12 +17,14 @@
         v-model="firstName"
         class="form-row__input"
         type="text"
+        aria-label="Prénom"
         placeholder="Prénom"
       />
       <input
         v-model="lastName"
         class="form-row__input"
         type="text"
+        aria-label="Nom de famille"
         placeholder="Nom"
       />
     </div>
@@ -31,6 +33,7 @@
         v-model="email"
         class="form-row__input"
         type="text"
+        aria-label="Adresse e-mail"
         placeholder="Adresse mail"
       />
     </div>
@@ -39,6 +42,7 @@
         v-model="password"
         class="form-row__input"
         type="password"
+        aria-label="Mot de passe"
         placeholder="Mot de passe"
       />
     </div>
@@ -208,7 +212,7 @@ export default {
   transition: 0.4s background-color;
 }
 .card__action {
-  color: #2196f3;
+  color: #4825f6;
   text-decoration: underline;
 }
 .card__action:hover {
@@ -219,11 +223,17 @@ export default {
   background: #1976d2;
 }
 .button--disabled {
-  background: #cecece;
+  background: #4d4d4d;
   color: #ececec;
 }
 .button--disabled:hover {
   cursor: not-allowed;
   background: #cecece;
+}
+@media screen and (max-width: 562px) {
+  .card {
+    max-width: 100%;
+    width: 340px;
+  }
 }
 </style>

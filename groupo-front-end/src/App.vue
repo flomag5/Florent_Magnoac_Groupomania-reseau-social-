@@ -4,7 +4,8 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
-    <Header />
+    <HeaderLogin />
+    <!-- <Header /> -->
 
     <router-view></router-view>
 
@@ -14,13 +15,15 @@
   
 
 <script>
-import Header from "./components/Header";
+//import Header from "./components/Header";
+import HeaderLogin from "./components/HeaderLogin";
 import Footer from "./components/Footer.vue";
 
 export default {
   name: "App",
   components: {
-    Header,
+    //Header,
+    HeaderLogin,
     Footer,
   },
 };

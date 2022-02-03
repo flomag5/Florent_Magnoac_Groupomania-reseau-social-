@@ -5,10 +5,7 @@
       <div class="container">
         <div id="foot" class="footer-copyright text-center py-2">
           <a id="link" href="#">Conditions Générales</a>
-          <a id="link" href="#">Confidentialité</a>
-          <a id="link" href="https://groupomania.com/"
-            >© 2022 Copyright:Groupomania
-          </a>
+          <a id="link" href="https://groupomania.com/">© Groupomania </a>
         </div>
       </div>
     </footer>
@@ -25,7 +22,7 @@ export default {
 .containerfooter {
   bottom: 0px;
   width: 100%;
-  height: 45px;
+  height: 35px;
   left: 0;
   position: fixed;
 }
@@ -42,7 +39,7 @@ footer {
 }
 @media screen and (max-width: 768px) {
   .containerfooter {
-    height: 70px;
+    height: 40px;
   }
 }
 #link {
