@@ -1,76 +1,79 @@
 <template>
-  <div class="card">
-    <h1 class="card_title" v-if="mode == 'login'">Connexion</h1>
-    <h1 class="card_title" v-else>Inscription</h1>
-    <p class="card_subtitle" v-if="mode == 'login'">
-      Vous n'avez pas encore de compte?
-      <span class="card__action" @click="switchToCreateAccount()"
-        >Créer un compte</span
-      >
-    </p>
-    <p class="card__subtitle" v-else>
-      Déjà membre?
-      <span class="card__action" @click="switchToLogin()">Se connecter</span>
-    </p>
-    <div class="form-row" v-if="mode == 'create'">
-      <input
-        v-model="firstName"
-        class="form-row__input"
-        type="text"
-        aria-label="Prénom"
-        placeholder="Prénom"
-      />
-      <input
-        v-model="lastName"
-        class="form-row__input"
-        type="text"
-        aria-label="Nom de famille"
-        placeholder="Nom"
-      />
-    </div>
-    <div class="form-row">
-      <input
-        v-model="email"
-        class="form-row__input"
-        type="text"
-        aria-label="Adresse e-mail"
-        placeholder="Adresse mail"
-      />
-    </div>
-    <div class="form-row">
-      <input
-        v-model="password"
-        class="form-row__input"
-        type="password"
-        aria-label="Mot de passe"
-        placeholder="Mot de passe"
-      />
-    </div>
-    <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
-      Email ou mot de passe invalide
-    </div>
-    <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-      Adresse mail déjà utilisée
-    </div>
-    <div class="form-row">
-      <button
-        @click="login()"
-        class="button"
-        :class="{ 'button--disabled': !validatedFields }"
-        v-if="mode == 'login'"
-      >
-        <span v-if="status == 'loading'">Connexion en cours...</span>
-        <span v-else>Connexion</span>
-      </button>
-      <button
-        @click="createAccount()"
-        class="button"
-        :class="{ 'button--disabled': !validatedFields }"
-        v-else
-      >
-        <span v-if="status == 'loading'">Création en cours...</span>
-        <span v-else>Créer mon compte</span>
-      </button>
+  <div>
+    <HeaderLogin />
+    <div class="card">
+      <h1 class="card_title" v-if="mode == 'login'">Connexion</h1>
+      <h1 class="card_title" v-else>Inscription</h1>
+      <p class="card_subtitle" v-if="mode == 'login'">
+        Vous n'avez pas encore de compte?
+        <span class="card__action" @click="switchToCreateAccount()"
+          >Créer un compte</span
+        >
+      </p>
+      <p class="card__subtitle" v-else>
+        Déjà membre?
+        <span class="card__action" @click="switchToLogin()">Se connecter</span>
+      </p>
+      <div class="form-row" v-if="mode == 'create'">
+        <input
+          v-model="firstName"
+          class="form-row__input"
+          type="text"
+          aria-label="Prénom"
+          placeholder="Prénom"
+        />
+        <input
+          v-model="lastName"
+          class="form-row__input"
+          type="text"
+          aria-label="Nom de famille"
+          placeholder="Nom"
+        />
+      </div>
+      <div class="form-row">
+        <input
+          v-model="email"
+          class="form-row__input"
+          type="text"
+          aria-label="Adresse e-mail"
+          placeholder="Adresse mail"
+        />
+      </div>
+      <div class="form-row">
+        <input
+          v-model="password"
+          class="form-row__input"
+          type="password"
+          aria-label="Mot de passe"
+          placeholder="Mot de passe"
+        />
+      </div>
+      <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
+        Email ou mot de passe invalide
+      </div>
+      <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
+        Adresse mail déjà utilisée
+      </div>
+      <div class="form-row">
+        <button
+          @click="login()"
+          class="button"
+          :class="{ 'button--disabled': !validatedFields }"
+          v-if="mode == 'login'"
+        >
+          <span v-if="status == 'loading'">Connexion en cours...</span>
+          <span v-else>Connexion</span>
+        </button>
+        <button
+          @click="createAccount()"
+          class="button"
+          :class="{ 'button--disabled': !validatedFields }"
+          v-else
+        >
+          <span v-if="status == 'loading'">Création en cours...</span>
+          <span v-else>Créer mon compte</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -78,9 +81,13 @@
 
 <script>
 import { mapState } from "vuex";
+import HeaderLogin from "../components/HeaderLogin.vue";
 
 export default {
   name: "Login",
+  components: {
+    HeaderLogin,
+  },
   data: function () {
     return {
       mode: "login",
