@@ -109,7 +109,7 @@ exports.deletePost = (req, res, next) => {
         }
     })
         .then(post => {
-            console.log(req.body.userId, "GOOOOOOOOOOOOD");
+
             if (req.body.userId == post.userId || req.body.isAdmin === 1) {
 
                 const filename = post.image.split('/images/')[1];

@@ -26,8 +26,8 @@
             <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu m-t-xs">
-            <li><a @click="modifyPost()" href="#">Modifier</a></li>
-            <li><a @click="deletePost()" href="#">Supprimer</a></li>
+            <li><a @click="modifyPost(post.id)" href="#">Modifier</a></li>
+            <li><a @click="deletePost(post.id)" href="#">Supprimer</a></li>
           </ul>
         </div>
         <div class="social-avatar">
@@ -173,6 +173,25 @@ export default {
     },
     modifyPost(id) {
       this.$router.push(`/modifyPost/${id}`);
+    },
+
+    deletePost(postId) {
+      let user = JSON.parse(localStorage.getItem("user"));
+
+      if (confirm("Voulez-vous vraiment supprimer le post") === true) {
+        fetch(`http://localhost:3000/api/posts/${JSON.stringify(postId)}`, {
+          method: "DELETE",
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then((response) => response.json())
+          .then(() => {
+            alert("La suppression du post est bien prise en compte");
+            this.$router.go();
+          })
+          .catch(alert);
+      }
     },
     /*
     createComment(id) {
