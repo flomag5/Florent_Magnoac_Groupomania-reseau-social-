@@ -17,7 +17,7 @@ module.exports = app => {
 
 
   // Routes CRUD pour "post" avec middleware d'authentification
-  router.post("/", multer, posts.createPost);
+  router.post("/", auth, multer, posts.createPost);
 
   router.get("/", posts.findAll);
 
@@ -25,10 +25,10 @@ module.exports = app => {
 
   router.put("/:id", auth, multer, posts.modifyPost);
 
-  router.delete("/:id", posts.deletePost);
+  router.delete("/:id", auth, posts.deletePost);
 
   // Route commentaire de post
-  router.post('/:id/comment', commentCtrl.createComment);
+  router.post('/:id/comment', auth, commentCtrl.createComment);
 
   // Route de like/unlike
   router.get('/:postId/likes', likesCtrl.getLikes);

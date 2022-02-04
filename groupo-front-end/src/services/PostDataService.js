@@ -13,7 +13,7 @@ class PostDataService {
     }
 
     createPost(data) {
-        return http.post("/posts/", data);
+        return http.post("/posts/", data, { headers: auth() });
     }
 
     modifyPost(id, data) {
@@ -39,13 +39,13 @@ class PostDataService {
         return http.get(`/posts/${id}/comments`, data)
     }
     Createcomment(id, data) {
-        return http.post(`/posts/${id}/comment`, data)
+        return http.post(`/posts/${id}/comment`, data, { headers: auth() })
     }
     modifyComment(id, comment) {
-        return http.put(`/comment/${id}`, { comment: comment })
+        return http.put(`/comment/${id}`, { comment: comment }, { headers: auth() })
     }
     deleteComment(commentId) {
-        return http.delete('/comment/' + commentId)
+        return http.delete('/comment/' + commentId, { headers: auth() })
     }
 }
 

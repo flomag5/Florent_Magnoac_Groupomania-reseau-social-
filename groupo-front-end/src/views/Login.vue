@@ -141,7 +141,7 @@ export default {
           password: this.password,
         })
         .then(function () {
-          self.$router.push("/profile");
+          self.$router.push("/posts");
         }),
         function (error) {
           console.log(error);
