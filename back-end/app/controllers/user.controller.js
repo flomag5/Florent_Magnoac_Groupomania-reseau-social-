@@ -129,8 +129,8 @@ exports.updateUser = (req, res, next) => {
             };
             if (req.file) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                /*const filename = user.avatar.split('/images/')[1];
-                fs.unlinkSync(`images/${filename}`);*/
+                const filename = user.avatar.split('/images/')[1];
+                fs.unlinkSync(`images/${filename}`);
             }
             User.update(updateUser, {
                 where: { id: req.params.id }

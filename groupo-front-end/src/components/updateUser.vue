@@ -5,7 +5,7 @@
         <i class="fas fa-arrow-left"></i>retour au profil
       </button>
     </div>
-    <!-- <form @submit.prevent="updateUser"> -->
+
     <form
       @submit.prevent="modifyProfile"
       method="PUT"
@@ -117,6 +117,7 @@ export default {
               Authorization: `Bearer ${user.token}`,
             },
           })
+          .then((response) => response.json())
           .then(location.reload())
           .catch((error) => {
             error;

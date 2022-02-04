@@ -51,9 +51,15 @@
             :likesArray="post.like"
           />
 
-          <button class="btn btn-white btn-xs" @click="getComments()">
-            {{ post.comment.length }}
-            <i class="fa fa-comments"></i> Commentaires
+          <button
+            class="btn btn-white btn-xs"
+            @click="getComments()"
+            v-if="post.comment.length === 0"
+          >
+            <i class="fa fa-comments">0</i> Commentaire
+          </button>
+          <button class="btn btn-white btn-xs" @click="getComments()" v-else>
+            <i class="fa fa-comments">{{ post.comment.length }}</i> Commentaires
           </button>
         </div>
       </div>
@@ -160,6 +166,7 @@ export default {
       comments: [],
       newComment: null,
       likes: [],
+      isAdmin: "",
     };
   },
   created() {
@@ -174,6 +181,11 @@ export default {
       });
   },
   methods: {
+    User() {
+      this.id = JSON.parse(localStorage.getItem("userId"));
+      this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    },
+
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {

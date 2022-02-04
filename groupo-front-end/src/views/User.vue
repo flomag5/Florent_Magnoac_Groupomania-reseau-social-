@@ -7,7 +7,7 @@
         <img :src="user.avatar" alt="photo utilisateur" class="profile" />{{
           user.avatar
         }}
-        <img />
+        />
       </div>
       <p>
         Prénom: <span>{{ user.firstName }}</span>

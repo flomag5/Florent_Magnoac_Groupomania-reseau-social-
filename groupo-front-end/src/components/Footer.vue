@@ -4,8 +4,10 @@
     <footer class="page-footer font-small special-color-dark pt-2">
       <div class="container">
         <div id="foot" class="footer-copyright text-center py-2">
-          <a id="link" href="#">Conditions Générales</a>
-          <a id="link" href="https://groupomania.com/">© Groupomania </a>
+          <a class="link" id="link-condition" href="#">Conditions Générales</a>
+          <a class="link" id="link" href="https://groupomania.com/"
+            >© Groupomania
+          </a>
         </div>
       </div>
     </footer>
@@ -42,7 +44,7 @@ footer {
     height: 40px;
   }
 }
-#link {
+.link {
   color: black;
   padding: 0 5px;
 }

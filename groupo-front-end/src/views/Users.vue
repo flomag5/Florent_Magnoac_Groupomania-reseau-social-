@@ -1,24 +1,13 @@
 <template>
-  <!-- <div id="usersContainer">
-    <div id="query">
-      <span><i class="fas fa-search"></i></span>
-      <input type="text" placeholder="exemple: Prénom Nom" v-model="search" />
-    </div>
-    <div :key="user.id" v-for="user in filterUsers" class="user">
-      <div id="header">
-        <div class="profileContainer">
-          <router-link :to="`/profile/${user.id}`">
-            <img :src="user.avatar" :alt="user.avatar" class="profile" />
-          </router-link>
-        </div>
-        <h4>{{ user.firstName }} {{ user.lastName }}</h4>
-      </div>
-    </div>
-  </div> -->
   <div id="usersContainer">
     <div id="query">
       <span><i class="fas fa-search"></i></span>
-      <input type="text" placeholder="exemple: Prénom Nom" v-model="search" />
+      <input
+        type="text"
+        placeholder="exemple: Prénom Nom"
+        v-model="search"
+        aria-label="Saisir Prénom et nom"
+      />
     </div>
     <div :key="user.id" v-for="user in filterUsers" class="user">
       <a
@@ -82,6 +71,7 @@ export default {
 #usersContainer {
   max-width: 600px;
   margin: 35px auto;
+  padding-bottom: 8px;
   border-radius: 4px;
   background-color: white;
 }
@@ -119,8 +109,7 @@ p {
 input {
   padding: 6px;
   border: 1px solid #1c68e6;
-  border-radius: 0 4px 4px 0;
-  border-left-style: none;
+  border-radius: 4px;
 }
 input:focus {
   outline: none;
@@ -131,6 +120,7 @@ span {
   border-right-style: none;
   border-radius: 4px 0 0 4px;
 }
+
 @media screen and (max-width: 992px) {
   #usersContainer {
     max-width: 90%;

@@ -34,7 +34,7 @@
               <router-link
                 class="nav-link"
                 :to="'/posts'"
-                aria-label="Lien vers la page fil d'actualité"
+                aria-label="Lien vers les publications"
                 title="Accueil"
               >
                 <i class="fas fa-home"></i>
