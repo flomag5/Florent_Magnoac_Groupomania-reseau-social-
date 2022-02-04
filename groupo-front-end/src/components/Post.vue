@@ -5,7 +5,7 @@
       rel="stylesheet"
     />
     <div class="social-feed-box" :key="post.id">
-      <div class="pull-right social-action dropdown">
+      <div class="pull-right social-action dropdown" v-if="auth(post.userId)">
         <button data-toggle="dropdown" class="dropdown-toggle btn-white">
           <i class="fa fa-angle-down"></i>
         </button>
@@ -19,11 +19,22 @@
         </ul>
       </div>
       <div class="social-avatar">
-        <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" :src="post.user.avatar" />
-        </a>
+        <router-link :to="`/profile/${post.userId}`">
+          <a
+            href="#"
+            class="pull-left"
+            aria-label="Lien profil depuis l'avatar"
+          >
+            <img alt="Avatar utilisateur" :src="post.user.avatar" /> </a
+        ></router-link>
         <div class="media-body">
-          <a href="#"> {{ post.user.lastName }} {{ post.user.firstName }} </a>
+          <router-link :to="`/profile/${post.userId}`"
+            ><a href="#" id="post-user" aria-label="Lien profil depuis le nom">
+              <strong>
+                {{ post.user.lastName }} {{ post.user.firstName }}
+              </strong>
+            </a></router-link
+          >
           <small class="text-muted"
             >Publié le {{ dateFormat(post.date) }} à
             {{ hourFormat(post.date) }}</small
@@ -31,11 +42,9 @@
         </div>
       </div>
       <div class="social-body">
-        <router-link :to="'/posts/' + post.id"
-          ><h1>
-            {{ post.title }}
-          </h1></router-link
-        >
+        <h1>
+          {{ post.title }}
+        </h1>
         <p>{{ post.content }}</p>
         <img
           v-if="post.image"
@@ -59,7 +68,8 @@
             <i class="fa fa-comments">0</i> Commentaire
           </button>
           <button class="btn btn-white btn-xs" @click="getComments()" v-else>
-            <i class="fa fa-comments">{{ post.comment.length }}</i> Commentaires
+            <i class="fa fa-comments"> {{ post.comment.length }}</i>
+            Commentaires
           </button>
         </div>
       </div>
@@ -111,7 +121,7 @@
             <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="pull-right social-action dropdown">
-            <button data-toggle="dropdown">
+            <button data-toggle="dropdown" aria-label="action sur commentaire">
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <ul class="dropdown-menu m-t-xs">
@@ -130,6 +140,7 @@
           <div class="media-body">
             <input
               class="form-control"
+              aria-label="commenter le post"
               v-model="newComment"
               v-on:keyup.enter="createComment()"
               placeholder="Ecrivez un commentaire public..."
@@ -153,6 +164,7 @@ export default {
   },
   props: {
     userId: Number,
+    isAdmin: Boolean,
   },
   data() {
     return {
@@ -166,7 +178,6 @@ export default {
       comments: [],
       newComment: null,
       likes: [],
-      isAdmin: "",
     };
   },
   created() {
@@ -181,9 +192,14 @@ export default {
       });
   },
   methods: {
-    User() {
-      this.id = JSON.parse(localStorage.getItem("userId"));
-      this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
+    auth(postUserId) {
+      /*if (this.isAdmin) {
+        return true;
+      }*/
+      if (this.userId !== postUserId) {
+        return false;
+      }
+      return true;
     },
 
     dateFormat(createdDate) {
@@ -285,6 +301,7 @@ export default {
       this.$router.push(`/modifyPost/${this.id_param}`);
     },
     mounted() {
+      this.User();
       this.getComments();
     },
   },
@@ -436,5 +453,9 @@ body {
   font-size: 90%;
   background: #ffffff;
   padding: 10px 15px;
+}
+#post-user {
+  color: #115d8d;
+  font-size: 1rem;
 }
 </style>

@@ -60,7 +60,7 @@
                 <input
                   aria-label="Trouver un utilisateur"
                   placeholder="rechercher utilisateurs"
-                  autocomplete="on"
+                  color="darkgrey"
                 />
               </router-link>
             </li>

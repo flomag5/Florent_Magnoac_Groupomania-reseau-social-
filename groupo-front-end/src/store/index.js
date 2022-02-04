@@ -33,6 +33,7 @@ const store = createStore({
             firstName: '',
             email: '',
             avatar: '',
+            isAdmin: null
         },
         posts: [],
         post: {

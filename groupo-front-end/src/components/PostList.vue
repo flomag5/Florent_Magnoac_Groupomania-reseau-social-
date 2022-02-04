@@ -31,11 +31,16 @@
           </ul>
         </div>
         <div class="social-avatar">
-          <a class="pull-left">
-            <img alt="Avatar utilisateur" :src="post.user.avatar" />
-          </a>
+          <router-link :to="`/profile/${post.userId}`"
+            ><a class="pull-left" aria-label="Lien profil depuis l'avatar">
+              <img alt="Avatar utilisateur" :src="post.user.avatar" /> </a
+          ></router-link>
           <div class="media-body">
-            <a> {{ post.user.lastName }} {{ post.user.firstName }} </a>
+            <router-link :to="`/profile/${post.userId}`"
+              ><a href="#" aria-label="Lien profil depuis le nom">
+                {{ post.user.lastName }} {{ post.user.firstName }}
+              </a></router-link
+            >
             <small class="text-muted"
               >Publié le {{ dateFormat(post.date) }} à
               {{ hourFormat(post.date) }}</small
