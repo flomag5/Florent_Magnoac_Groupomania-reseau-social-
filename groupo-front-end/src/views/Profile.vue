@@ -4,17 +4,20 @@
     <p class="card__subtitle">Voilà donc qui je suis...</p>
     <div v-if="userProfile" id="userProfile">
       <div class="modify">
-        <button @click.prevent="toggleProfile">
+        <button @click.prevent="toggleProfile" aria-label="modifier le profil">
           <i class="fas fa-cog"></i> Modifier profil
         </button>
       </div>
       <div class="profileContainer">
-        <img :src="user.avatar" alt="photo utilisateur" class="profile" />{{
-          user.avatar
-        }}
+        <img
+          :src="user.avatar"
+          alt="photo utilisateur"
+          class="profile"
+          aria-label="mon avatar"
+        />{{ user.avatar }}
         <img />
       </div>
-      <button @click.prevent="toggleProfile">
+      <button @click.prevent="toggleProfile" aria-label="changer de photo">
         <i class="fas fa-camera"></i> Changer la photo de profil
       </button>
       <p>
@@ -24,7 +27,17 @@
         Nom: <span>{{ user.lastName }}</span>
       </p>
       <div class="form-row">
-        <button @click="logout()" class="log_button">Déconnexion</button>
+        <button @click="logout()" class="log_button" aria-label="déconnexion">
+          Déconnexion
+        </button>
+        <button
+          @click="logout()"
+          id="log_button_small"
+          title="logout"
+          aria-label="logout"
+        >
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
       </div>
     </div>
     <UpdateUser
@@ -85,6 +98,11 @@ export default {
 <style scoped>
 .card {
   box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
+  margin: auto;
+  margin-top: 2rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
 }
 .profileContainer {
   margin: auto;
@@ -104,22 +122,11 @@ export default {
 button {
   background: #ffd7d7;
   margin: 1rem;
-
   border-radius: 25px;
   padding: 3px auto;
   font-size: 0.94rem;
 }
 
-/*#showProfile {
-  max-width: 60%;
-  box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
-  margin: auto;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-}*/
 .modify {
   text-align: right;
 }
@@ -136,9 +143,21 @@ span {
   font-style: italic;
   font-weight: 500;
 }
-@media screen and (max-width: 992px) {
-  #showProfile {
-    max-width: 100%;
+#log_button_small {
+  display: none;
+}
+
+@media screen and (max-width: 512px) {
+  .card {
+    width: 100%;
+  }
+  .log_button {
+    display: none;
+  }
+  #log_button_small {
+    display: flex;
+    background-color: #d1515a;
+    padding: 4px 20px;
   }
 }
 </style>

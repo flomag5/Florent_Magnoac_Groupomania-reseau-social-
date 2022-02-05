@@ -85,7 +85,11 @@
             <img alt="Avatar utilisateur" :src="comment.user.avatar" />
           </a>
           <div class="pull-right social-action dropdown">
-            <button data-toggle="dropdown">
+            <button
+              data-toggle="dropdown"
+              text="action sur commentaire"
+              aria-label="modifier commentaire"
+            >
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <ul class="dropdown-menu m-t-xs">
@@ -102,13 +106,18 @@
             </ul>
           </div>
           <div class="media-body">
-            <a href="#"
-              >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
+            <a
+              href="#"
+              id="comment-user"
+              aria-label="Lien vers profil utilisateur"
+              ><strong
+                >{{ comment.user.firstName }}
+                {{ comment.user.lastName }}</strong
+              ></a
             ><br />
             <p>{{ comment.content }}</p>
             <p>
-              <br />
-              <small class="text-muted"
+              <small class="text" id="comment-date"
                 >{{ dateFormat(comment.date) }}
                 {{ hourFormat(comment.createdAt) }}</small
               >
@@ -121,7 +130,11 @@
             <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
           <div class="pull-right social-action dropdown">
-            <button data-toggle="dropdown" aria-label="action sur commentaire">
+            <button
+              data-toggle="dropdown"
+              text="action sur commentaire"
+              aria-label="modifier commentaire"
+            >
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <ul class="dropdown-menu m-t-xs">
@@ -143,7 +156,7 @@
               aria-label="commenter le post"
               v-model="newComment"
               v-on:keyup.enter="createComment()"
-              placeholder="Ecrivez un commentaire public..."
+              placeholder="Ecrivez un commentaire..."
             />
           </div>
         </div>
@@ -329,10 +342,11 @@ body {
   float: none;
 }
 .social-feed-box {
-  width: 370px;
+  width: 520px;
   padding: 15px;
   border: 1px solid #e7eaec;
   background: #fff;
+  margin-top: 10px;
   margin-bottom: 15px;
 }
 .article .social-feed-box {
@@ -352,6 +366,9 @@ body {
 }
 .social-avatar {
   padding: 15px 15px 0 15px;
+}
+.social-comment {
+  border-bottom: 1px solid lightgray;
 }
 .social-comment .social-comment {
   margin-left: 45px;
@@ -457,5 +474,18 @@ body {
 #post-user {
   color: #115d8d;
   font-size: 1rem;
+}
+#comment-user {
+  color: #115d8d;
+}
+
+@media screen and (max-width: 512px) {
+  .social-feed-box {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #e7eaec;
+    background: #fff;
+    margin-bottom: 15px;
+  }
 }
 </style>

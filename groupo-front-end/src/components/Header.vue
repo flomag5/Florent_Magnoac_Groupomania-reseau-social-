@@ -88,7 +88,6 @@
               <div
                 id="disconnect"
                 class="nav-link"
-                aria-label="Déconnexion et retour vers la page d'accueil"
                 title="Se déconnecter"
                 @click="disconnect"
               >

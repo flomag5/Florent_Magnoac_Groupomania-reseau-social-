@@ -22,7 +22,11 @@
       </div>
       <div class="social-feed-box" v-for="post in posts" :key="post.id">
         <div class="pull-right social-action dropdown">
-          <button data-toggle="dropdown" class="dropdown-toggle btn-white">
+          <button
+            data-toggle="dropdown"
+            class="dropdown-toggle btn-white"
+            aria-label="post option"
+          >
             <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu m-t-xs">
@@ -37,8 +41,10 @@
           ></router-link>
           <div class="media-body">
             <router-link :to="`/profile/${post.userId}`"
-              ><a href="#" aria-label="Lien profil depuis le nom">
-                {{ post.user.lastName }} {{ post.user.firstName }}
+              ><a href="#" id="post-user" aria-label="Lien profil depuis le nom"
+                ><strong>
+                  {{ post.user.lastName }} {{ post.user.firstName }}</strong
+                >
               </a></router-link
             >
             <small class="text-muted"
@@ -68,7 +74,11 @@
               :userId="post.userId"
               :likesArray="post.like"
             />
-            <button class="btn btn-white btn-xs" @click="likePost"></button>
+            <button
+              class="btn btn-white btn-xs"
+              @click="likePost"
+              aria-label="j'aime ce post"
+            ></button>
 
             <i class="fa fa-comments"></i>
             {{ post.comment.length }} Commentaires
@@ -85,8 +95,14 @@
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>
             <div class="media-body">
-              <a href="#"
-                >{{ comment.user.firstName }} {{ comment.user.lastName }}</a
+              <a
+                href="#"
+                id="comment-user"
+                aria-label="Lien vers profil utilisateur"
+                ><strong
+                  >{{ comment.user.firstName }}
+                  {{ comment.user.lastName }}</strong
+                ></a
               ><br />
 
               <p>{{ comment.content }}</p>
@@ -104,7 +120,10 @@
               <img alt="Avatar utilisateur" :src="post.user.avatar" />
             </a>
             <div class="media-body">
-              <router-link :to="'/posts/' + post.id">
+              <router-link
+                :to="'/posts/' + post.id"
+                aria-label="lien vers ce post"
+              >
                 <input
                   class="form-control"
                   aria-label="Commenter la publication"
@@ -277,6 +296,9 @@ body {
 .social-avatar {
   padding: 15px 15px 0 15px;
 }
+.social-comment {
+  border-bottom: 1px solid lightgray;
+}
 .social-comment .social-comment {
   margin-left: 45px;
 }
@@ -377,5 +399,23 @@ body {
   font-size: 90%;
   background: #ffffff;
   padding: 10px 15px;
+}
+#post-user {
+  color: #115d8d;
+  font-size: 1rem;
+}
+#comment-user {
+  color: #115d8d;
+}
+
+@media screen and (max-width: 512px) {
+  .social-feed-box {
+    max-width: 340px;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #e7eaec;
+    background: #fff;
+    margin-bottom: 15px;
+  }
 }
 </style>
