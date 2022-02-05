@@ -62,7 +62,6 @@ export default {
     })
       .then((res) => res.json())
       .then((data) => {
-        data.avatar = `${user.avatar}`;
         this.user = data;
       })
       .catch((error) => {
