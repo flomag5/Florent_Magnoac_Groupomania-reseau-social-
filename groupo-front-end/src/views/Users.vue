@@ -43,6 +43,13 @@ export default {
       search: "",
     };
   },
+  computed: {
+    filterUsers: function () {
+      return this.users.filter((user) => {
+        return user.username.toLowerCase().match(this.search.toLowerCase());
+      });
+    },
+  },
   methods: {
     /* on récupère les users */
     async fetchUsers() {
@@ -56,13 +63,6 @@ export default {
   },
   async created() {
     this.users = await this.fetchUsers();
-  },
-  computed: {
-    filterUsers: function () {
-      return this.users.filter((user) => {
-        return user.username.toLowerCase().match(this.search.toLowerCase());
-      });
-    },
   },
 };
 </script>

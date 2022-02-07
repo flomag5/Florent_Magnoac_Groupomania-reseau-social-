@@ -7,9 +7,16 @@
     />
     <div class="col-md-7">
       <div class="social-feed-box">
-        <a href="" class="pull-left">
-          <img alt="Avatar utilisateur" src="user.avatar" />
-        </a>
+        <div class="social-avatar">
+          <router-link :to="'/profile'"
+            ><a href="#" class="pull-left" aria-label="lien vers mon profil">
+              <img
+                alt="Avatar utilisateur"
+                :src="userAvatar"
+                aria-label="avatar utilisateur"
+              /> </a
+          ></router-link>
+        </div>
         <form class="d-flex">
           <input
             @click="createPost()"
@@ -160,8 +167,10 @@ export default {
       posts: [],
       comments: [],
       newComment: null,
+      user: {},
       postId: "",
       likes: [],
+      userAvatar: "",
     };
   },
   created() {
@@ -173,6 +182,10 @@ export default {
       .catch((error) => {
         console.log(error);
       });
+  },
+  mounted() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    this.userAvatar = user.avatar;
   },
 
   methods: {
@@ -217,32 +230,6 @@ export default {
           .catch(alert);
       }
     },
-    /*
-    createComment(id) {
-      //let postId = JSON.stringify(this.postId);
-      const user = JSON.parse(localStorage.getItem("user"));
-      let data = {
-        content: this.newComment,
-        postId: JSON.stringify(this.postId),
-        userId: user.userId,
-      };
-      fetch(`http://localhost:3000/api/posts/${id}/comment`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          authorization: `Bearer ${user.token}`,
-        },
-        body: JSON.stringify(data),
-      })
-        .then((response) => {
-          return response.json();
-        })
-        .then(() => {
-          this.$router.go();
-        })
-        .catch(alert);
-    },*/
   },
 };
 </script>

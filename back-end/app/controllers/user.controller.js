@@ -42,7 +42,7 @@ exports.signup = (req, res, next) => {
                 email: emailCryptoJs,
                 password: hash,
                 avatar: `${req.protocol}://${req.get('host')}/images/default_user_profile.png`,
-                isAdmin: req.body.isAdmin
+
             })
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
                 .catch(error => res.status(400).json({ error }));
@@ -77,6 +77,7 @@ exports.login = (req, res, next) => {
                         lastName: user.lastName,
                         firstName: user.firstName,
                         avatar: user.avatar,
+                        isAdmin: user.isAdmin,
                         token: jwt.sign(
                             { userId: user.id },
                             process.env.JWT_KEY_TOKEN,

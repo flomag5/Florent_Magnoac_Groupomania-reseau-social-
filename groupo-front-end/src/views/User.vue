@@ -16,6 +16,13 @@
         Nom: <span>{{ user.lastName }}</span>
       </p>
     </div>
+    <button
+      @click.prevent="deleteUser"
+      class="delete"
+      aria-label="supprimer cet utilisateur"
+    >
+      <i class="far fa-trash-alt delete"></i>
+    </button>
   </div>
 </template>
 
@@ -43,6 +50,25 @@ export default {
         console.log(error);
       });
   },
+  methods: {
+    deleteUser() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      let userId = this.$route.params.id;
+      if (confirm("êtes vous sûr de vouloir supprimer ce compte ?")) {
+        fetch(`http://localhost:3000/api/user/${userId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        })
+          .then(this.$router.push({ path: "/users" }))
+          .catch((error) => {
+            error;
+          });
+      }
+    },
+  },
 };
 </script>
 
@@ -65,13 +91,14 @@ export default {
   width: 30%;
   padding: 4px 0;
 }
-button {
-  background: #ffd7d7;
-  margin: 1rem;
 
+button {
+  background: #d1515a;
+  margin: 1rem;
   border-radius: 25px;
-  padding: 3px auto;
+  padding: 2px auto;
   font-size: 0.94rem;
+  width: 12%;
 }
 
 /*#showProfile {

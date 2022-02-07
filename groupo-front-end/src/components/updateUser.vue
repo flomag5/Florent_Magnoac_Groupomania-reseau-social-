@@ -36,7 +36,11 @@
       <label for="lastName">Modifier le nom :</label>
       <input type="text" name="lastName" v-model="updateUser.lastName" />
 
-      <button @click.prevent="deleteProfile" class="delete">
+      <button
+        @click.prevent="deleteProfile"
+        class="delete"
+        aria-label="suppression du compte"
+      >
         <i class="far fa-trash-alt delete"></i>Supprimer compte
       </button>
 
@@ -73,7 +77,7 @@ export default {
   methods: {
     deleteProfile() {
       let user = JSON.parse(localStorage.getItem("user"));
-      if (confirm("êtes vous sûr de vouloir supprimer votre compte ?")) {
+      if (confirm("êtes vous sûr de vouloir supprimer ce compte ?")) {
         fetch(`http://localhost:3000/api/user/${user.userId}`, {
           method: "DELETE",
           headers: {
@@ -81,13 +85,13 @@ export default {
             Authorization: `Bearer ${user.token}`,
           },
         })
-          .then(localStorage.clear())
           .then(router.push({ path: "/" }))
           .catch((error) => {
             error;
           });
       }
     },
+
     selectFile(event) {
       this.file = this.$refs.file.files[0];
       let input = event.target;

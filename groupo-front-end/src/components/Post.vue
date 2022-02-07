@@ -139,11 +139,6 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li>
-                <a @click="modifyComment()" href="#"
-                  ><i class="far fa-edit modify"></i> modifier</a
-                >
-              </li>
-              <li>
                 <a @click="deleteComment(index)" href="#"
                   ><i class="far fa-trash-alt delete"></i> supprimer</a
                 >
