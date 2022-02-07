@@ -5,16 +5,32 @@
       rel="stylesheet"
     />
     <div class="social-feed-box" :key="post.id">
-      <div class="pull-right social-action dropdown" v-if="auth(post.userId)">
-        <button data-toggle="dropdown" class="dropdown-toggle btn-white">
+      <div class="pull-right social-action dropdown">
+        <button
+          data-toggle="dropdown"
+          class="dropdown-toggle btn-white"
+          v-if="post.userId === logId || isAdmin === 1"
+        >
           <i class="fa fa-angle-down"></i>
         </button>
         <ul class="dropdown-menu m-t-xs">
           <li>
-            <a @click="modifyPost()" href="#">Modifier</a>
+            <a
+              v-if="post.userId === logId"
+              @click="modifyPost()"
+              href="#"
+              aria-label="modifier le post"
+              >Modifier</a
+            >
           </li>
           <li>
-            <a @click="deletePost()" href="#">Supprimer</a>
+            <a
+              @click="deletePost()"
+              v-if="post.userId === logId || isAdmin === 1"
+              href="#"
+              aria-label="supprimer le post"
+              >Supprimer</a
+            >
           </li>
         </ul>
       </div>
@@ -172,7 +188,7 @@ export default {
   },
   props: {
     userId: Number,
-    isAdmin: Boolean,
+    //isAdmin: Boolean,
   },
   data() {
     return {
@@ -181,11 +197,14 @@ export default {
         title: "",
         content: "",
         image: "",
+        userId: "",
         user: {},
       },
       comments: [],
       newComment: null,
       likes: [],
+      logId: "",
+      isAdmin: "",
     };
   },
   created() {
@@ -200,15 +219,23 @@ export default {
       });
   },
   methods: {
-    auth(postUserId) {
-      /*if (this.isAdmin) {
+    UserMe() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.logId = user.userId;
+      this.isAdmin = user.isAdmin;
+      console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
+      console.log(this.isAdmin, "Admmmmmmmmmmmmin");
+    },
+
+    /* auth(postUserId) {
+      if (this.isAdmin) {
         return true;
-      }*/
+      }
       if (this.userId !== postUserId) {
         return false;
       }
       return true;
-    },
+    },*/
 
     dateFormat(createdDate) {
       const date = new Date(createdDate);
@@ -308,10 +335,10 @@ export default {
     modifyPost() {
       this.$router.push(`/modifyPost/${this.id_param}`);
     },
-    mounted() {
-      this.User();
-      this.getComments();
-    },
+  },
+  mounted() {
+    this.UserMe();
+    this.getComments();
   },
 };
 </script>
