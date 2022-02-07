@@ -116,7 +116,7 @@ exports.getAllUsers = (req, res, next) => {
 
 
 // Modification d'un compte utilisateur
-exports.updateUser = (req, res, next) => {
+/*exports.updateUser = (req, res, next) => {
 
     User.findOne({
         where: { id: req.params.id }
@@ -140,7 +140,36 @@ exports.updateUser = (req, res, next) => {
 
         });
 };
+*/
 
+exports.updateUser = (req, res, next) => {
+
+    User.findOne({
+        where: { id: req.params.id }
+    })
+        .then(user => {
+            const updateUser = {
+                lastName: req.body.lastName,
+                firstName: req.body.firstName,
+
+            };
+            if (req.file && user.avatar === `${req.protocol}://${req.get('host')}/images/default_user_profile.png`) {
+                updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+
+            }
+            else if (req.file) {
+                updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+                const filename = user.avatar.split('/images/')[1];
+                fs.unlinkSync(`images/${filename}`);
+            }
+            User.update(updateUser, {
+                where: { id: req.params.id }
+            })
+                .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
+                .catch((error) => res.status(400).json({ error }));
+
+        });
+};
 
 // Suppression d'un utilisateur
 exports.delete = (req, res, next) => {

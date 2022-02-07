@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
         },
         avatar: {
             type: DataTypes.STRING,
-            allowNull: false,
+            allowNull: true,
             defaultValue: 'default_user_profile.png'
         },
         isAdmin: {

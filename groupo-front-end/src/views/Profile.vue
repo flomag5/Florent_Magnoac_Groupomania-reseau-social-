@@ -10,6 +10,7 @@
       </div>
       <div class="profileContainer">
         <img
+          v-if="user.avatar"
           :src="user.avatar"
           alt="photo utilisateur"
           class="profile"
