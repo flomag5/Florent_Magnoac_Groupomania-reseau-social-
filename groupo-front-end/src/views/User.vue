@@ -17,6 +17,7 @@
       </p>
     </div>
     <button
+      v-if="user.id === logId || isAdmin === true"
       @click.prevent="deleteUser"
       class="delete"
       aria-label="supprimer cet utilisateur"
@@ -37,6 +38,8 @@ export default {
     return {
       userProfile: true,
       user: {},
+      logId: "",
+      isAdmin: "",
     };
   },
   created() {
@@ -51,6 +54,14 @@ export default {
       });
   },
   methods: {
+    UserMe() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.logId = user.userId;
+      this.isAdmin = user.isAdmin;
+      console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
+      console.log(this.isAdmin, "Admmmmmmmmmmmmin");
+    },
+
     deleteUser() {
       let user = JSON.parse(localStorage.getItem("user"));
       let userId = this.$route.params.id;
@@ -68,6 +79,9 @@ export default {
           });
       }
     },
+  },
+  mounted() {
+    this.UserMe();
   },
 };
 </script>

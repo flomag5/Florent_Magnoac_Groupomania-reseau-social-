@@ -9,7 +9,7 @@
         <button
           data-toggle="dropdown"
           class="dropdown-toggle btn-white"
-          v-if="post.userId === logId || isAdmin === 1"
+          v-if="post.userId === logId || isAdmin === true"
         >
           <i class="fa fa-angle-down"></i>
         </button>
@@ -26,7 +26,7 @@
           <li>
             <a
               @click="deletePost()"
-              v-if="post.userId === logId || isAdmin === 1"
+              v-if="post.userId === logId || isAdmin === true"
               href="#"
               aria-label="supprimer le post"
               >Supprimer</a
@@ -103,7 +103,7 @@
           <div class="pull-right social-action dropdown">
             <button
               data-toggle="dropdown"
-              v-if="comment.userId === logId || isAdmin === 1"
+              v-if="comment.userId === logId || isAdmin === true"
               text="action sur commentaire"
               aria-label="modifier commentaire"
             >
@@ -115,7 +115,7 @@
                   ><i class="far fa-edit modify"></i> modifier</a
                 >
               </li>
-              <li v-if="comment.userId === logId || isAdmin === 1">
+              <li v-if="comment.userId === logId || isAdmin === true">
                 <a @click="deleteComment(index)" href="#"
                   ><i class="far fa-trash-alt delete"></i> supprimer</a
                 >
