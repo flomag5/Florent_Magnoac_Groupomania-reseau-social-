@@ -31,6 +31,7 @@
         <div class="pull-right social-action dropdown">
           <button
             data-toggle="dropdown"
+            v-if="post.userId === logId || isAdmin === 1"
             class="dropdown-toggle btn-white"
             aria-label="post option"
           >
@@ -171,6 +172,8 @@ export default {
       postId: "",
       likes: [],
       userAvatar: "",
+      logId: "",
+      isAdmin: "",
     };
   },
   created() {
@@ -186,9 +189,18 @@ export default {
   mounted() {
     let user = JSON.parse(localStorage.getItem("user"));
     this.userAvatar = user.avatar;
+    this.UserMe();
   },
 
   methods: {
+    UserMe() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.logId = user.userId;
+      this.isAdmin = user.isAdmin;
+      console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
+      console.log(this.isAdmin, "Admmmmmmmmmmmmin");
+    },
+
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {

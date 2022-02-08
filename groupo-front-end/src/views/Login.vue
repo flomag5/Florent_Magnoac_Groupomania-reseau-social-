@@ -210,7 +210,7 @@ export default {
   font-weight: 500;
 }
 .button {
-  background: #2196f3;
+  background: #1f31ff;
   color: white;
   border-radius: 8px;
   font-weight: 800;

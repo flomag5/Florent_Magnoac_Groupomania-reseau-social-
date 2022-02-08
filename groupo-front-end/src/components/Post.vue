@@ -103,18 +103,19 @@
           <div class="pull-right social-action dropdown">
             <button
               data-toggle="dropdown"
+              v-if="comment.userId === logId || isAdmin === 1"
               text="action sur commentaire"
               aria-label="modifier commentaire"
             >
               <i class="fas fa-ellipsis-h"></i>
             </button>
             <ul class="dropdown-menu m-t-xs">
-              <li>
+              <li v-if="comment.userId === logId">
                 <a @click="modifyComment()" href="#"
                   ><i class="far fa-edit modify"></i> modifier</a
                 >
               </li>
-              <li>
+              <li v-if="comment.userId === logId || isAdmin === 1">
                 <a @click="deleteComment(index)" href="#"
                   ><i class="far fa-trash-alt delete"></i> supprimer</a
                 >
@@ -226,16 +227,6 @@ export default {
       console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
       console.log(this.isAdmin, "Admmmmmmmmmmmmin");
     },
-
-    /* auth(postUserId) {
-      if (this.isAdmin) {
-        return true;
-      }
-      if (this.userId !== postUserId) {
-        return false;
-      }
-      return true;
-    },*/
 
     dateFormat(createdDate) {
       const date = new Date(createdDate);
