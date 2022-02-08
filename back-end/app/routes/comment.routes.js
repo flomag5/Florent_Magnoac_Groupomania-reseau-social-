@@ -15,7 +15,7 @@ module.exports = app => {
 
     router.get("/:postId/all", commentCtrl.getAllComments);
 
-    router.get("/:id", auth, commentCtrl.getOneComment);
+    router.get("/:id", commentCtrl.getOneComment);
 
     router.put("/:id", auth, commentCtrl.modifyComment);
 
