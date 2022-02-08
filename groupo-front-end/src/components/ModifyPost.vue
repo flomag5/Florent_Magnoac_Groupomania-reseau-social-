@@ -25,7 +25,7 @@
         <textarea name="textarea" v-model="post.content"></textarea>
       </div>
       <div id="modify">
-        <input type="submit" value="je modifie !" class="btn" />
+        <input type="submit" value="modifier" class="btn" />
       </div>
       <p>{{ errMsg }}</p>
     </form>
@@ -162,7 +162,7 @@ textarea {
   background-color: #1c68e6;
   border-style: none;
   outline: none;
-  width: 20%;
+  width: 30%;
   border-radius: 8px;
   height: 40px;
   color: white;

@@ -7,6 +7,8 @@ const Comment = db.comment;
 const User = db.user;
 const Op = db.Sequelize.Op;
 const fs = require("fs");
+const { user } = require("../models");
+const jwt = require('jsonwebtoken');
 
 
 // Routes CRUD pour les posts
@@ -41,7 +43,7 @@ exports.findAll = (req, res, next) => {
     Post.findAll({
         include: [
             //"comment",
-            //"user", "like"
+            "like",
             "user", { model: Comment, as: "comment", include: "user" }
         ],
 
@@ -73,10 +75,14 @@ exports.findPostById = (req, res, next) => {
 // Modifier un post par l'Id de la requête
 exports.modifyPost = (req, res, next) => {
     const id = req.params.id;
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
+    const userId = decodedToken.userId
     Post.findOne({ where: { id: id } })
         .then(post => {
-            console.log(req.body.userId, "WAOUUUUUUUUUUUUUUUU")
-            if (req.body.userId == post.userId) {
+
+            if (userId == post.userId) {
+
                 const updatePost = {
                     title: req.body.title,
                     content: req.body.content

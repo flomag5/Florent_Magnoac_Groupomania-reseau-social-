@@ -97,7 +97,7 @@ export default {
     createPost() {
       let user = JSON.parse(localStorage.getItem("user"));
       const fileField = document.querySelector('input[type="file"]');
-      const token = JSON.parse(localStorage.getItem("userToken"));
+      //const token = JSON.parse(localStorage.getItem("userToken"));
 
       if (this.image === "" && this.title != "" && this.content != "") {
         let data = new FormData();
@@ -107,7 +107,7 @@ export default {
         fetch("http://localhost:3000/api/posts", {
           method: "POST",
           headers: {
-            authorization: `Bearer ${token}`,
+            authorization: `Bearer ${user.token}`,
           },
           body: data,
         })
@@ -127,7 +127,7 @@ export default {
         fetch("http://localhost:3000/api/posts", {
           method: "POST",
           headers: {
-            authorization: `Bearer ${token}`,
+            authorization: `Bearer ${user.token}`,
           },
           body: data,
         })
