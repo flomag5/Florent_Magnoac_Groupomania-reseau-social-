@@ -145,5 +145,10 @@ span {
   #showProfile {
     max-width: 100%;
   }
+  @media screen and (max-width: 512px) {
+    .card {
+      width: 100%;
+    }
+  }
 }
 </style>

@@ -56,12 +56,11 @@
                 class="nav-link"
                 :to="'/users'"
                 aria-label="Lien vers la liste des utilisateurs"
-              >
-                <input
-                  aria-label="Trouver un utilisateur"
-                  placeholder="rechercher utilisateurs"
-                  color="darkgrey"
-                />
+                ><i
+                  class="fas fa-users"
+                  title="utilisateurs"
+                  aria-label="tous les utilisateurs"
+                ></i>
               </router-link>
             </li>
             <li class="nav-item">
@@ -160,6 +159,7 @@ header img {
 .fas {
   color: black;
   font-size: 25px;
+  margin-right: 10px;
 }
 #disconnect {
   cursor: pointer;
@@ -168,5 +168,8 @@ input[type="submit"] {
   font-family: "Font Awesome 5 Free";
   font-size: 1em;
   font-weight: 700;
+}
+.nav-subtext {
+  font-size: 20px;
 }
 </style>

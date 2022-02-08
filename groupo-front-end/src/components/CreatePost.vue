@@ -227,6 +227,12 @@ export default {
     margin-bottom: 2.77rem;
   }
 }
+@media screen and (max-width: 512px) {
+  .card {
+    width: 85%;
+    margin: auto;
+  }
+}
 /**Reset Bootstrap*/
 .dropdown-toggle::after {
   content: none;
