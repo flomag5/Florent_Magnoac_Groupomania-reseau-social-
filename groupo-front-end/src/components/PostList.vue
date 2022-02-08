@@ -38,8 +38,12 @@
             <i class="fa fa-angle-down"></i>
           </button>
           <ul class="dropdown-menu m-t-xs">
-            <li><a @click="modifyPost(post.id)" href="#">Modifier</a></li>
-            <li><a @click="deletePost(post.id)" href="#">Supprimer</a></li>
+            <li v-if="post.userId === logId">
+              <a @click="modifyPost(post.id)" href="#">Modifier</a>
+            </li>
+            <li v-if="post.userId === logId || isAdmin === 1">
+              <a @click="deletePost(post.id)" href="#">Supprimer</a>
+            </li>
           </ul>
         </div>
         <div class="social-avatar">
@@ -102,6 +106,23 @@
             <a href="#" class="pull-left">
               <img alt="Avatar utilisateur" :src="comment.user.avatar" />
             </a>
+            <div class="pull-right social-action dropdown">
+              <button
+                data-toggle="dropdown"
+                v-if="comment.userId === logId || isAdmin === 1"
+                text="action sur commentaire"
+                aria-label="modifier commentaire"
+              >
+                <i class="fas fa-ellipsis-h"></i>
+              </button>
+              <ul class="dropdown-menu m-t-xs">
+                <li v-if="comment.userId === logId || isAdmin === 1">
+                  <a @click="deleteComment(comment.id)" href="#"
+                    ><i class="far fa-trash-alt delete"></i> supprimer</a
+                  >
+                </li>
+              </ul>
+            </div>
             <div class="media-body">
               <a
                 href="#"
@@ -167,6 +188,7 @@ export default {
     return {
       posts: [],
       comments: [],
+      comment: {},
       newComment: null,
       user: {},
       postId: "",
@@ -237,6 +259,27 @@ export default {
           .then((response) => response.json())
           .then(() => {
             alert("La suppression du post est bien prise en compte");
+            this.$router.go();
+          })
+          .catch(alert);
+      }
+    },
+
+    deleteComment(commentId) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      if (confirm("êtes vous sûr de vouloir supprimer ce commentaire ?")) {
+        fetch(
+          `http://localhost:3000/api/comment/${JSON.stringify(commentId)}`,
+          {
+            method: "DELETE",
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
+        )
+          .then((response) => response.json())
+          .then(() => {
+            alert("La suppression du commentaire est bien prise en compte");
             this.$router.go();
           })
           .catch(alert);
