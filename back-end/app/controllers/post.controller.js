@@ -112,7 +112,7 @@ exports.deletePost = (req, res, next) => {
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
     const userId = decodedToken.userId
-    /*const isAdmin = decodedToken.isAdmin*/
+    const isAdmin = decodedToken.isAdmin
     Post.findOne({
         where: {
             id: req.params.id,
@@ -120,7 +120,7 @@ exports.deletePost = (req, res, next) => {
     })
         .then(post => {
 
-            if (userId == post.userId || isAdmin == true) {
+            if (userId === post.userId || isAdmin == true) {
                 const filename = post.image.split('/images/')[1];
                 fs.unlink(`images/${filename}`, () => {
                     Post.destroy({
@@ -138,9 +138,6 @@ exports.deletePost = (req, res, next) => {
                 res.status(403).json({
                     'error': 'UnAuthorize'
                 })
-                console.log(isAdmin, "ADMIIIIIIIIIIIIN");
-                console.log(user.userId, "USEEEEEEEEEEEEEEER");
-                console.log(post.userId, "POOOOOOOOOOOOOOOOOOOOOST");
             }
         })
         .catch(error => res.status(500).json({

@@ -112,9 +112,7 @@ export default {
       },
     };
   },
-  mounted() {
-    this.userProfile();
-  },
+
   methods: {
     //Affichage de l'id de l'utilisateur dans l'url du profil utilisateur---------------------------------
     userProfile() {
@@ -145,6 +143,9 @@ export default {
         console.log("L'utilisateur s'est déconnecté");
       }, 600);
     },
+  },
+  mounted() {
+    this.userProfile();
   },
 };
 </script>

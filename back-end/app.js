@@ -37,7 +37,6 @@ var corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
 // Middleware de limitation des demandes répétées à l'API ou aux endpoints
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
