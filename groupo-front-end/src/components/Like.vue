@@ -21,7 +21,6 @@ export default {
   props: {
     postId: Number,
     userId: Number,
-    likesArray: Array,
   },
   data() {
     return {
@@ -31,7 +30,7 @@ export default {
     };
   },
   methods: {
-    /*async fetchLikes(postId) {
+    /* async fetchLikes(postId) {
       const resLikes = await fetch(
         `http://localhost:3000/api/posts/${JSON.stringify(postId)}/likes`
       );
@@ -85,7 +84,7 @@ export default {
   created() {
     this.userMe = JSON.parse(localStorage.getItem("user"));
 
-    console.log(this.userMe);
+    console.log(this.userMe, "USERMEEEEEE");
     console.log("POSTID", this.postId);
     fetch(
       `http://localhost:3000/api/posts/${JSON.stringify(this.postId)}/likes`

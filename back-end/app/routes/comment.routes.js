@@ -17,7 +17,7 @@ module.exports = app => {
 
     router.get("/:id", commentCtrl.getOneComment);
 
-    router.put("/:id", auth, commentCtrl.modifyComment);
+    router.put("/:id", commentCtrl.modifyComment);
 
     router.delete("/:id", auth, commentCtrl.deleteComment);
 

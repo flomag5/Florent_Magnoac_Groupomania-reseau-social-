@@ -3,6 +3,7 @@
 // Importation 
 const db = require("../models");
 const Like = db.like;
+const User = db.user;
 const Op = db.Sequelize.Op;
 
 // Logique de LIKE d'un post
@@ -39,7 +40,14 @@ exports.unlikePost = (req, res) => {
 /* Logique pour récupérer les likes d'un post */
 exports.getLikes = (req, res) => {
     try {
-        Like.findAll({ where: { postId: req.params.postId } })
+        Like.findAll({
+            where: {
+                postId: req.params.postId
+            },
+            include: [
+                "user"
+            ],
+        })
             .then(like => {
                 res.status(200).json(like);
             })

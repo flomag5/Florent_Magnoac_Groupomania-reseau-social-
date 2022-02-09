@@ -33,7 +33,7 @@ require('dotenv').config()
         });
     }
 };*/
-
+//// VERSION  1 -----------------------
 module.exports = (req, res, next) => {
     try {
         const token = req.headers.authorization.split(' ')[1];
@@ -42,9 +42,9 @@ module.exports = (req, res, next) => {
         const isAdmin = decodedToken.isAdmin;
         console.log(userId, "USEEEEEEEEEEEEEEEEEEER");
         console.log(isAdmin, "ADMIIIIIIIIIIIIIIn");
-        req.auth = { userId, isAdmin };
+        req.auth = { userId };
 
-        if ((req.body.userId && req.body.userId == userId) || isAdmin === true) {
+        if ((req.body.userId && req.body.userId == userId) || isAdmin == true) {
             next();
         } else {
             throw 'Forbidden request'
@@ -54,4 +54,25 @@ module.exports = (req, res, next) => {
     }
 
 };
+/*
+/// VERSION 2 -------------------------------
+module.exports = (req, res, next) => {
+    try {
+        const token = req.headers.authorization.split(' ')[1];
+        const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
+        const userId = decodedToken.userId;
+        const isAdmin = decodedToken.isAdmin;
+        console.log(userId, "USEEEEEEEEEEEEEEEEEEER");
+        console.log(isAdmin, "ADMIIIIIIIIIIIIIIn");
+        req.auth = { userId };
 
+        if ((req.body.userId && req.body.userId !== userId) || isAdmin === true) {
+            throw '403: Unauthorized request';
+        } else {
+            next();
+        }
+    } catch (error) {
+        res.status(403).json({ error: error.message });
+    }
+
+};*/

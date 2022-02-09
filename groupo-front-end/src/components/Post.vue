@@ -111,9 +111,18 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="comment.userId === logId">
-                <a @click="modifyComment()" href="#"
+                <!-- <a @click="modifyComment(comment.id)" href="#"
                   ><i class="far fa-edit modify"></i> modifier</a
-                >
+                > -->
+                <form @submit.prevent="modifyComment(comment.id)">
+                  <input
+                    name="updateComment"
+                    ref="modify"
+                    :value="comment.content"
+                    class="content"
+                  />
+                  <input type="submit" value="modifier" class="btn" />
+                </form>
               </li>
               <li v-if="comment.userId === logId || isAdmin === true">
                 <a @click="deleteComment(index)" href="#"
@@ -146,22 +155,7 @@
           <a href="#" class="pull-left">
             <img alt="Avatar utilisateur" :src="post.user.avatar" />
           </a>
-          <div class="pull-right social-action dropdown">
-            <button
-              data-toggle="dropdown"
-              text="action sur commentaire"
-              aria-label="modifier commentaire"
-            >
-              <i class="fas fa-ellipsis-h"></i>
-            </button>
-            <ul class="dropdown-menu m-t-xs">
-              <li>
-                <a @click="deleteComment(index)" href="#"
-                  ><i class="far fa-trash-alt delete"></i> supprimer</a
-                >
-              </li>
-            </ul>
-          </div>
+
           <div class="media-body">
             <input
               class="form-control"
@@ -228,6 +222,7 @@ export default {
       console.log(this.isAdmin, "Admmmmmmmmmmmmin");
     },
 
+    // ----- DATE ET HEURE ----- //
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {
@@ -244,7 +239,8 @@ export default {
       return hour.toLocaleTimeString("fr-FR", options);
     },
 
-    // -- COMMENTS
+    // ----- COMMENTAIRES -----//
+
     getComments() {
       let postId = this.$route.params.id;
       let user = JSON.parse(localStorage.getItem("user"));
@@ -259,6 +255,7 @@ export default {
         .catch(alert);
     },
 
+    // Publier un commentaire
     createComment() {
       const user = JSON.parse(localStorage.getItem("user"));
 
@@ -285,6 +282,7 @@ export default {
         .catch(alert);
     },
 
+    // Supprimer un commentaire
     deleteComment(index) {
       const user = JSON.parse(localStorage.getItem("user"));
       if (confirm("Voulez-vous vraiment supprimer ce commentaire") === true) {
@@ -303,7 +301,29 @@ export default {
       }
     },
 
-    // -- POST
+    modifyComment(commentId) {
+      const user = JSON.parse(localStorage.getItem("user"));
+      const data = {
+        content: this.$refs.modify.value,
+      };
+
+      fetch(`http://localhost:3000/api/comment/${JSON.stringify(commentId)}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem(user.token)}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then(() => {
+          this.$router.go();
+        })
+        .catch((error) => console.log(error));
+    },
+
+    // ----- PUBLICATIONS ----- //
+
+    // Supprimer un post
     deletePost() {
       let user = JSON.parse(localStorage.getItem("user"));
       let postId = this.$route.params.id;
@@ -323,6 +343,7 @@ export default {
       }
     },
 
+    // Envoi vers modification Post
     modifyPost() {
       this.$router.push(`/modifyPost/${this.id_param}`);
     },

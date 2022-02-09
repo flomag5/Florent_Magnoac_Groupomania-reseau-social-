@@ -5,6 +5,7 @@ const Comment = db.comment;
 const User = db.user;
 const Op = db.Sequelize.Op;
 const { comment } = require("../models");
+const jwt = require('jsonwebtoken');
 
 
 // Création d'un commentaire
@@ -67,14 +68,22 @@ exports.deleteComment = (req, res, next) => {
 
     Comment.findOne({ where: { id: req.params.id } })
         .then((comment) => {
+            if (req.body.userId === comment.userId || req.body.isAdmin == true) {
 
+                Comment.destroy({ where: { id: req.params.id } });
+                res.status(200).json({ message: "Commentaire supprimé !" });
 
-
-            Comment.destroy({ where: { id: req.params.id } });
-            res.status(200).json({ message: "Commentaire supprimé !" });
-
+            } else {
+                res.status(403).json({
+                    'error': 'UnAuthorize'
+                })
+            }
         })
         .catch((error) => console.log(error));
 }
 
-
+/*
+const token = req.headers.authorization.split(' ')[1];
+const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
+const userId = decodedToken.userId
+const isAdmin = decodedToken.isAdmin*/
