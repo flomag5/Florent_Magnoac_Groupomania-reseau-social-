@@ -94,36 +94,30 @@ export default {
     };
   },
   methods: {
+    // Création d'une publication
     createPost() {
       let user = JSON.parse(localStorage.getItem("user"));
-      //const fileField = document.querySelector('input[type="file"]');
-      //const token = JSON.parse(localStorage.getItem("userToken"));
-
-      //  if (this.image === "" && this.title != "" && this.content != "") {
-      const data = new FormData();
-      /* if (this.image !== "") {
-        data.append("image", fileField.files[0]);
-      }*/
-      data.append("title", this.title);
-      data.append("content", this.content);
-      data.append("userId", user.userId);
-
-      console.log("data", data);
-      fetch("http://localhost:3000/api/posts", {
-        method: "POST",
-        headers: {
-          authorization: `Bearer ${user.token}`,
-        },
-        body: data,
-      })
-        .then((response) => {
-          return response.json();
+      const fileField = document.querySelector('input[type="file"]');
+      if (this.image === "" && this.title != "" && this.content != "") {
+        let data = new FormData();
+        data.append("title", this.title);
+        data.append("content", this.content);
+        data.append("userId", user.userId);
+        fetch("http://localhost:3000/api/posts", {
+          method: "POST",
+          headers: {
+            authorization: `Bearer ${user.token}`,
+          },
+          body: data,
         })
-        .then(() => {
-          //this.$router.push("/posts");
-        })
-        .catch(alert);
-      /*  } else if (this.title != "" && this.content != "") {
+          .then((response) => {
+            return response.json();
+          })
+          .then(() => {
+            this.$router.push("/posts");
+          })
+          .catch(alert);
+      } else if (this.title != "" && this.content != "") {
         let data = new FormData();
         data.append("image", fileField.files[0]);
         data.append("title", this.title);
@@ -141,7 +135,7 @@ export default {
             this.$router.push("/posts");
           })
           .catch(alert);
-      }*/
+      }
     },
     uploadFile(e) {
       if (e.target.files) {
@@ -155,60 +149,6 @@ export default {
     },
   },
 };
-//import PostDataService from "../services/PostDataService";
-//import axios from "axios";
-/*
-export default {
-  name: "create-post",
-  data() {
-    return {
-      title: "",
-      content: "",
-      image: "",
-      preview: null,
-    };
-  },
-  methods: {
-    uploadFile(event) {
-      this.image = event.target.files[0];
-    },
-    createPost() {
-      const Id = JSON.parse(localStorage.getItem("userId"));
-      let formData = new FormData();
-      formData.append("title", this.title);
-      formData.append("content", this.content);
-      formData.append("image", this.image);
-      formData.append("userId", Id);
-
-      axios
-        .post("http://localhost:3000/api/posts", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then(function () {
-          console.log("SUCCESS!!");
-        })
-        .catch(function () {
-          console.log("FAILURE!!");
-        });
-    },
-  },
-};
-
-    submitForm: function () {
-      const newPost = new FormData();
-      newPost.append("title", this.title);
-      newPost.append("content", this.content);
-      newPost.append("image", this.file, this.file.filename);
-
-      PostDataService.createPost(newPost).then(() => {
-       // this.$router.go();
-      });
-      return true;
-    },
-  },
-};*/
 </script>
 
 <style lang="scss" scoped>

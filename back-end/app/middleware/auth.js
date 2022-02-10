@@ -34,7 +34,7 @@ require('dotenv').config()
     }
 };*/
 //// VERSION  1 -----------------------
-
+/*
 module.exports = (req, res, next) => {
     console.log('req', req);
     try {
@@ -47,7 +47,7 @@ module.exports = (req, res, next) => {
         //req.auth = { userId };
         console.log(req.body, 'req body userId')
 
-        if ((req.body.userId && req.body.userId == userId) || isAdmin == true) {
+        if ((req.body.userId && req.body.userId !== userId) || isAdmin == true) {
             next();
         } else {
             throw 'Forbidden request'
@@ -56,8 +56,8 @@ module.exports = (req, res, next) => {
         res.status(403).json({ error: error.message });
     }
 
-};
-/*
+};*/
+
 /// VERSION 2 -------------------------------
 module.exports = (req, res, next) => {
     try {
@@ -70,8 +70,8 @@ module.exports = (req, res, next) => {
         //req.auth = { userId };
         console.log(req.body, 'req body userId')
 
-         if ((req.body.userId && req.body.userId !== userId) || isAdmin === true) {
-        throw '403: Unauthorized request';
+        if ((req.body.userId && req.body.userId !== userId) || req.body.isAdmin && isAdmin === true) {
+            throw '403: Unauthorized request';
         } else {
             next();
         }
@@ -79,4 +79,4 @@ module.exports = (req, res, next) => {
         res.status(403).json({ error: error.message });
     }
 
-};*/
+};
