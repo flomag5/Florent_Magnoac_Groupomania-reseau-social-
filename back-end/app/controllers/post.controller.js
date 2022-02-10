@@ -17,6 +17,7 @@ const jwt = require('jsonwebtoken');
 // Créer nouveau post
 exports.createPost = (req, res, next) => {
     if (req.file) {
+
         Post.create({
             title: req.body.title,
             content: req.body.content,
@@ -75,6 +76,7 @@ exports.findPostById = (req, res, next) => {
 
 // Modifier un post par l'Id de la requête
 exports.modifyPost = (req, res, next) => {
+    console.log('req.body controller', req.body);
     const id = req.params.id;
     const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
@@ -119,21 +121,24 @@ exports.deletePost = (req, res, next) => {
         }
     })
         .then(post => {
-
+            console.log(post, 'post');
             if (userId === post.userId || isAdmin == true) {
-                const filename = post.image.split('/images/')[1];
-                fs.unlink(`images/${filename}`, () => {
-                    Post.destroy({
-                        where: {
-                            id: req.params.id
-                        }
-                    }).then(() => res.status(200).json({
-                        message: 'Post supprimé !'
-                    }))
-                        .catch(error => res.status(400).json({
-                            error
-                        }));
-                });
+                if (req.file) {
+                    const filename = post.image.split('/images/')[1];
+                    fs.unlinkSync(`images/${filename}`);
+                }
+                // fs.unlink(`images/${filename}`, () => {
+                Post.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                }).then(() => res.status(200).json({
+                    message: 'Post supprimé !'
+                }))
+                    .catch(error => res.status(400).json({
+                        error
+                    }));
+                // });
             } else {
                 res.status(403).json({
                     'error': 'UnAuthorize'

@@ -96,29 +96,34 @@ export default {
   methods: {
     createPost() {
       let user = JSON.parse(localStorage.getItem("user"));
-      const fileField = document.querySelector('input[type="file"]');
+      //const fileField = document.querySelector('input[type="file"]');
       //const token = JSON.parse(localStorage.getItem("userToken"));
 
-      if (this.image === "" && this.title != "" && this.content != "") {
-        let data = new FormData();
-        data.append("title", this.title);
-        data.append("content", this.content);
-        data.append("userId", user.userId);
-        fetch("http://localhost:3000/api/posts", {
-          method: "POST",
-          headers: {
-            authorization: `Bearer ${user.token}`,
-          },
-          body: data,
+      //  if (this.image === "" && this.title != "" && this.content != "") {
+      const data = new FormData();
+      /* if (this.image !== "") {
+        data.append("image", fileField.files[0]);
+      }*/
+      data.append("title", this.title);
+      data.append("content", this.content);
+      data.append("userId", user.userId);
+
+      console.log("data", data);
+      fetch("http://localhost:3000/api/posts", {
+        method: "POST",
+        headers: {
+          authorization: `Bearer ${user.token}`,
+        },
+        body: data,
+      })
+        .then((response) => {
+          return response.json();
         })
-          .then((response) => {
-            return response.json();
-          })
-          .then(() => {
-            this.$router.push("/posts");
-          })
-          .catch(alert);
-      } else if (this.title != "" && this.content != "") {
+        .then(() => {
+          //this.$router.push("/posts");
+        })
+        .catch(alert);
+      /*  } else if (this.title != "" && this.content != "") {
         let data = new FormData();
         data.append("image", fileField.files[0]);
         data.append("title", this.title);
@@ -136,7 +141,7 @@ export default {
             this.$router.push("/posts");
           })
           .catch(alert);
-      }
+      }*/
     },
     uploadFile(e) {
       if (e.target.files) {
@@ -198,7 +203,7 @@ export default {
       newPost.append("image", this.file, this.file.filename);
 
       PostDataService.createPost(newPost).then(() => {
-        this.$router.go();
+       // this.$router.go();
       });
       return true;
     },

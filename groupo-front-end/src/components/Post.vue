@@ -337,7 +337,7 @@ export default {
           .then((response) => response.json())
           .then(() => {
             alert("La suppression du post est bien prise en compte");
-            this.$router.push("/posts");
+            //this.$router.push("/posts");
           })
           .catch(alert);
       }

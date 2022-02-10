@@ -10,7 +10,7 @@ require('dotenv').config()
 // Exportation fonction du middleware
 /*module.exports = (req, res, next) => {
     try {
-        // Récupération du token dans le headers authorization et décodage 
+        // Récupération du token dans le headers authorization et décodage
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
 
@@ -34,7 +34,9 @@ require('dotenv').config()
     }
 };*/
 //// VERSION  1 -----------------------
+
 module.exports = (req, res, next) => {
+    console.log('req', req);
     try {
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
@@ -42,7 +44,8 @@ module.exports = (req, res, next) => {
         const isAdmin = decodedToken.isAdmin;
         console.log(userId, "USEEEEEEEEEEEEEEEEEEER");
         console.log(isAdmin, "ADMIIIIIIIIIIIIIIn");
-        req.auth = { userId };
+        //req.auth = { userId };
+        console.log(req.body, 'req body userId')
 
         if ((req.body.userId && req.body.userId == userId) || isAdmin == true) {
             next();
@@ -64,10 +67,11 @@ module.exports = (req, res, next) => {
         const isAdmin = decodedToken.isAdmin;
         console.log(userId, "USEEEEEEEEEEEEEEEEEEER");
         console.log(isAdmin, "ADMIIIIIIIIIIIIIIn");
-        req.auth = { userId };
+        //req.auth = { userId };
+        console.log(req.body, 'req body userId')
 
-        if ((req.body.userId && req.body.userId !== userId) || isAdmin === true) {
-            throw '403: Unauthorized request';
+         if ((req.body.userId && req.body.userId !== userId) || isAdmin === true) {
+        throw '403: Unauthorized request';
         } else {
             next();
         }

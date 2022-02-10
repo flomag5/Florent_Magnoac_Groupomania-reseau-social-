@@ -24,9 +24,9 @@ module.exports = app => {
 
   router.get("/:id", posts.findPostById);
 
-  router.put("/:id", auth, multer, posts.modifyPost);
+  router.put("/:id", /*auth,*/ multer, posts.modifyPost);
 
-  router.delete("/:id", auth, posts.deletePost);
+  router.delete("/:id", posts.deletePost);
 
   // Route commentaire de post
   router.post('/:id/comment', auth, commentCtrl.createComment);
