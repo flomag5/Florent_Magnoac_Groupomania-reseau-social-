@@ -46,13 +46,14 @@
           type="password"
           aria-label="Mot de passe"
           placeholder="Mot de passe"
+          minlength="8"
         />
       </div>
       <div class="form-row" v-if="mode == 'login' && status == 'error_login'">
         Email ou mot de passe invalide
       </div>
       <div class="form-row" v-if="mode == 'create' && status == 'error_create'">
-        Adresse mail déjà utilisée
+        Informations non valides
       </div>
       <div class="form-row">
         <button
@@ -150,6 +151,22 @@ export default {
     },
     createAccount: function () {
       const self = this;
+      const regexEmail =
+        /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
+      const regexPassword = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,50}$/;
+
+      if (this.email === "") {
+        alert("Veuillez remplir votre adresse email");
+      } else if (regexEmail.test(this.email) === false) {
+        alert("Veuillez écrire une adresse email valide");
+      }
+      if (this.password === "") {
+        alert("Veuillez remplir votre mot de passe");
+      } else if (regexPassword.test(this.password) === false) {
+        alert(
+          "Mot de passe invalide, il doit contenir 8 caractères minimum et au moins une majuscule, un chiffre"
+        );
+      }
       this.$store
         .dispatch("createAccount", {
           email: this.email,
