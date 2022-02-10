@@ -66,6 +66,7 @@ export default {
         userId: user.userId,
         postId: postId,
       };
+
       fetch(
         `http://localhost:3000/api/posts/${JSON.stringify(postId)}/unlike`,
         {
@@ -76,8 +77,10 @@ export default {
           body: JSON.stringify(data),
         }
       );
-      this.likes = this.likes.filter((like) => like.userId != this.userId);
+      console.log(this.likes, "LIKE BEFOOOOOOOOOOOOORE");
+      this.likes = this.likes.filter((like) => like.userId != user.userId);
       this.liked = false;
+      console.log(this.likes, "LIKE AFTER");
     },
   },
 

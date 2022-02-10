@@ -1,11 +1,11 @@
-![Logo Groupomania ](http://localhost:8080/assets/icon-left-font.png "Groupomania, réseau social")
+
 # Groupomania : Réseau social d'entreprise  
 
 -------------------------- 
 **Réseau social interne** pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues.  
 Il offre la possibilité aux employés de créer facilement de manière intuitive un profil utilisateur afin de pouvoir poster du contenu. Ils pourront également commenter les publications des autres utilisateurs, les liker. Ils pourront modifier les informations de leur profil.  
 L'application sera totalement responsive et répondra aux critères de la WCAG en matière d'accessibilité.  
-------------------------
+
 ## Project setup
 ```
 Vuejs
@@ -24,9 +24,9 @@ Effectuer un GIT CLONE de ce repository
 ```
 Nécesite MySQl Workbench (ou un manager mySql) et nodeJS installés sur votre ordinateur.
 
-Edit config.json file inside backend/config
+Editer config.json file dans le dossier backend/config depuis les variables d'environnement .env
 
-Change the development fields as your database setup(username, password,etc..)
+Changer les champs selon le setup de votre database avec l'exemple de .env.example (username, password,etc..)
 
 Dossier images :
 
@@ -36,8 +36,8 @@ créer un dossier 'images' à la racine du dossier backend
 Ensuite depuis le terminal :
 
 ```
-cd back-end
-npm install
+cd back-end  
+npm install  
 nodemon serve
 ```
 ```
@@ -49,8 +49,8 @@ Nécessite VueJS installé de manière globale sur votre ordinateur.
 Depuis le terminal:
 
 ```
-cd groupo-front-end
-npm i
+cd groupo-front-end  
+npm i  
 npm run serve
 ```
 
