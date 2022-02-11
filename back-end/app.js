@@ -28,27 +28,34 @@ const app = express();
 //app.use(morgan('dev'));
 
 // Sécurisation des en-têtes de réponse http
-//app.use(helmet());
+app.use(helmet());
 
 // Gestion des CORS
 var corsOptions = {
     origin: '*',
     methods: ["GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"]
 };
-
 app.use(cors(corsOptions));
+
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization");
+    res.setHeader('Cross-Origin-Resource-Policy', 'same-site');
+    res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+    next();
+});
 // Middleware de limitation des demandes répétées à l'API ou aux endpoints
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
     max: 300 // limite de requête par IP pour windowsMs
 });
-//app.use(limiter);
+app.use(limiter);
 
 
 // Analyse les req de type de contenu - application/json
 app.use(express.json());
 
-// idem - appli/url encoded
+// Analyse les req de type de contenu - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
 

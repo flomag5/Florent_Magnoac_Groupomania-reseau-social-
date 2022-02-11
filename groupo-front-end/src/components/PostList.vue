@@ -13,8 +13,7 @@
               <img
                 alt="Avatar utilisateur"
                 :src="userAvatar"
-                aria-label="avatar utilisateur"
-              /> </a
+                aria-label="avatar utilisateur" /></a
           ></router-link>
         </div>
         <form class="d-flex">
@@ -80,6 +79,7 @@
             class="img-responsive"
           />
           <div class="btn-group">
+            <!-- Instance Like component -->
             <Like
               v-if="post.id"
               :postId="post.id"

@@ -115,38 +115,35 @@ exports.deletePost = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
     const userId = decodedToken.userId
     const isAdmin = decodedToken.isAdmin
+
     Post.findOne({
         where: {
-            id: req.params.id,
+            id: req.params.id
         }
     })
         .then(post => {
-            console.log(post, 'post');
             if (userId === post.userId || isAdmin == true) {
-                if (req.file) {
+                if (post.image != null) {
                     const filename = post.image.split('/images/')[1];
-                    fs.unlinkSync(`images/${filename}`);
+                    fs.unlink(`images/${filename}`, () => {
+                        Post.destroy({ where: { id: req.params.id } })
+
+                            .then(() => res.status(200).json({ message: 'Post supprimé !' }))
+                            .catch(error => res.status(400).json({ error }));
+                    })
+
+
+                } else {
+                    Post.destroy({ where: { id: req.params.id } })
+
+                        .then(() => res.status(200).json({ message: 'Post supprimé !' }))
+                        .catch(error => res.status(400).json({ error }));
                 }
-                // fs.unlink(`images/${filename}`, () => {
-                Post.destroy({
-                    where: {
-                        id: req.params.id
-                    }
-                }).then(() => res.status(200).json({
-                    message: 'Post supprimé !'
-                }))
-                    .catch(error => res.status(400).json({
-                        error
-                    }));
-                // });
             } else {
-                res.status(403).json({
-                    'error': 'UnAuthorize'
-                })
+                res.status(401).json({
+                    message: 'Requête non autorisée !'
+                });
             }
         })
-        .catch(error => res.status(500).json({
-            error
-        }));
-};
-
+        .catch(error => res.status(400).json({ error }));
+}
