@@ -39,9 +39,8 @@ export default {
   name: "modify-post",
   beforeCreate() {
     let user = JSON.parse(localStorage.getItem("user"));
-    //const parsedUrl = new URL(window.location.href);
     const postId = this.$route.params.id;
-    /* selon l'id on récupère le post concerné */
+    /* récupération du post ciblé selon id */
     fetch(`http://localhost:3000/api/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${user.token}`,
@@ -65,6 +64,7 @@ export default {
     };
   },
   methods: {
+    /** récupération du fichier image avant la modification */
     updateFile(event) {
       this.newFile = this.$refs.image.files[0];
       let input = event.target;
@@ -77,6 +77,7 @@ export default {
         this.preview = true;
       }
     },
+    /** modification du post */
     async modifyPost() {
       let user = JSON.parse(localStorage.getItem("user"));
       if (!this.post.content) {

@@ -198,6 +198,8 @@ export default {
       isAdmin: "",
     };
   },
+
+  // ----- RECUPERATION DE TOUTES LES PUBLICATIONS ----- //
   created() {
     PostDataService.getAllPosts()
       .then((response) => {
@@ -215,12 +217,14 @@ export default {
   },
 
   methods: {
+    // ----- USER EN COURS DE SESSION ----- //
     UserMe() {
       let user = JSON.parse(localStorage.getItem("user"));
       this.logId = user.userId;
       this.isAdmin = user.isAdmin;
     },
 
+    // ----- DATE ET HEURE ----- //
     dateFormat(createdDate) {
       const date = new Date(createdDate);
       const options = {
@@ -237,13 +241,18 @@ export default {
       return hour.toLocaleTimeString("fr-FR", options);
     },
 
+    // ----- ACTIONS SUR LES PUBLICATIONS ----- //
+    // Vers création de publication
     createPost() {
       this.$router.push("/createpost");
     },
+
+    // Vers modification de publication
     modifyPost(id) {
       this.$router.push(`/modifyPost/${id}`);
     },
 
+    // ----- SUPPRESSION DU POST ----- //
     deletePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
 
@@ -263,6 +272,7 @@ export default {
       }
     },
 
+    // ----- SUPPRESSION DU COMMENTAIRE ----- //
     deleteComment(commentId) {
       const user = JSON.parse(localStorage.getItem("user"));
       if (confirm("êtes vous sûr de vouloir supprimer ce commentaire ?")) {

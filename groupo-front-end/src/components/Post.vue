@@ -69,6 +69,7 @@
           class="img-responsive"
         />
         <div class="btn-group">
+          <!-- Instance Like component -->
           <Like
             v-if="post.id"
             :postId="post.id"
@@ -173,7 +174,6 @@
 
 <script>
 import PostDataService from "../services/PostDataService";
-
 import Like from "../components/Like.vue";
 
 export default {
@@ -202,6 +202,7 @@ export default {
       isAdmin: "",
     };
   },
+  // ----- RECUPERATION DE LA PUBLICATION CIBLE ----- //
   created() {
     let id = this.$route.params.id;
     PostDataService.getOnePost(id)
@@ -214,6 +215,7 @@ export default {
       });
   },
   methods: {
+    // ----- USER EN COURS DE SESSION ----- //
     UserMe() {
       let user = JSON.parse(localStorage.getItem("user"));
       this.logId = user.userId;
@@ -240,7 +242,7 @@ export default {
     },
 
     // ----- COMMENTAIRES -----//
-
+    // Récupération des commentaires
     getComments() {
       let postId = this.$route.params.id;
       let user = JSON.parse(localStorage.getItem("user"));
@@ -301,6 +303,7 @@ export default {
       }
     },
 
+    // Modifier un commentaire
     modifyComment(commentId) {
       const user = JSON.parse(localStorage.getItem("user"));
       const data = {
@@ -337,13 +340,13 @@ export default {
           .then((response) => response.json())
           .then(() => {
             alert("La suppression du post est bien prise en compte");
-            //this.$router.push("/posts");
+            this.$router.push("/posts");
           })
           .catch(alert);
       }
     },
 
-    // Envoi vers modification Post
+    // Envoi vers modification du Post
     modifyPost() {
       this.$router.push(`/modifyPost/${this.id_param}`);
     },

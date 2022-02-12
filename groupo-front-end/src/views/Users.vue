@@ -55,7 +55,7 @@ export default {
     },
   },
   methods: {
-    /* on récupère les users */
+    /* Récupération de tous les utilisateurs */
     async fetchUsers() {
       const res = await fetch("http://localhost:3000/api/user");
       const data = await res.json();

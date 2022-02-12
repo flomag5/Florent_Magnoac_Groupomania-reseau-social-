@@ -73,15 +73,6 @@
                 <i class="fas fa-user"></i
               ></router-link>
             </li>
-            <li class="nav-item" v-if="user.isAdmin">
-              <router-link
-                class="nav-link"
-                :to="'/trafic'"
-                aria-label="Lien vers le tableau de bord"
-              >
-                TRAFIC</router-link
-              >
-            </li>
 
             <li class="nav-item">
               <div
@@ -114,7 +105,7 @@ export default {
   },
 
   methods: {
-    //Affichage de l'id de l'utilisateur dans l'url du profil utilisateur---------------------------------
+    /** Affichage de l'id de l'utilisateur dans l'url du profil utilisateur */
     userProfile() {
       const storage = JSON.parse(localStorage.getItem("user"));
       const headers = new Headers();
@@ -135,7 +126,7 @@ export default {
           );
         });
     },
-    //Déconnection de l'utilisateur----------------------------------------------------------------------
+    /** Déconnection de l'utilisateur */
     disconnect() {
       localStorage.clear();
       setTimeout(() => {

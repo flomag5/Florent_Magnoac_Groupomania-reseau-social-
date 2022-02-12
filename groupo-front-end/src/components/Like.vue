@@ -30,15 +30,7 @@ export default {
     };
   },
   methods: {
-    /* async fetchLikes(postId) {
-      const resLikes = await fetch(
-        `http://localhost:3000/api/posts/${JSON.stringify(postId)}/likes`
-      );
-      const dataLikes = await resLikes.json();
-
-      return dataLikes;
-    },
-*/
+    // ----- LIKE D'UN POST ----- //
     likePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       const data = {
@@ -56,9 +48,11 @@ export default {
         .then((res) => res.json())
         .then((data) => this.likes.push(data))
         .catch((error) => console.log(error));
+      /** user a liké le post */
       this.liked = true;
     },
 
+    // ----- UNLIKE D'UN POST ----- //
     unlikePost(postId) {
       let user = JSON.parse(localStorage.getItem("user"));
       const data = {
@@ -77,13 +71,12 @@ export default {
           body: JSON.stringify(data),
         }
       );
-      console.log(this.likes, "LIKE BEFOOOOOOOOOOOOORE");
       this.likes = this.likes.filter((like) => like.userId != user.userId);
       this.liked = false;
-      console.log(this.likes, "LIKE AFTER");
     },
   },
 
+  /**récupération du user pour checker son statut like par rapport au post */
   created() {
     this.userMe = JSON.parse(localStorage.getItem("user"));
 

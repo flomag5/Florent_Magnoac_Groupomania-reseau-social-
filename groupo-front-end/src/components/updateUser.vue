@@ -75,6 +75,7 @@ export default {
     };
   },
   methods: {
+    // ----- SUPPRESSION DU COMPTE UTILISATEUR ----- //
     deleteProfile() {
       let user = JSON.parse(localStorage.getItem("user"));
       if (confirm("êtes vous sûr de vouloir supprimer ce compte ?")) {
@@ -92,6 +93,7 @@ export default {
       }
     },
 
+    /** récupération du fichier image avant la modification du compte */
     selectFile(event) {
       this.file = this.$refs.file.files[0];
       let input = event.target;
@@ -104,7 +106,7 @@ export default {
         reader.readAsDataURL(input.files[0]);
       }
     },
-
+    // ----- MODIFICATION DU COMPTE UTILISATEUR ----- //
     modifyProfile() {
       let user = JSON.parse(localStorage.getItem("user"));
       let formData = new FormData();
@@ -114,6 +116,7 @@ export default {
       if (this.file) {
         formData.append("image", this.file);
       }
+      /** envoi de la requête axios */
       if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
         axios
           .put(`http://localhost:3000/api/user/${user.userId}`, formData, {
@@ -135,16 +138,6 @@ export default {
 </script>
 
 <style scoped>
-/*#editProfile {
-  max-width: 60%;
-  box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
-  margin: auto;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-}*/
 .showProfile {
   text-align: right;
 }

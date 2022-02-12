@@ -94,7 +94,7 @@ export default {
     };
   },
   methods: {
-    // Création d'une publication
+    // ----- CREATION D'UNE PUBLICATION ----- //
     createPost() {
       let user = JSON.parse(localStorage.getItem("user"));
       const fileField = document.querySelector('input[type="file"]');

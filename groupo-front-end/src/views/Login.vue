@@ -99,9 +99,9 @@ export default {
       isAdmin: null,
     };
   },
-  /* mounted: function () {
+  /*mounted: function () {
     if (this.$store.state.user.userId != -1) {
-      this.$router.push("/profile");
+      this.$router.push("/login");
       return;
     }
   },*/
@@ -135,6 +135,8 @@ export default {
     switchToLogin: function () {
       this.mode = "login";
     },
+
+    // ----- LOGIN USER ----- //
     login: function () {
       const self = this;
       this.$store
@@ -149,12 +151,15 @@ export default {
           console.log(error);
         };
     },
+
+    // ----- SIGN UP USER ----- //
     createAccount: function () {
       const self = this;
+      /* déclaration de nos regex de contrôle */
       const regexEmail =
         /^[a-zA-Z0-9.-_]+[@]{1}[a-zA-Z0-9.-_]+[.]{1}[a-z]{2,10}$/;
       const regexPassword = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,50}$/;
-
+      /* contrôle de l'email et mot de passe */
       if (this.email === "") {
         alert("Veuillez remplir votre adresse email");
       } else if (regexEmail.test(this.email) === false) {
@@ -167,6 +172,7 @@ export default {
           "Mot de passe invalide, il doit contenir 8 caractères minimum et au moins une majuscule, un chiffre"
         );
       }
+      /* envoi des informations pour création du compte */
       this.$store
         .dispatch("createAccount", {
           email: this.email,

@@ -67,6 +67,8 @@ export default {
       user: {},
     };
   },
+
+  // Récupération du profil de l'utilisateur avant la création de la page
   beforeCreate() {
     let user = JSON.parse(localStorage.getItem("user"));
     fetch(`http://localhost:3000/api/user/${user.userId}`, {

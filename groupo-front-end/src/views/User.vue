@@ -42,6 +42,7 @@ export default {
       isAdmin: "",
     };
   },
+  /* Récupération d'un utilisateur */
   created() {
     let id = this.$route.params.id;
     UserDataService.getOneUser(id)
@@ -54,14 +55,14 @@ export default {
       });
   },
   methods: {
+    // ----- USER EN COURS DE SESSION ----- //
     UserMe() {
       let user = JSON.parse(localStorage.getItem("user"));
       this.logId = user.userId;
       this.isAdmin = user.isAdmin;
-      console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
-      console.log(this.isAdmin, "Admmmmmmmmmmmmin");
     },
 
+    // ----- SUPPRESSION D'UN COMPTE UTILISATEUR ----- //
     deleteUser() {
       let user = JSON.parse(localStorage.getItem("user"));
       let userId = this.$route.params.id;
