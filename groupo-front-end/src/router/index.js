@@ -5,11 +5,11 @@ import { createWebHistory, createRouter } from "vue-router";
 
 const routes = [
     {
-        path: '/home',
-        name: 'Home',
-        component: () => import("../views/Home.vue"),
+        path: '/cgu',
+        name: 'Cgu',
+        component: () => import("../views/Cgu.vue"),
         meta: {
-            title: "Groupomania : Bienvenu"
+            title: "Groupomania : Conditions générales"
         }
     },
     {
@@ -75,6 +75,14 @@ const routes = [
         component: () => import("../components/ModifyPost.vue"),
         meta: {
             title: "Groupomania : Modifier la publication"
+        }
+    },
+    {
+        path: "/modifyComment/:id",
+        name: "modify-comment",
+        component: () => import("../components/Comment.vue"),
+        meta: {
+            title: "Groupomania : Modifier le commentaire"
         }
     },
     {

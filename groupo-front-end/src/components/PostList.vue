@@ -146,7 +146,7 @@
           </div>
           <div class="social-comment">
             <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" :src="post.user.avatar" />
+              <img alt="Avatar utilisateur" :src="userAvatar" />
             </a>
             <div class="media-body">
               <router-link

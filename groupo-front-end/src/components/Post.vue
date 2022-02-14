@@ -112,18 +112,9 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="comment.userId === logId">
-                <!-- <a @click="modifyComment(comment.id)" href="#"
+                <a @click="modifyComment(comment.id)" href="#"
                   ><i class="far fa-edit modify"></i> modifier</a
-                > -->
-                <form @submit.prevent="modifyComment(comment.id)">
-                  <input
-                    name="updateComment"
-                    ref="modify"
-                    :value="comment.content"
-                    class="content"
-                  />
-                  <input type="submit" value="modifier" class="btn" />
-                </form>
+                >
               </li>
               <li v-if="comment.userId === logId || isAdmin === true">
                 <a @click="deleteComment(index)" href="#"
@@ -304,24 +295,8 @@ export default {
     },
 
     // Modifier un commentaire
-    modifyComment(commentId) {
-      const user = JSON.parse(localStorage.getItem("user"));
-      const data = {
-        content: this.$refs.modify.value,
-      };
-
-      fetch(`http://localhost:3000/api/comment/${JSON.stringify(commentId)}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem(user.token)}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      })
-        .then(() => {
-          this.$router.go();
-        })
-        .catch((error) => console.log(error));
+    modifyComment(id) {
+      this.$router.push(`/modifyComment/${id}`);
     },
 
     // ----- PUBLICATIONS ----- //
@@ -355,6 +330,7 @@ export default {
     this.UserMe();
     this.getComments();
   },
+  emits: ["modified"],
 };
 </script>
 

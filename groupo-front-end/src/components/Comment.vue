@@ -1,187 +1,143 @@
 <template>
-  <div>
-    <!-- pour créer un nouveau commentaire -->
-    <div class="social-comment">
-      <a href="" class="pull-left">
-        <img alt="Avatar utilisateur" src="post.user.avatar" />
+  <div class="card gedf-card">
+    <div class="social-avatar">
+      <a href="#" class="pull-left">
+        <img alt="Avatar utilisateur" :src="userAvatar" />
       </a>
       <div class="media-body">
-        <!--     <router-link :to="'/posts/' + post.id"> -->
-        <form>
-          <textarea
-            class="border rounded p-2 mb-2 text-color bg-white"
-            type="text"
-            name="comment"
-            id="comment"
-            required="required"
-            v-model="newComment.content"
-            v-on:keyup.enter="createComment"
-            placeholder="Commentaire"
-          ></textarea>
+        <form @submit.prevent="modifyComment">
+          <div id="text">
+            <label for="textarea">Modifier votre commentaire</label>
+            <textarea
+              class="form-control"
+              name="textarea"
+              rows="2"
+              v-model="comment.content"
+            ></textarea>
+          </div>
+          <div id="modify" class="btn-group">
+            <input type="submit" value="modifier" class="btn btn-primary" />
+          </div>
         </form>
-
-        <!--   </router-link> -->
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+import router from "../router";
 export default {
-  name: "Comments",
-
+  name: "modify-comment",
+  created() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    this.userAvatar = user.avatar;
+    this.UserMe();
+  },
+  /**récupération du commentaire à modifier */
+  mounted() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    const commentId = this.$route.params.id;
+    /* récupération du commentaire ciblé selon id */
+    fetch(`http://localhost:3000/api/comment/${commentId}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.comment = data;
+      })
+      .catch((error) => {
+        error;
+      });
+  },
   data() {
     return {
+      user: {},
+      comment: {},
       newComment: {
         id: "",
         userId: "",
         postId: "",
         content: "",
       },
+      userAvatar: "",
+      logId: "",
+      isAdmin: "",
     };
   },
   methods: {
-    createComment(postId) {
-      const user = JSON.parse(localStorage.getItem("user"));
-      this.newComment.userId = user.userId;
-      this.newComment.postId = postId;
-      const headers = new Headers();
-      headers.append("content-type", "application/json");
-      headers.append("Authorization", user.token);
-      const myInit = {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(this.newComment),
+    // ----- USER EN COURS DE SESSION ----- //
+    UserMe() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.logId = user.userId;
+      this.isAdmin = user.isAdmin;
+    },
+
+    // ----- MODIFICATION DU COMMENTAIRE ----- //
+    modifyComment() {
+      let user = JSON.parse(localStorage.getItem("user"));
+
+      let data = {
+        content: this.comment.content,
       };
-      //console.log(this.newComment);
-      fetch(`http://localhost:3000/api/posts/${this.post.id}/comment`, myInit)
-        .then((result) => {
-          result
-            .json()
-            .then((data) => {
-              window.location.reload(true);
-              if (data.error) {
-                console.log(data);
-                return;
-              }
-              console.log(result + "Un commentaire a été créé");
-            })
-            .catch((error) => {
-              console.log(error + "Aucun commentaire n'a été créé");
-            });
-        })
-        .catch((error) => {
-          console.log(error + "La création de commentaire ne fonctionne pas");
-        });
+
+      if (confirm("êtes vous sûr de vouloir modifier votre commentaire ?")) {
+        const commentId = this.$route.params.id;
+        axios
+          .put(`http://localhost:3000/api/comment/${commentId}`, data, {
+            headers: {
+              Authorization: `Bearer ${user.token}`,
+            },
+            body: JSON.stringify(data),
+          })
+          .then(() => {
+            router.push({ path: `/posts/` });
+          })
+          .catch((error) => console.log(error));
+      }
     },
   },
 };
 </script>
 
 <style scoped>
-#commentsContainer {
-  margin: auto;
-  border-radius: 4px;
-  overflow-wrap: break-word;
+body {
+  margin-top: 30px;
 }
-.comment {
-  border-bottom: 1px solid rgb(0 0 0 / 10%);
-  margin: 2rem;
-  border-radius: 4px;
+#modify {
+  margin-top: 15px;
 }
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.social-feed-separated .social-avatar {
+  float: left;
+  padding: 0;
 }
-.commentUsername {
-  display: flex;
-  justify-content: space-between;
-  vertical-align: center;
-  width: 90%;
-  padding-left: 16px;
+.social-feed-separated .social-avatar img {
+  width: 52px;
+  height: 52px;
+  border: 1px solid #e7eaec;
 }
-.commentText {
-  margin: 1rem 0 1rem 0;
+.social-feed-separated .social-feed-box .social-avatar {
+  padding: 15px 15px 0 15px;
+  float: none;
 }
-.profileContainer {
-  margin: auto;
-  max-width: 48px;
-  max-height: 48px;
-  height: 48px;
-  width: 48px;
-  min-height: 48px;
-  min-width: 48px;
-  border-radius: 50%;
-  overflow: hidden;
+.social-avatar {
+  padding: 15px 15px 0 15px;
 }
-.profile {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+.social-avatar img {
+  height: 40px;
+  width: 40px;
+  margin-right: 10px;
 }
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+.social-avatar .media-body a {
+  font-size: 14px;
+  display: block;
 }
-input {
-  margin-top: 1.8rem;
-  width: 100%;
-  padding: 10px;
-  box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
-  border-style: none;
-  border-radius: 4px;
-  outline: none;
+.social-body {
+  padding: 15px;
 }
-.optionsBtn {
-  display: flex;
-}
-button {
-  background: none;
-  border-style: none;
-  outline: none;
-  margin-left: 1rem;
-  display: flex;
-}
-.btn {
-  width: 30%;
-}
-.btn:hover {
-  box-shadow: 2px 2px 8px 5px #00000033;
-}
-.btn:active {
-  transform: scale(0.98);
-}
-i {
-  margin-right: 3px;
-}
-@media screen and (max-width: 992px) {
-  .header {
-    flex-wrap: wrap;
-    justify-content: space-around;
-    line-height: 2rem;
-  }
-  .profileContainer {
-    margin: 0;
-  }
-  .commentUsername {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    padding-left: 0;
-  }
-  .optionsBtn {
-    width: 100%;
-    justify-content: space-between;
-  }
-  .commentText {
-    background-color: rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    padding: 0.5rem;
-  }
-  .btn {
-    width: 100%;
-  }
+.social-body img {
+  margin-bottom: 10px;
 }
 </style>

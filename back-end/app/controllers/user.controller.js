@@ -174,17 +174,17 @@ exports.updateUser = (req, res, next) => {
 
 // Suppression d'un utilisateur
 exports.delete = (req, res, next) => {
-    /*const token = req.headers.authorization.split(' ')[1];
+    const token = req.headers.authorization.split(' ')[1];
     const decodedToken = jwt.verify(token, process.env.JWT_KEY_TOKEN);
     const userId = decodedToken.userId
-    const isAdmin = decodedToken.isAdmin*/
+    const isAdmin = decodedToken.isAdmin
     User.findOne({
         where: {
             id: req.params.id
         }
     })
         .then((user) => {
-            if (user.userId === req.params.id || user.isAdmin === 1) {
+            if (userId === user.id || isAdmin === true) {
                 user.destroy()
                     .then(() => res.status(200).json({
                         message: 'Utilisateur supprimé'
