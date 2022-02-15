@@ -140,4 +140,9 @@ body {
 .social-body img {
   margin-bottom: 10px;
 }
+@media screen and (max-width: 512px) {
+  .card {
+    width: 100%;
+  }
+}
 </style>

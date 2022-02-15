@@ -162,6 +162,9 @@ export default {
   overflow: hidden;
   max-width: 20%;
 }
+button {
+  background: #1f31ff;
+}
 @media (min-width: 992px) {
   .gedf-main {
     padding-left: 4rem;

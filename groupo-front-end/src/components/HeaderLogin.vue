@@ -37,8 +37,9 @@
             >
               <li id="link-condition">
                 <i class="fas fa-file-contract"></i>
+                <p class="link">CGU</p>
               </li>
-              <li><a class="link" href="#">Conditions Générales</a></li>
+              <li></li>
             </router-link>
           </ul>
         </div>
@@ -66,6 +67,7 @@ export default {
 .navbar {
   background-color: #d1515a;
 }
+
 header img {
   width: 200px;
 }
@@ -74,13 +76,17 @@ li {
 }
 p {
   color: black;
+  margin-left: 10px;
 }
 .fas {
   color: black;
   font-size: 25px;
 }
 #link-condition {
-  margin-left: 40px;
+  display: inline-flex;
+  justify-self: flex-end;
+  margin-left: 100px;
+  margin-top: -28px;
 }
 .link {
   color: black;
@@ -92,5 +98,11 @@ input[type="submit"] {
   font-family: "Font Awesome 5 Free";
   font-size: 1em;
   font-weight: 700;
+}
+@media screen and (max-width: 782px) {
+  #link-condition {
+    display: inline-flex;
+    margin-left: 30px;
+  }
 }
 </style>

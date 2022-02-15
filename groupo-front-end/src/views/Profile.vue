@@ -16,7 +16,7 @@
           class="profile"
           aria-label="mon avatar"
         />{{ user.avatar }}
-        <img />
+        <img aria-label="source image" />
       </div>
       <button @click.prevent="toggleProfile" aria-label="changer de photo">
         <i class="fas fa-camera"></i> Changer la photo de profil

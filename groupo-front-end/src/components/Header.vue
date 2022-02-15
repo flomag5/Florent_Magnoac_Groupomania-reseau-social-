@@ -59,7 +59,7 @@
                 ><i
                   class="fas fa-users"
                   title="utilisateurs"
-                  aria-label="tous les utilisateurs"
+                  alt="tous les utilisateurs"
                 ></i>
               </router-link>
             </li>

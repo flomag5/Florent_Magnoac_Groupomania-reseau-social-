@@ -1,173 +1,196 @@
 
 <template>
-  <div class="container_feed">
-    <link
-      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
-      rel="stylesheet"
-    />
-    <div class="col-md-7">
-      <div class="social-feed-box">
-        <div class="social-avatar">
-          <router-link :to="'/profile'"
-            ><a href="#" class="pull-left" aria-label="lien vers mon profil">
-              <img
-                alt="Avatar utilisateur"
-                :src="userAvatar"
-                aria-label="avatar utilisateur" /></a
-          ></router-link>
-        </div>
-        <form class="d-flex">
-          <input
-            @click="createPost()"
-            class="form-control me-2"
-            type="create"
-            placeholder="Quoi de neuf "
-            aria-label="Publier un post"
-          />
-        </form>
-      </div>
-      <div class="social-feed-box" v-for="post in posts" :key="post.id">
-        <div class="pull-right social-action dropdown">
-          <button
-            data-toggle="dropdown"
-            v-if="post.userId === logId || isAdmin === true"
-            class="dropdown-toggle btn-white"
-            aria-label="post option"
-          >
-            <i class="fa fa-angle-down"></i>
-          </button>
-          <ul class="dropdown-menu m-t-xs">
-            <li v-if="post.userId === logId">
-              <a @click="modifyPost(post.id)" href="#">Modifier</a>
-            </li>
-            <li v-if="post.userId === logId || isAdmin === true">
-              <a @click="deletePost(post.id)" href="#">Supprimer</a>
-            </li>
-          </ul>
-        </div>
-        <div class="social-avatar">
-          <router-link :to="`/profile/${post.userId}`"
-            ><a class="pull-left" aria-label="Lien profil depuis l'avatar">
-              <img alt="Avatar utilisateur" :src="post.user.avatar" /> </a
-          ></router-link>
-          <div class="media-body">
-            <router-link :to="`/profile/${post.userId}`"
-              ><a href="#" id="post-user" aria-label="Lien profil depuis le nom"
-                ><strong>
-                  {{ post.user.lastName }} {{ post.user.firstName }}</strong
-                >
-              </a></router-link
-            >
-            <small class="text-muted"
-              >Publié le {{ dateFormat(post.date) }} à
-              {{ hourFormat(post.date) }}</small
-            >
+  <main>
+    <div class="container_feed">
+      <link
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
+        rel="stylesheet"
+      />
+      <div class="col-md-7">
+        <div class="social-feed-box">
+          <div class="social-avatar">
+            <router-link :to="'/profile'"
+              ><a href="#" class="pull-left" aria-label="lien vers mon profil">
+                <img
+                  alt="Avatar utilisateur"
+                  :src="userAvatar"
+                  aria-label="avatar utilisateur" /></a
+            ></router-link>
           </div>
-        </div>
-        <div class="social-body">
-          <router-link :to="'/posts/' + post.id"
-            ><h1>
-              {{ post.title }}
-            </h1></router-link
-          >
-          <p>{{ post.content }}</p>
-          <img
-            v-if="post.image"
-            :src="post.image"
-            name="image"
-            alt="photo du post"
-            class="img-responsive"
-          />
-          <div class="btn-group">
-            <!-- Instance Like component -->
-            <Like
-              v-if="post.id"
-              :postId="post.id"
-              :userId="post.userId"
-              :likesArray="post.like"
+          <form class="d-flex">
+            <input
+              @click="createPost()"
+              class="form-control me-2"
+              type="create"
+              placeholder="Quoi de neuf "
+              aria-label="Publier un post"
             />
-            <button
-              class="btn btn-white btn-xs"
-              @click="likePost"
-              aria-label="j'aime ce post"
-            ></button>
-
-            <i class="fa fa-comments"></i>
-            {{ post.comment.length }} Commentaires
-          </div>
+          </form>
         </div>
-        <div class="social-footer">
-          <div
-            class="social-comment"
-            v-for="comment in post.comment"
-            v-bind:key="comment.id"
-            :postId="post.id"
-          >
-            <a href="#" class="pull-left">
-              <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-            </a>
-            <div class="pull-right social-action dropdown">
-              <button
-                data-toggle="dropdown"
-                v-if="comment.userId === logId || isAdmin === true"
-                text="action sur commentaire"
-                aria-label="modifier commentaire"
-              >
-                <i class="fas fa-ellipsis-h"></i>
-              </button>
-              <ul class="dropdown-menu m-t-xs">
-                <li v-if="comment.userId === logId || isAdmin === true">
-                  <a @click="deleteComment(comment.id)" href="#"
-                    ><i class="far fa-trash-alt delete"></i> supprimer</a
-                  >
-                </li>
-              </ul>
-            </div>
+        <div class="social-feed-box" v-for="post in posts" :key="post.id">
+          <div class="pull-right social-action dropdown">
+            <button
+              data-toggle="dropdown"
+              v-if="post.userId === logId || isAdmin === true"
+              class="dropdown-toggle btn-white"
+              aria-label="post option"
+            >
+              <i class="fa fa-angle-down"></i>
+            </button>
+            <ul class="dropdown-menu m-t-xs">
+              <li v-if="post.userId === logId">
+                <a @click="modifyPost(post.id)" href="#">Modifier</a>
+              </li>
+              <li v-if="post.userId === logId || isAdmin === true">
+                <a @click="deletePost(post.id)" href="#">Supprimer</a>
+              </li>
+            </ul>
+          </div>
+          <div class="social-avatar">
+            <router-link :to="`/profile/${post.userId}`"
+              ><a class="pull-left" aria-label="Lien profil depuis l'avatar">
+                <img alt="Avatar utilisateur" :src="post.user.avatar" /> </a
+            ></router-link>
             <div class="media-body">
-              <a
-                href="#"
-                id="comment-user"
-                aria-label="Lien vers profil utilisateur"
-                ><strong
-                  >{{ comment.user.firstName }}
-                  {{ comment.user.lastName }}</strong
-                ></a
-              ><br />
-
-              <p>{{ comment.content }}</p>
-              <p>
-                -
-                <small class="text" id="comment-date"
-                  >{{ dateFormat(comment.date) }}
-                  {{ hourFormat(comment.createdAt) }}</small
-                >
-              </p>
+              <router-link :to="`/profile/${post.userId}`"
+                ><a
+                  href="#"
+                  id="post-user"
+                  aria-label="Lien profil depuis le nom"
+                  ><strong>
+                    {{ post.user.lastName }} {{ post.user.firstName }}</strong
+                  >
+                </a></router-link
+              >
+              <small class="text-muted"
+                >Publié le {{ dateFormat(post.date) }} à
+                {{ hourFormat(post.date) }}</small
+              >
             </div>
           </div>
-          <div class="social-comment">
-            <a href="" class="pull-left">
-              <img alt="Avatar utilisateur" :src="userAvatar" />
-            </a>
-            <div class="media-body">
-              <router-link
-                :to="'/posts/' + post.id"
-                aria-label="lien vers ce post"
+          <div class="social-body">
+            <router-link :to="'/posts/' + post.id"
+              ><h1>
+                {{ post.title }}
+              </h1></router-link
+            >
+            <p>{{ post.content }}</p>
+            <img
+              v-if="post.image"
+              :src="post.image"
+              name="image"
+              alt="photo du post"
+              class="img-responsive"
+            />
+            <div class="btn-group">
+              <!-- Instance Like component -->
+              <Like
+                v-if="post.id"
+                :postId="post.id"
+                :userId="post.userId"
+                :likesArray="post.like"
+              />
+              <button
+                class="btn btn-white btn-xs"
+                @click="likePost"
+                aria-label="j'aime ce post"
+              ></button>
+              <span
+                class="btn btn-white btn-xs"
+                v-if="post.comment.length === 0"
               >
-                <input
-                  class="form-control"
-                  aria-label="Commenter la publication"
-                  v-model="newComment"
-                  :postId="post.id"
-                  v-on:keyup.enter="createComment"
-                  placeholder="Ecrivez un commentaire public..."
-                />
-              </router-link>
+                <i class="fa fa-comments">&nbsp; 0</i>
+                Commentaire
+              </span>
+              <span
+                class="btn btn-white btn-xs"
+                v-else-if="post.comment.length === 1"
+              >
+                <i class="fa fa-comments">&nbsp; 1</i>
+                Commentaire
+              </span>
+              <span class="btn btn-white btn-xs" v-else>
+                <i class="fa fa-comments">&nbsp; {{ post.comment.length }}</i>
+                Commentaires
+              </span>
+              <!--
+            <i class="fa fa-comments"></i>
+            {{ post.comment.length }} Commentaires -->
+            </div>
+          </div>
+          <div class="social-footer">
+            <div
+              class="social-comment"
+              v-for="comment in post.comment"
+              v-bind:key="comment.id"
+              :postId="post.id"
+            >
+              <a href="#" class="pull-left">
+                <img alt="Avatar utilisateur" :src="comment.user.avatar" />
+              </a>
+              <div class="pull-right social-action dropdown">
+                <button
+                  data-toggle="dropdown"
+                  v-if="comment.userId === logId || isAdmin === true"
+                  text="action sur commentaire"
+                  aria-label="modifier commentaire"
+                >
+                  <i class="fas fa-ellipsis-h"></i>
+                </button>
+                <ul class="dropdown-menu m-t-xs">
+                  <li v-if="comment.userId === logId || isAdmin === true">
+                    <a @click="deleteComment(comment.id)" href="#"
+                      ><i class="far fa-trash-alt delete"></i> supprimer</a
+                    >
+                  </li>
+                </ul>
+              </div>
+              <div class="media-body">
+                <a
+                  href="#"
+                  id="comment-user"
+                  aria-label="Lien vers profil utilisateur"
+                  ><strong
+                    >{{ comment.user.firstName }}
+                    {{ comment.user.lastName }}</strong
+                  ></a
+                ><br />
+
+                <p>{{ comment.content }}</p>
+                <p>
+                  -
+                  <small class="text" id="comment-date"
+                    >{{ dateFormat(comment.date) }}
+                    {{ hourFormat(comment.createdAt) }}</small
+                  >
+                </p>
+              </div>
+            </div>
+            <div class="social-comment">
+              <a href="" class="pull-left">
+                <img alt="Avatar utilisateur" :src="userAvatar" />
+              </a>
+              <div class="media-body">
+                <router-link
+                  :to="'/posts/' + post.id"
+                  aria-label="lien vers ce post"
+                >
+                  <input
+                    class="form-control"
+                    aria-label="Commenter la publication"
+                    v-model="newComment"
+                    :postId="post.id"
+                    v-on:keyup.enter="createComment"
+                    placeholder="Ecrivez un commentaire public..."
+                  />
+                </router-link>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script>
@@ -392,7 +415,7 @@ body {
   background-image: none;
   border: 1px solid #e5e6e7;
   border-radius: 1px;
-  color: inherit;
+  color: #4d5b64;
   display: block;
   padding: 6px 12px;
   transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;

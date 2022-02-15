@@ -31,10 +31,20 @@
       />
 
       <label for="firstName">Modifier le prénom :</label>
-      <input type="text" name="firstName" v-model="updateUser.firstName" />
+      <input
+        type="text"
+        name="firstName"
+        aria-label="prénom"
+        v-model="updateUser.firstName"
+      />
 
       <label for="lastName">Modifier le nom :</label>
-      <input type="text" name="lastName" v-model="updateUser.lastName" />
+      <input
+        type="text"
+        name="lastName"
+        aria-label="nom"
+        v-model="updateUser.lastName"
+      />
 
       <button
         @click.prevent="deleteProfile"
@@ -51,7 +61,7 @@
         @click.prevent="modifyProfile"
       />
     </form>
-    <h4>{{ errMsg }}</h4>
+    <h4 aria-label="si erreur">{{ errMsg }}</h4>
   </div>
 </template>
 

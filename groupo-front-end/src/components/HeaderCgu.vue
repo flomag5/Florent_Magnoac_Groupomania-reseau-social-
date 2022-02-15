@@ -34,7 +34,7 @@
               aria-label="Lien vers login"
               title="Retour login"
             >
-              <li id="link-condition">
+              <li id="link-condition" class="link-back">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 512 512"
@@ -45,7 +45,6 @@
                   />
                 </svg>
               </li>
-              <li><a class="link" href="#">retour login</a></li>
             </router-link>
           </ul>
         </div>
@@ -87,15 +86,19 @@ p {
   font-size: 25px;
 }
 #link-condition {
-  margin-left: 40px;
+  display: inline-flex;
+  margin-left: 100px;
 }
-.link {
-  color: black;
-}
+
 #disconnect {
   cursor: pointer;
 }
 .icon-arrow {
   width: 20px;
+}
+@media screen and (max-width: 782px) {
+  #link-condition {
+    margin-left: auto;
+  }
 }
 </style>

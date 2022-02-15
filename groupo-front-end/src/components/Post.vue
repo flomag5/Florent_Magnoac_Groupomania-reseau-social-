@@ -9,6 +9,7 @@
         <button
           data-toggle="dropdown"
           class="dropdown-toggle btn-white"
+          aria-label="accés aux options"
           v-if="post.userId === logId || isAdmin === true"
         >
           <i class="fa fa-angle-down"></i>
@@ -82,10 +83,10 @@
             @click="getComments()"
             v-if="post.comment.length === 0"
           >
-            <i class="fa fa-comments">0</i> Commentaire
+            <i class="fa fa-comments">&nbsp; 0</i> Commentaire
           </button>
           <button class="btn btn-white btn-xs" @click="getComments()" v-else>
-            <i class="fa fa-comments"> {{ post.comment.length }}</i>
+            <i class="fa fa-comments">&nbsp; {{ post.comment.length }}</i>
             Commentaires
           </button>
         </div>
