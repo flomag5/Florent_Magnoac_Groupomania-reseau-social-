@@ -55,11 +55,11 @@
               <router-link :to="`/profile/${post.userId}`"
                 ><a
                   href="#"
-                  id="post-user"
+                  class="post-user-name"
                   aria-label="Lien profil depuis le nom"
                   ><strong>
-                    {{ post.user.lastName }} {{ post.user.firstName }}</strong
-                  >
+                    {{ post.user.firstName }} {{ post.user.lastName }}
+                  </strong>
                 </a></router-link
               >
               <small class="text-muted"
@@ -153,7 +153,7 @@
               <div class="media-body">
                 <a
                   href="#"
-                  id="comment-user"
+                  class="comment-user"
                   aria-label="Lien vers profil utilisateur"
                   ><strong
                     >{{ comment.user.firstName }}
@@ -494,11 +494,11 @@ body {
   background: #ffffff;
   padding: 10px 15px;
 }
-#post-user {
+.post-user-name {
   color: #115d8d;
   font-size: 1rem;
 }
-#comment-user {
+.comment-user {
   color: #115d8d;
 }
 

@@ -146,7 +146,7 @@
 
         <div class="social-comment">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" :src="logId.avatar" />
+            <img alt="Avatar utilisateur" :src="user.avatar" />
           </a>
 
           <div class="media-body">
@@ -188,6 +188,7 @@ export default {
         user: {},
       },
       comments: [],
+      user: {},
       newComment: null,
       likes: [],
       logId: "",
