@@ -67,10 +67,10 @@ db.sequelize.sync().then(() => {
     console.log("Re-sync db.");
 });
 
-app.use((req, res, next) => {
+/*app.use((req, res, next) => {
     console.log('req', req.body);
     next();
-})
+})*/
 
 // Gestionnaire de routage
 // Configuration du serveur pour renvoyer des fichiers statiques

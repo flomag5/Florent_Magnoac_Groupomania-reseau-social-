@@ -12,8 +12,8 @@
     <div :key="user.id" v-for="user in filterUsers" class="user">
       <a
         id="header"
-        v-if="user.id == userId"
-        href="http://localhost:8080/profile"
+        v-if="user.id == this.logId"
+        :href="`http://localhost:8080/profile`"
       >
         <div class="profileContainer">
           <img :src="user.avatar" alt="photo utilisateur" class="profile" />
@@ -55,6 +55,11 @@ export default {
     },
   },
   methods: {
+    UserMe() {
+      let user = JSON.parse(localStorage.getItem("user"));
+      this.logId = user.userId;
+      this.isAdmin = user.isAdmin;
+    },
     /* Récupération de tous les utilisateurs */
     async fetchUsers() {
       const res = await fetch("http://localhost:3000/api/user");
@@ -67,6 +72,9 @@ export default {
   },
   async created() {
     this.users = await this.fetchUsers();
+  },
+  mounted() {
+    this.UserMe();
   },
 };
 </script>

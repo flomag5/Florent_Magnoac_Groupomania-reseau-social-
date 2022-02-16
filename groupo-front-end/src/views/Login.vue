@@ -179,7 +179,6 @@ export default {
           firstName: this.firstName,
           lastName: this.lastName,
           password: this.password,
-          isAdmin: this.isAdmin,
         })
         .then(
           function () {

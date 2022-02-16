@@ -146,7 +146,7 @@
 
         <div class="social-comment">
           <a href="#" class="pull-left">
-            <img alt="Avatar utilisateur" :src="post.user.avatar" />
+            <img alt="Avatar utilisateur" :src="logId.avatar" />
           </a>
 
           <div class="media-body">
@@ -192,6 +192,7 @@ export default {
       likes: [],
       logId: "",
       isAdmin: "",
+      avatar: "",
     };
   },
   // ----- RECUPERATION DE LA PUBLICATION CIBLE ----- //
@@ -206,14 +207,27 @@ export default {
         console.log(error);
       });
   },
+  beforeCreate() {
+    let user = JSON.parse(localStorage.getItem("user"));
+    fetch(`http://localhost:3000/api/user/${user.userId}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.user = data;
+      })
+      .catch((error) => {
+        error;
+      });
+  },
   methods: {
     // ----- USER EN COURS DE SESSION ----- //
     UserMe() {
       let user = JSON.parse(localStorage.getItem("user"));
       this.logId = user.userId;
       this.isAdmin = user.isAdmin;
-      console.log(this.logId, "LLLLLLLLLLLLLLLLLLLLLLLLog");
-      console.log(this.isAdmin, "Admmmmmmmmmmmmin");
     },
 
     // ----- DATE ET HEURE ----- //
@@ -331,7 +345,6 @@ export default {
     this.UserMe();
     this.getComments();
   },
-  emits: ["modified"],
 };
 </script>
 

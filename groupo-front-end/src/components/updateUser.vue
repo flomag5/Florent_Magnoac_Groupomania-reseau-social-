@@ -1,5 +1,5 @@
 <template>
-  <div id="editProfile">
+  <div id="updateUser">
     <div class="showProfile">
       <button @click.prevent="$emit('toggle-Profile')">
         <i class="fas fa-arrow-left"></i>retour au profil
@@ -148,6 +148,16 @@ export default {
 </script>
 
 <style scoped>
+/*#updateUser {
+  max-width: 60%;
+  box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
+  margin: auto;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+}*/
 .showProfile {
   text-align: right;
 }
@@ -213,7 +223,7 @@ button {
   font-weight: bold;
 }
 @media screen and (max-width: 992px) {
-  #editProfile {
+  #updateUser {
     max-width: 100%;
   }
 }

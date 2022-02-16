@@ -13,7 +13,7 @@
               ><a href="#" class="pull-left" aria-label="lien vers mon profil">
                 <img
                   alt="Avatar utilisateur"
-                  :src="userAvatar"
+                  :src="user.avatar"
                   aria-label="avatar utilisateur" /></a
             ></router-link>
           </div>
@@ -138,6 +138,11 @@
                   <i class="fas fa-ellipsis-h"></i>
                 </button>
                 <ul class="dropdown-menu m-t-xs">
+                  <li v-if="comment.userId === logId">
+                    <a @click="modifyComment(comment.id)" href="#"
+                      ><i class="far fa-edit modify"></i> modifier</a
+                    >
+                  </li>
                   <li v-if="comment.userId === logId || isAdmin === true">
                     <a @click="deleteComment(comment.id)" href="#"
                       ><i class="far fa-trash-alt delete"></i> supprimer</a
@@ -168,7 +173,7 @@
             </div>
             <div class="social-comment">
               <a href="" class="pull-left">
-                <img alt="Avatar utilisateur" :src="userAvatar" />
+                <img alt="Avatar utilisateur" :src="user.avatar" />
               </a>
               <div class="media-body">
                 <router-link
@@ -235,7 +240,18 @@ export default {
   },
   mounted() {
     let user = JSON.parse(localStorage.getItem("user"));
-    this.userAvatar = user.avatar;
+    fetch(`http://localhost:3000/api/user/${user.userId}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.user = data;
+      })
+      .catch((error) => {
+        error;
+      });
     this.UserMe();
   },
 
@@ -315,6 +331,11 @@ export default {
           })
           .catch(alert);
       }
+    },
+
+    // Modifier un commentaire
+    modifyComment(id) {
+      this.$router.push(`/modifyComment/${id}`);
     },
   },
 };

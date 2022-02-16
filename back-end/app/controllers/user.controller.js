@@ -117,32 +117,6 @@ exports.getAllUsers = (req, res, next) => {
 
 
 // Modification d'un compte utilisateur
-/*exports.updateUser = (req, res, next) => {
-
-    User.findOne({
-        where: { id: req.params.id }
-    })
-        .then(user => {
-            const updateUser = {
-                lastName: req.body.lastName,
-                firstName: req.body.firstName,
-
-            };
-            if (req.file) {
-                updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                const filename = user.avatar.split('/images/')[1];
-                fs.unlinkSync(`images/${filename}`);
-            }
-            User.update(updateUser, {
-                where: { id: req.params.id }
-            })
-                .then(() => res.status(200).json({ message: 'Utilisateur modifié !' }))
-                .catch((error) => res.status(400).json({ error }));
-
-        });
-};
-*/
-
 exports.updateUser = (req, res, next) => {
 
     User.findOne({
@@ -185,13 +159,22 @@ exports.delete = (req, res, next) => {
     })
         .then((user) => {
             if (userId === user.id || isAdmin === true) {
-                user.destroy()
-                    .then(() => res.status(200).json({
-                        message: 'Utilisateur supprimé'
-                    }))
-                    .catch(error => res.status(400).json({
-                        error
-                    }));
+                if (user.avatar != null) {
+                    const filename = user.avatar.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, () => {
+                        user.destroy()
+                            .then(() => res.status(200).json({
+                                message: 'Utilisateur supprimé'
+                            }))
+                            .catch(error => res.status(400).json({
+                                error
+                            }));
+                    })
+                } else {
+                    user.destroy()
+                        .then(() => res.status(200).json({ message: 'Utilisateur supprimé !' }))
+                        .catch(error => res.status(400).json({ error }));
+                }
             } else {
                 res.status(403).json({
                     'error': 'UnAuthorize'

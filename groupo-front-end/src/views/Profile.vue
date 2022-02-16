@@ -92,7 +92,7 @@ export default {
 
     toggleProfile() {
       this.userProfile = !this.userProfile;
-      this.updateUser = !this.UpdateUser;
+      this.updateUser = !this.updateUser;
     },
   },
 };

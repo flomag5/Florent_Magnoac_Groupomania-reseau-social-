@@ -67,8 +67,7 @@ module.exports = (req, res, next) => {
         const isAdmin = decodedToken.isAdmin;
         console.log(userId, "USEEEEEEEEEEEEEEEEEEER");
         console.log(isAdmin, "ADMIIIIIIIIIIIIIIn");
-        //req.auth = { userId };
-        console.log(req.body, 'req body userId')
+
 
         if ((req.body.userId && req.body.userId !== userId) || req.body.isAdmin && isAdmin === true) {
             throw '403: Unauthorized request';
