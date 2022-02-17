@@ -106,7 +106,7 @@ export default {
 
   methods: {
     /** Affichage de l'id de l'utilisateur dans l'url du profil utilisateur */
-    userProfile() {
+    /*  userProfile() {
       const storage = JSON.parse(localStorage.getItem("user"));
       const headers = new Headers();
       headers.append("Authorization", storage.token);
@@ -125,7 +125,7 @@ export default {
             error + "L'URL vers le profil utilisateur ne s'affiche pas"
           );
         });
-    },
+    },*/
     /** Déconnection de l'utilisateur */
     disconnect() {
       localStorage.clear();
@@ -135,9 +135,9 @@ export default {
       }, 600);
     },
   },
-  mounted() {
+  /*mounted() {
     this.userProfile();
-  },
+  },*/
 };
 </script>
 

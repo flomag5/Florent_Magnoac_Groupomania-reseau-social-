@@ -113,14 +113,14 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="comment.userId === logId">
-                <a @click="modifyComment(comment.id)" href=""
-                  ><i class="far fa-edit modify"></i> modifier</a
-                >
+                <button @click="modifyComment(comment.id)">
+                  <i class="far fa-edit modify"></i> modifier
+                </button>
               </li>
               <li v-if="comment.userId === logId || isAdmin === true">
-                <a @click="deleteComment(index)" href="#"
-                  ><i class="far fa-trash-alt delete"></i> supprimer</a
-                >
+                <button @click="deleteComment(index)">
+                  <i class="far fa-trash-alt delete"></i> supprimer
+                </button>
               </li>
             </ul>
           </div>

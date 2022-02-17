@@ -2,7 +2,7 @@
 
 import { createWebHistory, createRouter } from "vue-router";
 import store from '../store/index.js'
-
+//import Home from '../views/Home.vue'
 
 const routes = [
     {
@@ -13,8 +13,14 @@ const routes = [
             title: "Groupomania : Conditions générales"
         }
     },
+    /*{
+        path: '/',
+        redirect: '/login',
+        name: 'Home',
+        component: Home
+    },*/
     {
-        path: '/login',
+        path: '/',
         alias: '/login',
         name: 'Login',
         component: () => import("../views/Login.vue"),
@@ -100,8 +106,8 @@ const router = createRouter({
     routes,
 })
 router.beforeEach((to, from, next) => {
-    const isLogged = store.state.isLogged
-    if ((to.name !== 'Login' && !isLogged) && (to.name !== 'Cgu')) next({ name: 'Login' })
+    const userLog = store.state.userLog;
+    if ((to.name !== 'Login' && !userLog) && (to.name !== 'Cgu')) next({ alias: 'Login' })
     else next()
 })
 
