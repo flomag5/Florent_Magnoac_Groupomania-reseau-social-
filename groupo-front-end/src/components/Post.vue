@@ -113,7 +113,7 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="comment.userId === logId">
-                <a @click="modifyComment(comment.id)" href="#"
+                <a @click="modifyComment(comment.id)" href=""
                   ><i class="far fa-edit modify"></i> modifier</a
                 >
               </li>
@@ -208,6 +208,7 @@ export default {
         console.log(error);
       });
   },
+
   beforeCreate() {
     let user = JSON.parse(localStorage.getItem("user"));
     fetch(`http://localhost:3000/api/user/${user.userId}`, {

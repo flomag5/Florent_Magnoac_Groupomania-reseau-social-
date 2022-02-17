@@ -1,6 +1,7 @@
 //--- Définition des routes pour chaque "components" ---//
 
 import { createWebHistory, createRouter } from "vue-router";
+import store from '../store/index.js'
 
 
 const routes = [
@@ -13,7 +14,7 @@ const routes = [
         }
     },
     {
-        path: '/',
+        path: '/login',
         alias: '/login',
         name: 'Login',
         component: () => import("../views/Login.vue"),
@@ -97,6 +98,11 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+})
+router.beforeEach((to, from, next) => {
+    const isLogged = store.state.isLogged
+    if ((to.name !== 'Login' && !isLogged) && (to.name !== 'Cgu')) next({ name: 'Login' })
+    else next()
 })
 
 router.afterEach((to, from) => {

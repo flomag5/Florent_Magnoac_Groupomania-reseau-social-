@@ -28,6 +28,7 @@ const store = createStore({
     state: {
         status: '',
         user: user,
+        isLogged: user.token,
         userData: {
             lastName: '',
             firstName: '',

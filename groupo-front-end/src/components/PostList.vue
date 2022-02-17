@@ -39,10 +39,10 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="post.userId === logId">
-                <a @click="modifyPost(post.id)" href="#">Modifier</a>
+                <button @click="modifyPost(post.id)">Modifier</button>
               </li>
               <li v-if="post.userId === logId || isAdmin === true">
-                <a @click="deletePost(post.id)" href="#">Supprimer</a>
+                <button @click="deletePost(post.id)">Supprimer</button>
               </li>
             </ul>
           </div>
@@ -139,14 +139,14 @@
                 </button>
                 <ul class="dropdown-menu m-t-xs">
                   <li v-if="comment.userId === logId">
-                    <a @click="modifyComment(comment.id)" href="#"
-                      ><i class="far fa-edit modify"></i> modifier</a
-                    >
+                    <button @click="modifyComment(comment.id)">
+                      <i class="far fa-edit modify"></i> modifier
+                    </button>
                   </li>
                   <li v-if="comment.userId === logId || isAdmin === true">
-                    <a @click="deleteComment(comment.id)" href="#"
-                      ><i class="far fa-trash-alt delete"></i> supprimer</a
-                    >
+                    <button @click="deleteComment(comment.id)">
+                      <i class="far fa-trash-alt delete"></i> supprimer
+                    </button>
                   </li>
                 </ul>
               </div>
@@ -238,6 +238,7 @@ export default {
         console.log(error);
       });
   },
+
   mounted() {
     let user = JSON.parse(localStorage.getItem("user"));
     fetch(`http://localhost:3000/api/user/${user.userId}`, {

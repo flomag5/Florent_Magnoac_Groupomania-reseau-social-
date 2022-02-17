@@ -25,7 +25,7 @@ require("dotenv").config();
 const app = express();
 
 // Logger les requests et les responses
-//app.use(morgan('dev'));
+app.use(morgan('dev'));
 
 // Sécurisation des en-têtes de réponse http
 app.use(helmet());
@@ -67,15 +67,11 @@ db.sequelize.sync().then(() => {
     console.log("Re-sync db.");
 });
 
-/*app.use((req, res, next) => {
-    console.log('req', req.body);
-    next();
-})*/
 
 // Gestionnaire de routage
 // Configuration du serveur pour renvoyer des fichiers statiques
 app.use("/images", express.static(path.join(__dirname, 'images')));
-app.use("/images_default", express.static(path.join(__dirname, 'images_default')));
+
 
 // ROUTES
 require("./app/routes/user.routes")(app);

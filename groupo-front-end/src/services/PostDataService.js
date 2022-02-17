@@ -5,11 +5,11 @@ import auth from './auth';
 
 class PostDataService {
     getAllPosts() {
-        return http.get("/posts");
+        return http.get("/posts", { headers: auth() });
     }
 
     getOnePost(id) {
-        return http.get(`/posts/${id}`);
+        return http.get(`/posts/${id}`, { headers: auth() });
     }
 
     createPost(data) {
