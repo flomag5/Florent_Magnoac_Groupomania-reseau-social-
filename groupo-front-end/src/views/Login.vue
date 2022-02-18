@@ -138,14 +138,16 @@ export default {
 
     // ----- LOGIN USER ----- //
     login: function () {
-      const self = this;
+      // const self = this;
       this.$store
         .dispatch("login", {
           email: this.email,
           password: this.password,
         })
         .then(function () {
-          self.$router.push("/posts");
+          //self.$router.push("/posts");
+          //self.$router.push({ name: "AllPosts" });
+          window.location.href = "posts";
         }),
         function (error) {
           console.log(error);
