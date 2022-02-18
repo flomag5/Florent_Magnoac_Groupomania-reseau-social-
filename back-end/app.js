@@ -71,6 +71,7 @@ db.sequelize.sync().then(() => {
 // Gestionnaire de routage
 // Configuration du serveur pour renvoyer des fichiers statiques
 app.use("/images", express.static(path.join(__dirname, 'images')));
+app.use("/images_default", express.static(path.join(__dirname, 'images')));
 
 
 // ROUTES

@@ -22,7 +22,7 @@
               @click="createPost()"
               class="form-control me-2"
               type="create"
-              placeholder="Quoi de neuf "
+              placeholder="Quoi de neuf"
               aria-label="Publier un post"
             />
           </form>
@@ -221,7 +221,6 @@ export default {
       user: {},
       postId: "",
       likes: [],
-      userAvatar: "",
       logId: "",
       isAdmin: "",
     };

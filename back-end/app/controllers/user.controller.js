@@ -41,7 +41,7 @@ exports.signup = (req, res, next) => {
                 firstName: req.body.firstName,
                 email: emailCryptoJs,
                 password: hash,
-                avatar: `${req.protocol}://${req.get('host')}/images/default_user_profile.png`,
+                avatar: `${req.protocol}://${req.get('host')}/images_default/default_user_profile.png`,
                 isAdmin: req.body.isAdmin
             })
                 .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
@@ -126,9 +126,22 @@ exports.updateUser = (req, res, next) => {
             const updateUser = {
                 lastName: req.body.lastName,
                 firstName: req.body.firstName,
+                password: req.body.password
 
             };
-            if (req.file && user.avatar === `${req.protocol}://${req.get('host')}/images/default_user_profile.png`) {
+            if (req.body.password) { // <- si le password a été modifié on enregistre le hash
+                bcrypt.hash(req.body.password, 8)
+                    .then(hash => {
+                        req.body.password = hash;
+                        User.update(req.body, { where: { id: req.params.id } })
+                            .then(user => {
+                                res.status(201).json({ message: "profil et mot de passe changé" });
+                            })
+                            .catch(error => res.status(400).json(error));
+                    })
+                    .catch(error => res.status(500).json(error));
+            }
+            if (req.file && user.avatar === `${req.protocol}://${req.get('host')}/images_default/default_user_profile.png`) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
 
             }
@@ -136,7 +149,8 @@ exports.updateUser = (req, res, next) => {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
                 const filename = user.avatar.split('/images/')[1];
                 fs.unlinkSync(`images/${filename}`);
-            }
+            };
+
             User.update(updateUser, {
                 where: { id: req.params.id }
             })
