@@ -113,11 +113,9 @@
                 <i class="fa fa-comments">&nbsp; {{ post.comment.length }}</i>
                 Commentaires
               </span>
-              <!--
-            <i class="fa fa-comments"></i>
-            {{ post.comment.length }} Commentaires -->
             </div>
           </div>
+          <!-- Commentaires du post -->
           <div class="social-footer">
             <div
               class="social-comment"
@@ -125,9 +123,9 @@
               v-bind:key="comment.id"
               :postId="post.id"
             >
-              <a href="#" class="pull-left">
+              <router-link :to="`/profile/${comment.userId}`" class="pull-left">
                 <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-              </a>
+              </router-link>
               <div class="pull-right social-action dropdown">
                 <button
                   data-toggle="dropdown"
@@ -151,14 +149,11 @@
                 </ul>
               </div>
               <div class="media-body">
-                <a
-                  href="#"
-                  class="comment-user"
-                  aria-label="Lien vers profil utilisateur"
+                <router-link :to="`/profile/${comment.userId}`"
                   ><strong
                     >{{ comment.user.firstName }}
                     {{ comment.user.lastName }}</strong
-                  ></a
+                  ></router-link
                 ><br />
 
                 <p>{{ comment.content }}</p>
@@ -172,9 +167,9 @@
               </div>
             </div>
             <div class="social-comment">
-              <a href="" class="pull-left">
+              <router-link :to="`/profile`" class="pull-left">
                 <img alt="Avatar utilisateur" :src="user.avatar" />
-              </a>
+              </router-link>
               <div class="media-body">
                 <router-link
                   :to="'/posts/' + post.id"

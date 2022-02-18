@@ -5,6 +5,7 @@
       rel="stylesheet"
     />
     <div class="social-feed-box" :key="post.id">
+      <!-- Actions sur le post -->
       <div class="pull-right social-action dropdown">
         <button
           data-toggle="dropdown"
@@ -35,6 +36,7 @@
           </li>
         </ul>
       </div>
+      <!-- Contenu du post -->
       <div class="social-avatar">
         <router-link :to="`/profile/${post.userId}`">
           <a
@@ -99,9 +101,9 @@
           v-bind:key="index"
           v-for="(comment, index) in comments"
         >
-          <a href="#" class="pull-left">
+          <router-link :to="`/profile/${comment.userId}`" class="pull-left">
             <img alt="Avatar utilisateur" :src="comment.user.avatar" />
-          </a>
+          </router-link>
           <div class="pull-right social-action dropdown">
             <button
               data-toggle="dropdown"
@@ -125,14 +127,11 @@
             </ul>
           </div>
           <div class="media-body">
-            <a
-              href="#"
-              id="comment-user"
-              aria-label="Lien vers profil utilisateur"
+            <router-link :to="`/profile/${comment.userId}`"
               ><strong
                 >{{ comment.user.firstName }}
                 {{ comment.user.lastName }}</strong
-              ></a
+              ></router-link
             ><br />
             <p>{{ comment.content }}</p>
             <p>
@@ -145,9 +144,9 @@
         </div>
 
         <div class="social-comment">
-          <a href="#" class="pull-left">
+          <router-link :to="`/profile`" class="pull-left">
             <img alt="Avatar utilisateur" :src="user.avatar" />
-          </a>
+          </router-link>
 
           <div class="media-body">
             <input

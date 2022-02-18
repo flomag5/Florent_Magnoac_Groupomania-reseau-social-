@@ -45,7 +45,7 @@
         aria-label="nom"
         v-model="updateUser.lastName"
       />
-      /** TEST */
+
       <label for="password">Changer de mot de passe :</label>
       <input
         type="password"
@@ -131,7 +131,7 @@ export default {
       let formData = new FormData();
       formData.append("firstName", this.updateUser.firstName);
       formData.append("lastName", this.updateUser.lastName);
-      // pass
+      /** modification du mot de passe */
       if (this.updateUser.password) {
         formData.append("password", this.updateUser.password);
       }
@@ -146,10 +146,10 @@ export default {
         !regexPassword.test(this.updateUser.password)
       ) {
         this.errMsg =
-          "Password Err! => min 8 + 1 minuscule min + 1 maj min + 1 caractère spécial";
+          "Erreur format password: 8 caractères minimum dont 1 majuscule + 2 chiffres";
         return;
       }
-      /** envoi de la requête axios */
+      /** envoi de la requête AXIOS */
       if (confirm("êtes vous sûr de vouloir modifier votre profil ?")) {
         axios
           .put(`http://localhost:3000/api/user/${user.userId}`, formData, {
