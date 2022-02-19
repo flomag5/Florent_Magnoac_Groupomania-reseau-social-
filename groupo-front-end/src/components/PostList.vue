@@ -69,12 +69,12 @@
             </div>
           </div>
           <div class="social-body">
-            <router-link :to="'/posts/' + post.id"
-              ><h1>
+            <router-link :to="'/posts/' + post.id" class="post-title-link"
+              ><h1 class="post-title">
                 {{ post.title }}
               </h1></router-link
             >
-            <p>{{ post.content }}</p>
+            <p class="post-content">{{ post.content }}</p>
             <img
               v-if="post.image"
               :src="post.image"
@@ -150,7 +150,7 @@
               </div>
               <div class="media-body">
                 <router-link :to="`/profile/${comment.userId}`"
-                  ><strong
+                  ><strong class="comment-user"
                     >{{ comment.user.firstName }}
                     {{ comment.user.lastName }}</strong
                   ></router-link
@@ -175,14 +175,9 @@
                   :to="'/posts/' + post.id"
                   aria-label="lien vers ce post"
                 >
-                  <input
-                    class="form-control"
-                    aria-label="Commenter la publication"
-                    v-model="newComment"
-                    :postId="post.id"
-                    v-on:keyup.enter="createComment"
-                    placeholder="Ecrivez un commentaire public..."
-                  />
+                  <a class="comment-link" alt="Commenter la publication"
+                    ><p>voulez-vous commenter cela...</p></a
+                  >
                 </router-link>
               </div>
             </div>
@@ -496,7 +491,15 @@ body {
 .comment-user {
   color: #115d8d;
 }
-
+.post-title {
+  color: #005d8f;
+}
+.comment-link {
+  color: #005d8f;
+}
+.post-content {
+  color: black;
+}
 @media screen and (max-width: 512px) {
   .social-feed-box {
     max-width: 340px;

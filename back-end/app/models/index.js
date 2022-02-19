@@ -31,29 +31,31 @@ db.like = require("./like.model.js")(sequelize, Sequelize);
 // Jointures pour post / user
 db.posts.hasMany(db.comment, {
     foreignKey: 'postId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     as: "comment"
 });
-db.comment.belongsTo(db.posts, { foreignKey: 'postId', as: "post" });
+db.comment.belongsTo(db.posts, {
+    foreignKey: 'postId', as: "post", onDelete: 'cascade',
+    onUpdate: 'cascade'
+});
 
 db.user.hasMany(db.posts, {
     foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     as: "post"
 });
-db.posts.belongsTo(db.user, { foreignKey: 'userId', as: "user" });
+db.posts.belongsTo(db.user, {
+    foreignKey: 'userId', as: "user", onDelete: 'cascade',
+    onUpdate: 'cascade'
+});
 
 // Jointures pour comment
 db.user.hasMany(db.comment, {
     foreignKey: 'userId',
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
     as: "comment"
 });
-db.comment.belongsTo(db.user, { foreignKey: 'userId', as: "user" });
-
+db.comment.belongsTo(db.user, {
+    foreignKey: 'userId', as: "user", onDelete: 'cascade',
+    onUpdate: 'cascade'
+});
 
 // Jointures pour likes
 db.like.belongsTo(db.user, {
@@ -69,5 +71,6 @@ db.like.belongsTo(db.posts, {
     as: "post"
 });
 db.posts.hasMany(db.like, { foreignKey: 'postId', as: "like" });
+
 
 module.exports = db;

@@ -44,7 +44,7 @@ exports.findAll = (req, res, next) => {
 
     Post.findAll({
         include: [
-            //"comment",
+            "comment",
             "like",
             "user", { model: Comment, as: "comment", include: "user" }
         ],
@@ -134,7 +134,10 @@ exports.deletePost = (req, res, next) => {
 
 
                 } else {
-                    Post.destroy({ where: { id: req.params.id } })
+                    Post.destroy({
+                        where: { id: req.params.id },
+
+                    })
 
                         .then(() => res.status(200).json({ message: 'Post supprimé !' }))
                         .catch(error => res.status(400).json({ error }));

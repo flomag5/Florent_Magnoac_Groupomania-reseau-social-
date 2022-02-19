@@ -17,22 +17,24 @@
         </button>
         <ul class="dropdown-menu m-t-xs">
           <li>
-            <a
+            <button
               v-if="post.userId === logId"
               @click="modifyPost()"
               href="#"
               aria-label="modifier le post"
-              >Modifier</a
             >
+              Modifier
+            </button>
           </li>
           <li>
-            <a
+            <button
               @click="deletePost()"
               v-if="post.userId === logId || isAdmin === true"
               href="#"
               aria-label="supprimer le post"
-              >Supprimer</a
             >
+              Supprimer
+            </button>
           </li>
         </ul>
       </div>
@@ -61,7 +63,7 @@
         </div>
       </div>
       <div class="social-body">
-        <h1>
+        <h1 class="post-title">
           {{ post.title }}
         </h1>
         <p>{{ post.content }}</p>
@@ -128,7 +130,7 @@
           </div>
           <div class="media-body">
             <router-link :to="`/profile/${comment.userId}`"
-              ><strong
+              ><strong class="comment-user"
                 >{{ comment.user.firstName }}
                 {{ comment.user.lastName }}</strong
               ></router-link
@@ -503,7 +505,7 @@ body {
   color: #115d8d;
   font-size: 1rem;
 }
-#comment-user {
+.comment-user {
   color: #115d8d;
 }
 

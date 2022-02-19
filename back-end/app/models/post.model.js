@@ -1,6 +1,7 @@
 //--- Définition du modèle de ressource "post" ---//
-
+const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
+
     const Post = sequelize.define("post", {
         title: {
             type: DataTypes.STRING,
@@ -20,8 +21,13 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         userId: {
-            type: DataTypes.SMALLINT,
-            allowNull: false
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            onDelete: "CASCADE",
+            references: {
+                model: "user",
+                key: "id"
+            }
         },
     });
 

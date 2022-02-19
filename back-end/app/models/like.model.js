@@ -7,12 +7,17 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         userId: {
-            type: DataTypes.SMALLINT,
+            type: DataTypes.INTEGER,
             allowNull: false
         },
         postId: {
-            type: DataTypes.SMALLINT,
-            allowNull: false
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            onDelete: "CASCADE",
+            references: {
+                model: "post",
+                key: "id"
+            }
         },
     });
 
