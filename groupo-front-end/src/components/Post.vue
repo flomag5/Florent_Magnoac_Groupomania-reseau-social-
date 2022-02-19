@@ -23,6 +23,7 @@
               href="#"
               aria-label="modifier le post"
             >
+              <i class="far fa-edit modify"></i>
               Modifier
             </button>
           </li>
@@ -33,6 +34,7 @@
               href="#"
               aria-label="supprimer le post"
             >
+              <i class="far fa-trash-alt delete"></i>
               Supprimer
             </button>
           </li>

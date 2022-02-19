@@ -39,10 +39,14 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="post.userId === logId">
-                <button @click="modifyPost(post.id)">Modifier</button>
+                <button @click="modifyPost(post.id)">
+                  <i class="far fa-edit modify"></i>Modifier
+                </button>
               </li>
               <li v-if="post.userId === logId || isAdmin === true">
-                <button @click="deletePost(post.id)">Supprimer</button>
+                <button @click="deletePost(post.id)">
+                  <i class="far fa-trash-alt delete"></i>Supprimer
+                </button>
               </li>
             </ul>
           </div>

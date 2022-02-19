@@ -78,7 +78,7 @@ export default {
     // ----- MODIFICATION DU COMMENTAIRE ----- //
     modifyComment() {
       let user = JSON.parse(localStorage.getItem("user"));
-
+      let postId = this.comment.postId;
       let data = {
         content: this.comment.content,
       };
@@ -93,7 +93,7 @@ export default {
             body: JSON.stringify(data),
           })
           .then(() => {
-            router.push({ path: `/posts/` });
+            router.push({ path: `/posts/${postId}` });
           })
           .catch((error) => console.log(error));
       }

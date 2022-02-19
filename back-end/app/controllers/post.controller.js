@@ -84,7 +84,7 @@ exports.modifyPost = (req, res, next) => {
     Post.findOne({ where: { id: id } })
         .then(post => {
 
-            if (userId == post.userId) {
+            if (userId === post.userId) {
 
                 const updatePost = {
                     title: req.body.title,
