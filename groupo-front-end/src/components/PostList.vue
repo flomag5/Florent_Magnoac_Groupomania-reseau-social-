@@ -195,8 +195,6 @@
 <script>
 import PostDataService from "../services/PostDataService";
 import Like from "../components/Like.vue";
-//import axios from "axios";
-//import { mapState } from "vuex";
 
 export default {
   name: "AllPosts",

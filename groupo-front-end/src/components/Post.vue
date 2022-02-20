@@ -178,7 +178,6 @@ export default {
   },
   props: {
     userId: Number,
-    //isAdmin: Boolean,
   },
   data() {
     return {

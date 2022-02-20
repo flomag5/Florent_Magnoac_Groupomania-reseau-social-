@@ -116,16 +116,6 @@ button {
   width: 12%;
 }
 
-/*#showProfile {
-  max-width: 60%;
-  box-shadow: 2px 2px 8px 5px rgb(0 0 0 / 10%);
-  margin: auto;
-  margin-top: 2rem;
-  padding: 1rem;
-  border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-}*/
 .modify {
   text-align: right;
 }

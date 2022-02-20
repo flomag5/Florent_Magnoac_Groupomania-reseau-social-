@@ -13,12 +13,7 @@ const routes = [
             title: "Groupomania : Conditions générales"
         }
     },
-    /*{
-        path: '/',
-        redirect: '/login',
-        name: 'Home',
-        component: Home
-    },*/
+
     {
         path: '/',
         alias: '/login',
