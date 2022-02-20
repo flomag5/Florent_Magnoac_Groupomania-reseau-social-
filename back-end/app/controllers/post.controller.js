@@ -122,7 +122,7 @@ exports.deletePost = (req, res, next) => {
         }
     })
         .then(post => {
-            if (userId === post.userId || isAdmin == true) {
+            if (userId === post.userId || isAdmin === true) {
                 if (post.image != null) {
                     const filename = post.image.split('/images/')[1];
                     fs.unlink(`images/${filename}`, () => {

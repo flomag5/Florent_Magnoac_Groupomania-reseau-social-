@@ -73,7 +73,7 @@ exports.deleteComment = (req, res, next) => {
     const isAdmin = decodedToken.isAdmin
     Comment.findOne({ where: { id: req.params.id } })
         .then((comment) => {
-            if (userId === comment.userId || isAdmin == true) {
+            if (userId === comment.userId || isAdmin === true) {
 
                 Comment.destroy({ where: { id: req.params.id } });
                 res.status(200).json({ message: "Commentaire supprimé !" });
