@@ -1,0 +1,5 @@
+//------- IDENTIFIANTS POUR CONNEXION COMPTE ADMINISTRATEUR ------------//
+
+EMAIL: admin@groupomania.com
+
+PASSWORD: Admin456
