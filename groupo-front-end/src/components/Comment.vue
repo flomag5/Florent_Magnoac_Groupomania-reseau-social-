@@ -29,10 +29,20 @@ import axios from "axios";
 import router from "../router";
 export default {
   name: "modify-comment",
-  created() {
+  beforeCreate() {
     let user = JSON.parse(localStorage.getItem("user"));
-    this.userAvatar = user.avatar;
-    this.UserMe();
+    fetch(`http://localhost:3000/api/user/${user.userId}`, {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        this.user = data;
+      })
+      .catch((error) => {
+        error;
+      });
   },
   /**récupération du commentaire à modifier */
   mounted() {
@@ -62,7 +72,7 @@ export default {
         postId: "",
         content: "",
       },
-      userAvatar: "",
+      avatar: "",
       logId: "",
       isAdmin: "",
     };
