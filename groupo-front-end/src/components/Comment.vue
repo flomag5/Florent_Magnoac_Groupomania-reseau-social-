@@ -2,7 +2,7 @@
   <div class="card gedf-card">
     <div class="social-avatar">
       <a href="#" class="pull-left">
-        <img alt="Avatar utilisateur" :src="userAvatar" />
+        <img alt="Avatar utilisateur" :src="user.avatar" />
       </a>
       <div class="media-body">
         <form @submit.prevent="modifyComment">
