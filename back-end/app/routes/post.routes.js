@@ -12,7 +12,7 @@ module.exports = app => {
 
   // Import du middleware d'authorisation pour vérification des tokens
   const auth = require('../middleware/auth');
-  //const authAdmin = require('../middleware/authAdmin');
+
   // Import du middleware de gestion des fichiers téléchargés
   const multer = require('../middleware/multer-config');
 
