@@ -37,7 +37,7 @@
             >
               <i class="fa fa-angle-down"></i>
             </button>
-            <ul class="dropdown-menu m-t-xs">
+            <ul class="dropdown-menu m-t-xs" style="min-width: 4rem">
               <li v-if="post.userId === logId">
                 <button @click="modifyPost(post.id)" title="modifier">
                   <i class="far fa-edit modify"></i>
@@ -139,7 +139,7 @@
                 >
                   <i class="fas fa-ellipsis-h"></i>
                 </button>
-                <ul class="dropdown-menu m-t-xs">
+                <ul class="dropdown-menu m-t-xs" style="min-width: 4rem">
                   <li v-if="comment.userId === logId" title="modifier">
                     <button @click="modifyComment(comment.id)">
                       <i class="far fa-edit modify"></i>

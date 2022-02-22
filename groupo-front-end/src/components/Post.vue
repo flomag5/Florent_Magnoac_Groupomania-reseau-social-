@@ -15,7 +15,7 @@
         >
           <i class="fa fa-angle-down"></i>
         </button>
-        <ul class="dropdown-menu m-t-xs">
+        <ul class="dropdown-menu m-t-xs" style="min-width: 4.5rem">
           <li>
             <button
               v-if="post.userId === logId"
@@ -117,7 +117,7 @@
             >
               <i class="fas fa-ellipsis-h"></i>
             </button>
-            <ul class="dropdown-menu m-t-xs">
+            <ul class="dropdown-menu m-t-xs" style="min-width: 4rem">
               <li v-if="comment.userId === logId">
                 <button @click="modifyComment(comment.id)" title="modifier">
                   <i class="far fa-edit modify"></i>
@@ -356,6 +356,9 @@ export default {
 body {
   margin-top: 30px;
 }
+.dropdown-menu {
+  width: 4rem;
+}
 .social-feed-separated .social-feed-box {
   margin-left: 62px;
 }
@@ -509,7 +512,9 @@ body {
 .comment-user {
   color: #115d8d;
 }
-
+.dropdown-menu {
+  max-width: 4rem !important; /* change the number to whatever that you need */
+}
 @media screen and (max-width: 512px) {
   .social-feed-box {
     width: 100%;
@@ -517,6 +522,9 @@ body {
     border: 1px solid #e7eaec;
     background: #fff;
     margin-bottom: 15px;
+  }
+  .dropdown-menu {
+    width: 4rem !important; /* change the number to whatever that you need */
   }
 }
 </style>
