@@ -22,9 +22,9 @@
               @click="modifyPost()"
               href="#"
               aria-label="modifier le post"
+              title="modifier"
             >
               <i class="far fa-edit modify"></i>
-              Modifier
             </button>
           </li>
           <li>
@@ -33,9 +33,9 @@
               v-if="post.userId === logId || isAdmin === true"
               href="#"
               aria-label="supprimer le post"
+              title="supprimer"
             >
               <i class="far fa-trash-alt delete"></i>
-              Supprimer
             </button>
           </li>
         </ul>
@@ -119,13 +119,13 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="comment.userId === logId">
-                <button @click="modifyComment(comment.id)">
-                  <i class="far fa-edit modify"></i> modifier
+                <button @click="modifyComment(comment.id)" title="modifier">
+                  <i class="far fa-edit modify"></i>
                 </button>
               </li>
               <li v-if="comment.userId === logId || isAdmin === true">
-                <button @click="deleteComment(index)">
-                  <i class="far fa-trash-alt delete"></i> supprimer
+                <button @click="deleteComment(index)" title="supprimer">
+                  <i class="far fa-trash-alt delete"></i>
                 </button>
               </li>
             </ul>

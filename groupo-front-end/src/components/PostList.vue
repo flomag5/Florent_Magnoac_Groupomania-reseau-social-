@@ -39,13 +39,13 @@
             </button>
             <ul class="dropdown-menu m-t-xs">
               <li v-if="post.userId === logId">
-                <button @click="modifyPost(post.id)">
-                  <i class="far fa-edit modify"></i>Modifier
+                <button @click="modifyPost(post.id)" title="modifier">
+                  <i class="far fa-edit modify"></i>
                 </button>
               </li>
               <li v-if="post.userId === logId || isAdmin === true">
-                <button @click="deletePost(post.id)">
-                  <i class="far fa-trash-alt delete"></i>Supprimer
+                <button @click="deletePost(post.id)" title="supprimer">
+                  <i class="far fa-trash-alt delete"></i>
                 </button>
               </li>
             </ul>
@@ -140,14 +140,17 @@
                   <i class="fas fa-ellipsis-h"></i>
                 </button>
                 <ul class="dropdown-menu m-t-xs">
-                  <li v-if="comment.userId === logId">
+                  <li v-if="comment.userId === logId" title="modifier">
                     <button @click="modifyComment(comment.id)">
-                      <i class="far fa-edit modify"></i> modifier
+                      <i class="far fa-edit modify"></i>
                     </button>
                   </li>
                   <li v-if="comment.userId === logId || isAdmin === true">
-                    <button @click="deleteComment(comment.id)">
-                      <i class="far fa-trash-alt delete"></i> supprimer
+                    <button
+                      @click="deleteComment(comment.id)"
+                      title="supprimer"
+                    >
+                      <i class="far fa-trash-alt delete"></i>
                     </button>
                   </li>
                 </ul>

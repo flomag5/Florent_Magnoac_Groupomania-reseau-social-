@@ -9,7 +9,7 @@ const instance = axios.create({
 let user = localStorage.getItem('user');
 if (!user) {
     user = {
-        UserId: -1,
+        userId: -1,
         token: '',
     };
 } else {
