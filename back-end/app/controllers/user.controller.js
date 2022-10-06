@@ -147,7 +147,7 @@ exports.updateUser = (req, res, next) => {
             }
             else if (req.file) {
                 updateUser.avatar = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
-                const filename = user.avatar.split('/images/')[1];
+                const filename = user.image.split('/images/')[1];
                 fs.unlinkSync(`images/${filename}`);
             };
 

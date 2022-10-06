@@ -15,7 +15,7 @@ module.exports = app => {
   // Import du middleware d'authorisation pour vérification des tokens
   const auth = require('../middleware/auth');
 
-  // Routes CRUD pour "post" avec middleware d'authentification
+  // Routes CRUD pour "user" avec middleware d'authentification
   // Enregistrement d'un nouvel utilisateur
   router.post("/signup", password, userCtrl.signup);
 
