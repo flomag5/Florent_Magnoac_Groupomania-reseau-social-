@@ -2,6 +2,10 @@
 # Groupomania : Réseau social d'entreprise  
 
 -------------------------- 
+
+![GROUPOMANIA!](https://user-images.githubusercontent.com/86949841/194247646-089b8207-8baa-4254-bb35-1fb6a79e5702.jpg)
+
+---------------------------
 **Réseau social interne** pour les employés de Groupomania. Le but de cet outil est de faciliter les interactions entre collègues.  
 Il offre la possibilité aux employés de créer facilement de manière intuitive un profil utilisateur afin de pouvoir poster du contenu. Ils pourront également commenter les publications des autres utilisateurs, les liker. Ils pourront modifier les informations de leur profil.  
 L'application sera totalement responsive et répondra aux critères de la WCAG en matière d'accessibilité.  
